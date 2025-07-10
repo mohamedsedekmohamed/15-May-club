@@ -6,7 +6,7 @@ import AddUser from "../Pages/Admin/User/AddUser.jsx";
 import AdminLayout from "../Layouts/AdminLayout.jsx";
 import Addcompetitions from "../Pages/Admin/Compeitions/AddCompeitions.jsx";
 import Competitions from "../Pages/Admin/Compeitions/Compeitions.jsx"; 
-import Popup from "../Pages/Admin/Popup/popup.jsx";
+import Popup from "../Pages/Admin/Popup/Popup.jsx";
 import Addpopup from "../Pages/Admin/Popup/Addpopup.jsx";
 import Votes from "../Pages/Admin/Votes/Votes.jsx";
 import AddVotes from "../Pages/Admin/Votes/AddVotes.jsx";
