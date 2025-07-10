@@ -102,7 +102,7 @@ const AddUser = () => {
     if(role==="guest"){
       newUser.purpose = purpose;
     }
-    if(role==="setImageuser"){
+    if(role==="member"){
       newUser.imagePath = imageuser;
     }
 
@@ -146,7 +146,7 @@ const AddUser = () => {
       .then(() => {
         toast.success("User added successfully");
         setTimeout(() => {
-          navigate(-1);
+          navigate("admin/user");
         }, 3000);
         setbirthdate("");
         setName("");
@@ -175,17 +175,17 @@ const AddUser = () => {
         }
       });
 
-    //   if (loading) {
-    //   return (
-    //     <Loader/>
-    //   );
-    // }
+      if (loading) {
+      return (
+        <Loader/>
+      );
+    }
   };
   return (
     <div className=" mt-5">
       <ToastContainer />
       <span className="text-3xl font-medium text-center text-four "> User /<span className="text-one"> {edit?"Edit ":"Add "}</span> </span>
-      <div className=" flex gap-7 flex-wrap  mt-6 pr-5 space-y-5 ">
+      <div className=" flex gap-7 flex-wrap  mt-10 pr-5 space-y-5 ">
         <InputField
           placeholder="User"
           name="name"
@@ -234,7 +234,9 @@ const AddUser = () => {
       
     
       </div>
-        {role ==="number" &&(
+      <div className="mt-10 md:mt-5">
+
+        {role ==="member" &&(
         <FileUploadButton
            name="Image"
            kind="Image"
@@ -250,6 +252,8 @@ const AddUser = () => {
           onChange={handleChange}
         />
       )}
+            </div>
+
       <div className="flex mt-6">
         <button
           className="transition-transform hover:scale-95 w-[300px] text-[32px] text-white font-medium h-[72px] bg-one rounded-[16px]"

@@ -6,7 +6,7 @@ const InputField = ({ placeholder, value, onChange, name, email, disabled }) => 
   const maxLength =
     email === 'number' ? 20 :
     email === 'email' ? 50 :
-    50;
+    100;
 
   return (
     <StyledWrapper>

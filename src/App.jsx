@@ -24,7 +24,7 @@ function App() {
                 element={<LandPage  />}
               />
               <Route
-                path="/longin"
+                path="/login"
                 element={
                   <Login
                     setIsLoggedIn={setIsLoggedIn}

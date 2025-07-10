@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 const Loader = () => {
   return (
-    <StyledWrapper>
+    <div className='w-full h-full flex items-center justify-center'>
+  <StyledWrapper>
       <div className="spinner">
         <div />
         <div />
@@ -12,6 +13,8 @@ const Loader = () => {
         <div />
       </div>
     </StyledWrapper>
+    </div>
+  
   );
 }
 

@@ -4,6 +4,7 @@ const DynamicTable = ({
   data = [],
   columns = [],
   actions,
+  actionsstates,
   rowsPerPage = 10,
   currentPage = 1,
 }) => {
@@ -13,7 +14,7 @@ const DynamicTable = ({
 
   const keys = columns.map((col) => col.key);
 
-  const truncate = (text, max = 25) => {
+  const truncate = (text, max = 15) => {
     if (!text) return "N/A";
     return text.toString().length > max ? text.toString().slice(0, max) + "..." : text;
   };
@@ -28,6 +29,7 @@ const DynamicTable = ({
           <th key={col.key} className="py-3 text-one px-4">{col.label}</th>
         ))}
         {actions && <th className="py-3 text-one px-4">Actions</th>}
+        {actionsstates && <th className="py-3 text-one px-4">Change Status</th>}
       </tr>
     </thead>
     <tbody>
@@ -44,6 +46,11 @@ const DynamicTable = ({
           {actions && (
             <td className="py-3 px-4">
               {actions(row)}
+            </td>
+          )}
+          {actionsstates && (
+            <td className="py-3 px-4">
+              {actionsstates(row)}
             </td>
           )}
         </tr>

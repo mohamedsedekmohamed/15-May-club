@@ -4,7 +4,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { GiFalconMoon } from "react-icons/gi";
-
 function Login({ setIsLoggedIn }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -44,16 +43,18 @@ function Login({ setIsLoggedIn }) {
     <div className="flex  flex-row h-screen w-full">
       <ToastContainer/>
      
- 
+     <div
+        className="bg-cover bg-center bg-no-repeat h-screen w-full relative flex items-center justify-end"
+        style={{ backgroundImage: "url('/loginpic.jpg')" }}
+      >
+ </div>
 
-      <div className="w-full  relative flex items-center justify-center bg-one">
-      
-
+      <div className="w-full  relative flex items-center justify-center">
         <form
           onSubmit={handleLogin}
           className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm"
         >
-          <h2 className="text-2xl font-bold text-center mb-6 text-one">Login</h2>
+          <h2 className="text-2xl font-bold text-center mb-6 text-four">Login</h2>
 
           <div className="mb-4">
             <label className="block mb-1 text-sm text-gray-600" htmlFor="email">
@@ -85,7 +86,7 @@ function Login({ setIsLoggedIn }) {
 
           <button
             type="submit"
-            className="w-full bg-one hover:bg-one/80 text-white font-bold py-2 rounded-md transition"
+            className="w-full bg-four hover:bg-four/80 text-white font-bold py-2 rounded-md transition"
           >
             Log in
           </button>

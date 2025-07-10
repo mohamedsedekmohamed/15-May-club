@@ -13,7 +13,7 @@ const Inputfiltter = ({ placeholder, value, like, onChange, name, shara }) => {
     if (name === "role") {
       const typeArray = [
         { value: "guest", label: "Guest" },
-        { value: "number", label: "Number" }
+        { value: "member", label: "Member" }
       ];
       setArrthing(typeArray);
     }
