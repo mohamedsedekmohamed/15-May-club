@@ -11,7 +11,7 @@ import Addpopup from "../Pages/Admin/Popup/Addpopup.jsx";
 import Votes from "../Pages/Admin/Votes/Votes.jsx";
 import AddVotes from "../Pages/Admin/Votes/AddVotes.jsx";
 import Poats from "../Pages/Admin/Posts/Posts.jsx";
-import AddPost from '../Pages/Admin/posts/AddPost.jsx'
+import AddPost from '../Pages/Admin/Posts/AddPost.jsx'
 import Complaints from "../Pages/Admin/Complaints/Complaints.jsx";
 import Sliders from '../Pages/Admin/Sliders/Sliders.jsx';
 import AddSliders from '../Pages/Admin/Sliders/AddSliders.jsx';
