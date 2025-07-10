@@ -22,7 +22,7 @@ const LandPage = () => {
           <div className="flex gap-3">
             <button
               className="w-32 h-10 bg-one text-white rounded-3xl hover:bg-one/90 text-sm"
-              onClick={() => navigate("/longin")}
+              onClick={() => navigate("/login")}
             >
               تسجيل الدخول
             </button>
