@@ -10,12 +10,13 @@ import InputField from "../../../UI/InputField";
 import FileUploadButton from "../../../UI/FileUploadButton";
 import Inputfiltter from "../../../UI/Inputfiltter";
 import Loader from "../../../UI/Loader";
+import { GiFastBackwardButton } from "react-icons/gi";
+
 const AddUser = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [id, setid] = useState("");
   const [email, setEmail] = useState("");
   const [birthdate, setbirthdate] = useState("");
   const [password, setPassword] = useState("");
@@ -24,6 +25,8 @@ const AddUser = () => {
   const [purpose, setPurpose] = useState("");
   const [imageuser, setImageuser] = useState("");
   const [edit, setEdit] = useState(false);
+  const [checkLoading, setCheckLoading] = useState(false);
+  const { sendData } = location.state || {};
 
   const handleFileChange = (file) => {
     if (file) setImageuser(file);
@@ -35,6 +38,40 @@ const AddUser = () => {
     email: "",
     password: "",
   });
+  useEffect(() => {
+    if (sendData) {
+      setEdit(true);
+
+      const token = localStorage.getItem("token");
+      axios
+        .get(`https://app.15may.club/api/admin/users/${sendData}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          const user = response.data.data;
+          if (user) {
+            setName(user.name || "");
+            setPhone(user.phoneNumber || "");
+            setEmail(user.email || "");
+            setbirthdate(user.dateOfBirth?.split("T")[0] || "");
+            setRole(user.role || "");
+            setPurpose(user.purpose || "");
+            setImageuser(user.imagePath || "");
+          }
+        })
+        .catch((error) => {
+          toast.error("Error fetching this User:", error);
+        });
+    }
+
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, [location.state]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,25 +84,36 @@ const AddUser = () => {
   };
   const validateForm = () => {
     let formErrors = {};
+
     if (!name) formErrors.name = "Name is required";
+
     if (!birthdate) formErrors.birthdate = "Birthdate is required";
-    if (!phone  && phone.length < 12) {
+
+    if (!phone) {
       formErrors.phone = "Phone is required";
-    } else if (!/^\+?\d+$/.test(phone)) {
-      formErrors.phone =
-        'Phone should contain only numbers or start with a "+"';
+    } else if (!/^01\d{9}$/.test(phone)) {
+      formErrors.phone = "Phone must start with 01 and be 11 digits long";
     }
-    if (role === "guest" && !purpose)
-      formErrors.purpose = "Purpose  is required";
-    if (role === "number" && !imageuser)
-      formErrors.purpose = "Image  is required";
-    if (!role) formErrors.gender = "role is required";
-    if (!email.includes("@gmail.com"))
+
+    if (role === "guest" && !purpose) {
+      formErrors.purpose = "Purpose is required";
+    }
+
+    if (role === "number" && !imageuser) {
+      formErrors.imageuser = "Image is required";
+    }
+
+    if (!role) formErrors.gender = "Role is required";
+
+    if (!email.includes("@gmail.com")) {
       formErrors.email = "Email should contain @gmail.com";
-    if (!edit && password.length < 8) {
+    }
+
+    if (!edit && (!password || password.length < 8)) {
       formErrors.password = "Password must be at least 8 characters";
     }
 
+    // Show all error messages
     Object.values(formErrors).forEach((error) => {
       toast.error(error);
     });
@@ -84,7 +132,9 @@ const AddUser = () => {
   };
 
   const handleSave = () => {
+    setCheckLoading(true);
     if (!validateForm()) {
+      setCheckLoading(false);
       return;
     }
 
@@ -96,58 +146,52 @@ const AddUser = () => {
       role,
       dateOfBirth: birthdate,
     };
+
     if (!edit) {
       newUser.password = password;
+      if (role === "guest") {
+        newUser.purpose = purpose;
+      }
+      if (role === "member") {
+        newUser.imagePath = imageuser;
+      }
+    } else {
+      if (password && password.length >= 8) {
+        newUser.password = password;
+      }
+
+      if (role === "member" && imageuser && !imageuser.startsWith("/uploads")) {
+        newUser.imagePath = imageuser;
+      }
+
+      if (role === "guest") {
+        newUser.purpose = purpose;
+      }
     }
-    if(role==="guest"){
-      newUser.purpose = purpose;
-    }
-    if(role==="member"){
-      newUser.imagePath = imageuser;
-    }
 
-    //   if (edit) {
-    //     axios.put(`https://backndVoo.voo-hub.com/api/admin/user/update/${id}`, newUser, {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     })
-    //       .then(() => {
-    //         toast.success('User updated successfully');
-    //         setTimeout(() => {
-    //           navigate(-1);
-    //         }, 3000);
-    //       })
-    //       .catch((error) => {
-    // const errors = error?.response?.data;
+    const request = edit
+      ? axios.put(
+          `https://app.15may.club/api/admin/users/${sendData}`,
+          newUser,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+      : axios.post("https://app.15may.club/api/admin/users", newUser, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-    // if (errors && typeof errors === 'object') {
-    //   const firstKey = Object.keys(errors)[0];
-    //   const firstMessage = errors[firstKey]?.[0];
-
-    //   if (firstMessage) {
-    //     toast.error(firstMessage);
-    //   } else {
-    //     toast.error("Something went wrong.");
-    //   }
-    // } else {
-    //   toast.error("Something went wrong.");
-    // }
-    //   });
-    //     return;
-    //   }
-
-    axios
-      .post("https://app.15may.club/api/admin/users", newUser, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    request
       .then(() => {
-        toast.success("User added successfully");
+        toast.success(`User ${edit ? "updated" : "added"} successfully`);
         setTimeout(() => {
-          navigate("admin/user");
+          navigate("/admin/user");
         }, 3000);
+
         setbirthdate("");
         setName("");
         setPhone("");
@@ -159,32 +203,39 @@ const AddUser = () => {
         setImageuser(null);
       })
       .catch((error) => {
-        const errors = error?.response?.data;
+        const err = error?.response?.data?.error;
 
-        if (errors && typeof errors === "object") {
-          const firstKey = Object.keys(errors)[0];
-          const firstMessage = errors[firstKey]?.[0];
-
-          if (firstMessage) {
-            toast.error(firstMessage);
-          } else {
-            toast.error("Something went wrong.");
-          }
+        if (err?.details && Array.isArray(err.details)) {
+          err.details.forEach((detail) => {
+            toast.error(`${detail.field}: ${detail.message}`);
+          });
+        } else if (err?.message) {
+          toast.error(err.message);
         } else {
           toast.error("Something went wrong.");
         }
+        setCheckLoading(false);
       });
-
-      if (loading) {
-      return (
-        <Loader/>
-      );
-    }
   };
+  if (loading) {
+    return <Loader />;
+  }
   return (
     <div className=" mt-5">
       <ToastContainer />
-      <span className="text-3xl font-medium text-center text-four "> User /<span className="text-one"> {edit?"Edit ":"Add "}</span> </span>
+      <div className="flex justify-between pr-10 ">
+        <span className="text-3xl font-medium text-center text-four ">
+          {" "}
+          User /<span className="text-one">
+            {" "}
+            {edit ? "Edit " : "Add "}
+          </span>{" "}
+        </span>
+        <button className="" onClick={() => navigate("/admin/user")}>
+          {" "}
+          <GiFastBackwardButton className="text-one text-3xl" />{" "}
+        </button>
+      </div>
       <div className=" flex gap-7 flex-wrap  mt-10 pr-5 space-y-5 ">
         <InputField
           placeholder="User"
@@ -192,7 +243,7 @@ const AddUser = () => {
           value={name}
           onChange={handleChange}
         />
-          <InputField
+        <InputField
           placeholder="Phone"
           name="phone"
           value={phone}
@@ -204,7 +255,7 @@ const AddUser = () => {
           value={email}
           onChange={handleChange}
         />
-          <InputField
+        <InputField
           placeholder="Password"
           name="password"
           value={password}
@@ -217,49 +268,47 @@ const AddUser = () => {
           like
           onChange={handleChange}
         />
-      
-          <div className="relative flex flex-col  h-[50px] ">
-            <FaRegCalendarAlt className="absolute top-[60%] right-10 transform -translate-y-1/2 text-one z-10" />
-            <DatePicker
-              selected={birthdate}
-              onChange={handstartDate}
-              placeholderText="Select date"
-              dateFormat="yyyy-MM-dd"
-              className=" w-[300px]  h-[60px]  border-1  border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
-              showYearDropdown
-              scrollableYearDropdown
-              yearDropdownItemNumber={100}
-            />
-          </div>
-      
-    
+
+        <div className="relative flex flex-col  h-[50px] ">
+          <FaRegCalendarAlt className="absolute top-[60%] right-10 transform -translate-y-1/2 text-one z-10" />
+          <DatePicker
+            selected={birthdate}
+            onChange={handstartDate}
+            placeholderText="Select date"
+            dateFormat="yyyy-MM-dd"
+            className=" w-[300px]  h-[60px]  border-1  border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
+            showYearDropdown
+            scrollableYearDropdown
+            yearDropdownItemNumber={100}
+          />
+        </div>
       </div>
       <div className="mt-10 md:mt-5">
-
-        {role ==="member" &&(
-        <FileUploadButton
-           name="Image"
-           kind="Image"
-           flag={imageuser}
-           onFileChange={handleFileChange}
-        />
-      )}
-      {role ==="guest" &&(
-         <InputField
-          placeholder="Purpose"
-          name="purpose"
-          value={purpose}
-          onChange={handleChange}
-        />
-      )}
-            </div>
+        {role === "member" && (
+          <FileUploadButton
+            name="Image"
+            kind="Image"
+            flag={imageuser}
+            onFileChange={handleFileChange}
+          />
+        )}
+        {role === "guest" && (
+          <InputField
+            placeholder="Purpose"
+            name="purpose"
+            value={purpose}
+            onChange={handleChange}
+          />
+        )}
+      </div>
 
       <div className="flex mt-6">
         <button
+          disabled={checkLoading}
           className="transition-transform hover:scale-95 w-[300px] text-[32px] text-white font-medium h-[72px] bg-one rounded-[16px]"
           onClick={handleSave}
         >
-          {edit?"Edit ":"Add "}
+          {checkLoading ? "Loading" : <span>{edit ? "Edit " : "Add "}</span>}
         </button>
       </div>
     </div>

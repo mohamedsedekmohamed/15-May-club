@@ -1,87 +1,70 @@
 import React, { useEffect, useState } from "react";
 import { FaRegCalendarAlt } from "react-icons/fa";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import InputField from "../../../UI/InputField";
-import FileUploadButtonArroy from "../../../UI/FileUploadButtonArroy";
 import Loader from "../../../UI/Loader";
 import { GiFastBackwardButton } from "react-icons/gi";
 
-const AddSliders = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { sendData } = location.state || {};
-  const [edit, setEdit] = useState(false);
-  const [checkLoading, setCheckLoading] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [imageuser, setImageuser] = useState("");
-  const [name, setName] = useState("");
-  const [order, setOrder] = useState("");
-  const [errors, setErrors] = useState({
-    name: "",
-    order: "",
-  });
-  useEffect(() => {
+const AddOptions = () => {
+      const navigate = useNavigate();
+      const location = useLocation();
+      const { sendData } = location.state || {};
+      const [edit, setEdit] = useState(false);
+      const [checkLoading, setCheckLoading] = useState(false);
+      const [loading, setLoading] = useState(true);
+        const [name, setName] = useState("");
+       const [errors, setErrors] = useState({
+          name: "",
+        });
+        useEffect(() => {
     if (sendData) {
       setEdit(true);
+
       const token = localStorage.getItem("token");
       axios
-        .get(`https://app.15may.club/api/admin/sliders/${sendData}`, {
+        .get(`https://app.15may.club/api/admin/votes/items/${sendData}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((response) => {
-          const item = response.data.data;
+          const item = response.data.data.option;
           if (item) {
-            setName(item.slider.sliders.name || "");
-            setOrder(item.slider.sliders.order || "");
-            setImageuser(item.slider_images.image_path || "");
+            setName(item.item || "");
+          
           }
         })
         .catch((error) => {
           toast.error("Error fetching this User:", error);
         });
     }
+
     const timeout = setTimeout(() => {
       setLoading(false);
     }, 1000);
+
     return () => clearTimeout(timeout);
   }, [location.state]);
-
-  const handleFileChange = (file) => {
-    if (file) setImageuser(file);
-  };
-  const handleChange = (e) => {
+    const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "name") setName(value);
-    if (name === "order") setOrder(value);
   };
   const validateForm = () => {
-    let formErrors = {};
-
-    if (!name) formErrors.name = "Name is required";
-
-    if (!order) formErrors.order = "Order Date is required";
-
-    if (!imageuser) {
-      formErrors.imageuser = "Image is required";
-    }
-    Object.values(formErrors).forEach((error) => {
-      toast.error(error);
-    });
-
-    setErrors(formErrors);
-    return Object.keys(formErrors).length === 0;
-  };
-
- 
-
-  const handleSave = () => {
+      let formErrors = {};
+  
+      if (!name) formErrors.name = "Name is required";
+      
+      Object.values(formErrors).forEach((error) => {
+        toast.error(error);
+      });
+  
+      setErrors(formErrors);
+      return Object.keys(formErrors).length === 0;
+    };
+     const handleSave = () => {
     setCheckLoading(true);
     if (!validateForm()) {
       setCheckLoading(false);
@@ -90,19 +73,13 @@ const AddSliders = () => {
 
     const token = localStorage.getItem("token");
     const newUser = {
-      name,
-order: Number(order) 
-   };
+      item:name,
+    };
 
-    if (!edit) {
-      if (imageuser && !imageuser.startsWith("/uploads")) {
-        newUser.images = imageuser;
-      }
-    }
-
+  
     const request = edit
       ? axios.put(
-          `https://app.15may.club/api/admin/sliders/${sendData}`,
+          `https://app.15may.club/api/admin/votes/items/${sendData}`,
           newUser,
           {
             headers: {
@@ -110,7 +87,7 @@ order: Number(order)
             },
           }
         )
-      : axios.post("https://app.15may.club/api/admin/sliders", newUser, {
+      : axios.post("https://app.15may.club/api/admin/votes/items", newUser, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -118,15 +95,13 @@ order: Number(order)
 
     request
       .then(() => {
-        toast.success(`sliders ${edit ? "updated" : "added"} successfully`);
+        toast.success(`Options ${edit ? "updated" : "added"} successfully`);
         setTimeout(() => {
-          navigate("/admin/sliders");
+    navigate("/admin/allvotes", { state: { sendData: "Options" } });
         }, 3000);
 
         setName("");
-        setOrder("");
         setEdit(false);
-        setImageuser(null);
       })
       .catch((error) => {
         const err = error?.response?.data?.error;
@@ -142,22 +117,28 @@ order: Number(order)
         setCheckLoading(false);
       });
   };
-  
-  if (loading) {
-    return <Loader />;
+    if (loading) {
+    return (
+
+      <div className="mt-40">
+      <Loader />
+
+    </div>
+    )
   }
   return (
-    <div className=" mt-5">
+  <div className=" mt-5">
       <ToastContainer />
       <div className="flex justify-between pr-10 ">
         <span className="text-3xl font-medium text-center text-four ">
           {" "}
-          Slider /<span className="text-one">
+          Options /<span className="text-one">
             {" "}
             {edit ? "Edit " : "Add "}
           </span>{" "}
         </span>
-        <button onClick={() => navigate("/admin/sliders")}>
+
+        <button onClick={() =>  navigate("/admin/allvotes", { state: { sendData: "Options" } })}>
           {" "}
           <GiFastBackwardButton className="text-one text-3xl" />{" "}
         </button>
@@ -169,19 +150,9 @@ order: Number(order)
           value={name}
           onChange={handleChange}
         />
-        <InputField
-          placeholder="Order"
-          name="order"
-          value={order}
-          onChange={handleChange}
-          email="number"
-        />
-        <FileUploadButtonArroy
-          name="Image"
-          kind="Image"
-          flag={imageuser}
-          onFileChange={handleFileChange}
-        />
+
+     
+    
       </div>
 
       <div className="flex mt-6">
@@ -193,10 +164,7 @@ order: Number(order)
           {checkLoading ? "Loading" : <span>{edit ? "Edit " : "Add "}</span>}
         </button>
       </div>
-    </div>
-  );
-};
+    </div>  )
+}
 
-export default AddSliders;
-
-
+export default AddOptions

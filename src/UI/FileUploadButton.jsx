@@ -48,11 +48,13 @@ const FileUploadButton = ({ onFileChange, kind, flag }) => {
           {showed ? (
             <img
               className='w-10 h-10 object-cover rounded'
-              src={
-                showed.startsWith('data:image') || showed.startsWith('http')
-                  ? showed
-                  : `data:image/jpeg;base64,${showed}`
-              }
+            src={
+  showed.startsWith('data:image') || showed.startsWith('http')
+    ? showed
+    : showed.startsWith('/uploads')
+    ? `https://app.15may.club${showed}`
+    : `data:image/jpeg;base64,${showed}`
+}
               alt="Preview"
             />
           ) : (

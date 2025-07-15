@@ -30,8 +30,8 @@ const Inputfiltter = ({ placeholder, value, like, onChange, name, shara }) => {
           onChange({ target: { name, value: selectedOption?.value || '' } })
         }
         options={arrThing}
-        placeholder={placeholder}
-        classNamePrefix="custom-select"
+     placeholder=""
+          classNamePrefix="custom-select"
         styles={{
           control: (base, state) => ({
             ...base,

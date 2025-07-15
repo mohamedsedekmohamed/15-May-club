@@ -6,16 +6,16 @@ const SwitchButton = ({ value, setValue}) => {
 
   const toggleValue = () => {
  
-      setValue(value === "active" ? "inactive" : "active");
+      setValue(value === "active" ? "disabled" : "active");
     
   };
 
   return (
-    <div className='flex  items-center   gap-10 w-full'>
+    <div className='flex  items-center    w-full'>
 
       
         <StyledWrapper>
-          <span className='mt-2 text-[18px] text-one font-bold ml-10' >statue </span>
+          <span className='mt-2 text-[22px] text-one font-bold mx-10' >Statue </span>
           <label className="switch">
             <input  
               type="checkbox"

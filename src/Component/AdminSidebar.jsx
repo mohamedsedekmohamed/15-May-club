@@ -39,7 +39,7 @@ const links = [
     iconActive: <VotesIcon active   />
   },
   {
-    to: "Competitions",
+    to: "competitions",
     name: "Competitions",
     icon: <CompetitionsIcon  />,
     iconActive: <CompetitionsIcon active />
@@ -62,18 +62,18 @@ const links = [
     icon: <SlidersIcons  />,
     iconActive: <SlidersIcons active  />
   },
-  {
-    to: "pending_users",
-    name: "Pending users",
-    icon: <PendingUserIcon  />,
-    iconActive: <PendingUserIcon active  />
-  },
-  {
-    to: "rejected_users",
-    name: "Rejected Users",
-    icon: <RejectedIcon  />,
-    iconActive: <RejectedIcon active  />
-  },
+  // {
+  //   to: "pending_users",
+  //   name: "Pending users",
+  //   icon: <PendingUserIcon  />,
+  //   iconActive: <PendingUserIcon active  />
+  // },
+  // {
+  //   to: "rejected_users",
+  //   name: "Rejected Users",
+  //   icon: <RejectedIcon  />,
+  //   iconActive: <RejectedIcon active  />
+  // },
   {
     to: "logout",
     name: "Logout",
@@ -91,10 +91,16 @@ const AdminSidebar = ({ setIsOpen, isOpen }) => {
   useEffect(() => {
     const customPaths = {
       '/admin/addUser': '/admin/user',
-      '/admin/addcompetitions': '/admin/competitions',
+      '/admin/addCompetitions':'/admin/competitions',
+      '/admin/viewcompeitions':'/admin/competitions',
       '/admin/addpopup': '/admin/popup',
-      '/admin/addVotes': '/admin/votes',
-      '/admin/addPost': '/admin/posts',
+      '/admin/allpopup': '/admin/popup',
+      '/admin/addpages': '/admin/popup',
+      '/admin/allvotes': '/admin/votes',
+      '/admin/addoptions': '/admin/votes',
+      '/admin/allPosts': '/admin/posts',
+      '/admin/addCategories': '/admin/posts',
+      '/admin/allposts': '/admin/posts',
       '/admin/addSliders': '/admin/sliders',
      
     };

@@ -5,8 +5,10 @@ const DynamicTable = ({
   columns = [],
   actions,
   actionsstates,
-  rowsPerPage = 10,
-  currentPage = 1,
+  rowsPerPage ,
+  currentPage ,
+  customRender,
+  actionsviewselect
 }) => {
   if (!data.length) {
     return <div className="mt-6 text-center text-gray-500">No data available</div>;
@@ -30,6 +32,7 @@ const DynamicTable = ({
         ))}
         {actions && <th className="py-3 text-one px-4">Actions</th>}
         {actionsstates && <th className="py-3 text-one px-4">Change Status</th>}
+        {actionsviewselect && <th className="py-3 text-one px-4">Options</th>}
       </tr>
     </thead>
     <tbody>
@@ -38,11 +41,13 @@ const DynamicTable = ({
           <td className="py-3 px-4 font-medium">
             {(currentPage - 1) * rowsPerPage + i + 1}
           </td>
-          {keys.map((key) => (
-            <td key={key} className="py-3 px-4">
-              {truncate(row[key])}
-            </td>
-          ))}
+         {keys.map((key) => (
+  <td key={key} className="py-3 px-4">
+    {customRender && customRender(key, row[key])
+      ? customRender(key, row[key])
+      : truncate(row[key])}
+  </td>
+))}
           {actions && (
             <td className="py-3 px-4">
               {actions(row)}
@@ -51,6 +56,11 @@ const DynamicTable = ({
           {actionsstates && (
             <td className="py-3 px-4">
               {actionsstates(row)}
+            </td>
+          )}
+          {actionsviewselect && (
+            <td className="py-3 px-4">
+              {actionsviewselect(row)}
             </td>
           )}
         </tr>

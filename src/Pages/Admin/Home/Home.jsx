@@ -1,63 +1,83 @@
-import React from 'react'
-import InputArrow from '../../../UI/InputArrow'
-import InputField from '../../../UI/InputField'
-import Loader from '../../../UI/Loader'
-import { CiSearch } from "react-icons/ci";
-import SwitchButton from '../../../UI/SwitchButton'
-import { IoMdAdd } from "react-icons/io";
-import DynamicTable from '../../../Component/DynamicTable';
+import React, { useEffect, useState } from "react";
+import Loader from "../../../UI/Loader";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Home = () => {
- const data = [
-  { id: 1, name: "Ahmed", age: 25, des: "Developer", num: 123 },
-  { id: 2, name: "Sara", age: 30, des: "Designer", num: 456 },
-  { id: 3, name: "Ali", age: 28, des: "Manager", num: 789 },
-];
+  const [data, setData] = useState({});
+  const [supdata, setSupData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-const columns = [
-  { key: "name", label: "Name" },
-  { key: "des", label: "Description" },
-  { key: "num", label: "Number" },
-];
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    const fetchData = async () => {
+      try {
+        const [headerRes, rejectRes] = await Promise.all([
+          axios.get("https://app.15may.club/api/admin/dashboard/header", {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          axios.get("https://app.15may.club/api/admin/dashboard/rejectUsers", {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+        ]);
+
+        setData(headerRes.data.data);
+        setSupData(
+          rejectRes.data.data.users.map((item) => ({
+            name: item.name,
+            rejectionReason: item.rejectionReason,
+            rejectDate: item.rejectDate,
+          }))
+        );
+      } catch (error) {
+        toast.error("Failed to fetch dashboard data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) return <Loader />;
+
   return (
-    <div className='w-full'>
-           
- <DynamicTable
-        data={data}
-        columns={columns}
-        rowsPerPage={10}
-        currentPage={1}
-        actions={(row) => (
-          <button
-            className="text-blue-500 underline"
-            onClick={() => alert(`Edit ${row.name}`)}
+    <div className="w-full flex flex-col gap-5">
+      <div className="flex flex-wrap gap-5 px-5 pt-5">
+        {[
+          { label: "User", value: data.userCount },
+          { label: "Complaint", value: data.complaintCount },
+          { label: "Competitions", value: data.competitionsCount },
+          { label: "Votes", value: data.votesCount },
+          { label: "Posts", value: data.postsCount },
+          { label: "Popups", value: data.popupsCount },
+        ].map((item, index) => (
+          <div
+            key={index}
+            className="flex flex-col p-4 w-[170px] h-[100px] gap-2 bg-gray-200/70 rounded-2xl shadow"
           >
-            Edit
-          </button>
+            <span className="text-sm font-medium text-gray-600">{item.label}</span>
+            <span className="text-lg font-bold text-gray-800">{item.value}</span>
+          </div>
+        ))}
+      </div>
+
+      <div className="px-5">
+        <h2 className="text-xl font-semibold text-one mb-2">Rejected Users</h2>
+        {supdata.length > 0 ? (
+          supdata.map((data, index) => (
+            <div key={index} className="my-2 bg-three p-3 text-sm text-gray-700">
+              <span>{data.name} - {data.rejectionReason} - {data.rejectDate}</span>
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-500 text-sm">No rejected users found.</p>
         )}
-      />  
-          {/* <div className="flex flex-col gap-4">
-        <h1 className="text-2xl font-bold text-one">Welcome to the Admin Dashboard</h1>
-        <p className="text-gray-600">Here you can manage users, view statistics, and more.</p>
       </div>
-
-      <div className="mt-6">
-        <InputField placeholder="Search" />
-        <InputArrow  placeholder="Search"/>
-      </div>
-
-      <div className="mt-6">
-        <Loader />
-      </div>  
-      <div className="flex mt-6">
-                <button className='w-[300px] text-[32px] text-white
-                 transition-transform hover:scale-95 font-medium h-[72px] bg-one rounded-2xl' >
-                 {transition-transform hover:scale-95 font-medium h-[72px] bg-one rounded-2xl' onClick={handleSave}>
-                  Done
-                </button>
-              </div>
-              <SwitchButton  value={"active"}/>    */}
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

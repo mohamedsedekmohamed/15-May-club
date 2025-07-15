@@ -10,22 +10,14 @@ import NavAndSearch from '../../../Component/NavAndSearch';
 import { CiSearch, CiEdit } from "react-icons/ci";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Loader from "../../../UI/Loader";
-
-const Popup = () => {
-    const [data, setData] = useState([]);
+const Options = () => {
+  const [data, setData] = useState([]);
       const [loading, setLoading] = useState(true);
-    const [statusFilter, setStatusFilter] = useState([]);
   const [update, setUpdate] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
   const navigate = useNavigate();
-const handleStatusFilterChange = (status) => {
-  setStatusFilter((prev) =>
-    prev.includes(status)
-      ? prev.filter((s) => s !== status)
-      : [...prev, status]
-  );
-};
+
 
  useEffect(() => {
     setCurrentPage(1);
@@ -41,7 +33,7 @@ const handleStatusFilterChange = (status) => {
   }, 10000);
 
   axios
-    .get("https://app.15may.club/api/admin/popups", {
+    .get("https://app.15may.club/api/admin/votes/items", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -49,7 +41,14 @@ const handleStatusFilterChange = (status) => {
     })
     .then((response) => {
       clearTimeout(timeout); 
-      setData(response.data.data.popups);
+      
+setData(
+  response.data.data.options.map((item) => ({
+    id: item.id,
+    name: item.item,
+
+  }))
+);
       setLoading(false);
     })
     .catch((error) => {
@@ -62,16 +61,14 @@ const handleStatusFilterChange = (status) => {
       setLoading(false);
     });
 
-  return () => clearTimeout(timeout); // تنظيف العداد عند الخروج
+  return () => clearTimeout(timeout); 
 }, [update]);
 
-//  const handleChange = (e) => {
-//     setSelectedFilter(e.target.value);
-//   };
+
 
 
   const handleEdit = (id) => {
-    navigate("/admin/allpopup", { state: { sendData: id  } });
+    navigate("/admin/addoptions", { state: { sendData: id } });
   };
     const handleDelete = (Id, userName) => {
     const token = localStorage.getItem("token");
@@ -86,7 +83,7 @@ const handleStatusFilterChange = (status) => {
       if (result.isConfirmed) {
         axios
           .delete(
-            `https://app.15may.club/api/admin/popups/${Id}`,
+            `https://app.15may.club/api/admin/votes/items/${Id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -116,11 +113,8 @@ const handleStatusFilterChange = (status) => {
 
 
 const columns = [
-  { key: "title", label: "Title" },
-  { key: "imagePath", label: "image" },
-  { key: "startDate", label: "Start Date" },
-  { key: "endDate", label: "End Date" },
-  { key: "status", label: "Status" },
+  { key: "name", label: "Name" },
+
 ];
 
 const filteredData = data.filter((item) => {
@@ -142,10 +136,8 @@ const filteredData = data.filter((item) => {
           return value?.toString().toLowerCase().includes(query);
         })();
 
-  const matchesStatus =
-    statusFilter.length === 0 || statusFilter.includes(item.status);
 
-  return matchesSearch && matchesStatus;
+  return matchesSearch ;
 });
 
 
@@ -159,32 +151,15 @@ const filteredData = data.filter((item) => {
  
    if (loading) {
       return (
-            <Loader/>
+        <div className="mt-40">
+          <Loader/>
+        </div>
       );}
 
   return (
     <div>
-      <NavAndSearch nav="/admin/allpopup" searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
-  <div className="flex gap-4 justify-end flex-wrap mt-4 mb-2 px-4">
-  {[
-    { label: "Active", value: "active", color: "text-one" },
-    { label: "Disabled", value: "disabled", color: "text-one/50" },
-  ].map(({ label, value, color }) => (
-    <label
-      key={value}
-      className={`flex items-center space-x-2 px-3 py-1 border border-gray-300 rounded-full cursor-pointer transition-all duration-200 hover:shadow-sm ${color}`}
-    >
-      <input
-        type="checkbox"
-        value={value}
-        checked={statusFilter.includes(value)}
-        onChange={() => handleStatusFilterChange(value)}
-        className="form-checkbox accent-current w-4 h-4"
-      />
-      <span className="text-sm font-medium">{label}</span>
-    </label>
-  ))}
-</div>
+      <NavAndSearch nav="/admin/addoptions" searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+
 
      
     <DynamicTable
@@ -200,19 +175,11 @@ const filteredData = data.filter((item) => {
       />
       <RiDeleteBin6Line
         className="w-[24px] h-[24px] ml-2 text-red-600 cursor-pointer"
-        onClick={() => handleDelete(row.id, row.title)}
+        onClick={() => handleDelete(row.id, row.name)}
       />
     </div>
   )}
-  customRender={(key, value) =>
-    key === "imagePath" ? (
-      <img
-        src={value}
-        alt="popup"
-        className="w-16 h-16 object-cover rounded"
-      />
-    ) : null
-  }
+ 
 />
 
           <div className="flex justify-center mt-4">
@@ -242,5 +209,4 @@ const filteredData = data.filter((item) => {
   )
 }
 
-
-export default Popup
+export default Options
