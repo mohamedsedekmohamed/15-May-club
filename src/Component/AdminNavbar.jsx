@@ -9,13 +9,13 @@ const AdminNavbar = () => {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    axios.get("https://backndVoo.voo-hub.com/api/admin/profile", {
+    axios.get("https://app.15may.club/api/admin/profile", {
       headers: {
         Authorization: `Bearer ${token}`,
       }
     })
       .then(response => {
-        setData(response.data.user)
+        setData(response.data.data)
       });
   }, []);
 

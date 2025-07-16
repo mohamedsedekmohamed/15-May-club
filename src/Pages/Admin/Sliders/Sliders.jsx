@@ -53,11 +53,11 @@ const Sliders = () => {
       clearTimeout(timeout); 
 setData(
   response.data.data.sliders.map((item) => ({
-    id: item.sliders.id,
-    name: item.sliders.name,
-status: item.sliders?.status,
-    order: item.sliders.order,
-    image: item.slider_images?.image_path,
+    id: item.id,
+    name: item.name,
+status: item.status,
+    order: item.order,
+    image: item.images[1],
   }))
 );
       setLoading(false);

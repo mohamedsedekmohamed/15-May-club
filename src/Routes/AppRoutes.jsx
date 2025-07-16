@@ -22,6 +22,8 @@ import AddPages from '../Pages/Admin/Popup/AddPages'
 import AddCategories from '../Pages/Admin/Postpage/AddCategories';
 import AllviewCompeitions from '../Pages/Admin/Compeitions/AllviewCompeitions.jsx'
 import AddOptions from "../Pages/Admin/Votes/AddOptions.jsx"
+import Category from '../Pages/Admin/Complaints/Category.jsx'
+import AddCategory from '../Pages/Admin/Complaints/AddCategory.jsx'
 const AppRoutes = () => {
   return (
   <Routes>
@@ -47,8 +49,10 @@ const AppRoutes = () => {
                   <Route path="complaints" element={<Complaints />} />  
                   <Route path="sliders" element={<Sliders />} />  
                   <Route path="addSliders" element={<AddSliders />} />
-                  <Route path="pending_users" element={<Pending_users />} />
-                  <Route path="rejected_users" element={<Rejected_Users />} />
+                  <Route path="addcategory" element={<AddCategory />} />
+                  {/* <Route path="pending_users" element={<Pending_users />} />
+                  <Route path="rejected_users" element={<Rejected_Users />} /> */}
+                  <Route path="category" element={<Category />} />
                   <Route path="logout" element={<Logout />} />
 
           </Route>

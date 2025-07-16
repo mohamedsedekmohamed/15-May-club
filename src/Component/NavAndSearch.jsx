@@ -4,7 +4,7 @@ import { CiSearch } from "react-icons/ci";
 import { IoMdAddCircle } from "react-icons/io";
 
 
-const NavAndSearch = ({nav ,searchQuery,setSearchQuery}) => {
+const NavAndSearch = ({nav ,searchQuery,setSearchQuery, like}) => {
     const navigate = useNavigate();
   return (
     <div className='mt-2'><div className="flex justify-between items-center gap-3">
@@ -19,11 +19,11 @@ const NavAndSearch = ({nav ,searchQuery,setSearchQuery}) => {
           <CiSearch className="  text-white  text-2xl " />
           </i>  
         </div>
-  <button onClick={()=>navigate(nav)}
+  {!like&&(<button onClick={()=>navigate(nav)}
   className='bg-one flex gap-3 px-4 py-2 items-center rounded-2xl font-medium transition-transform hover:scale-95'> 
     <span className=" text-[20px] lg:text-2xl text-white">Add</span>
     <IoMdAddCircle className="text-[20px] lg:text-2xl text-white" />
-  </button>
+  </button>)}
       </div></div>
   )
 }

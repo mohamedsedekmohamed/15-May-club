@@ -40,7 +40,7 @@ const FileUploadButton = ({ onFileChange, kind, flag }) => {
       />
 
       <button
-        className='w-[300px]  h-[60px]  border border-four rounded-[16px] flex justify-center items-center pl-5'
+        className='w-[280px]  h-[60px]  border border-four rounded-[16px] flex justify-center items-center pl-5'
         onClick={() => document.getElementById(`file-upload-${kind}`).click()}
       >
         {!showed && <MdOutlineCloudDownload className='w-10 h-10 text-one' />}

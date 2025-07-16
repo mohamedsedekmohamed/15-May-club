@@ -42,7 +42,7 @@ const Inputfiltter = ({ placeholder, value, like, onChange, name, shara }) => {
             paddingLeft: '8px',
             height: '60px',
             boxShadow: 'none',
-            width:"300px",
+            width:"280px",
             '&:hover': {
               borderColor: '#876340',
             },

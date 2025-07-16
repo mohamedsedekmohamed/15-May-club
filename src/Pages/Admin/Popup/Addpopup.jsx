@@ -22,6 +22,7 @@ const Addpopup = () => {
   const [checkLoading, setCheckLoading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [imageuser, setImageuser] = useState(null);
+  const [orgimageuser, setorgImageuser] = useState(null);
   const [title, setTitle] = useState("");
   const [startDate, setStartdate] = useState("");
   const [endDate, setEnddate] = useState("");
@@ -61,6 +62,7 @@ const Addpopup = () => {
             setStartdate(item.startDate?.split("T")[0] || "");
             setEnddate(item.endDate?.split("T")[0] || "");
             setImageuser(item.imagePath || "");
+            setorgImageuser(item.imagePath || "");
             setStatus(item.status || "");
           }
         })
@@ -140,14 +142,17 @@ const Addpopup = () => {
       title,
       startDate,
       endDate,
-      status:"disabled",
+      status,
       pageIds: pageIds.map((item) => item.value),
     };
 
-    if (!edit) {
-      if (imageuser && !imageuser.startsWith("/uploads")) {
-        newUser.imagePath = imageuser;
-      }
+    // if (!edit) {
+    //   if (imageuser && !imageuser.startsWith("/uploads")) {
+    //     newUser.imagePath = imageuser;
+    //   }
+    // }
+    if(orgimageuser !==imageuser){
+       newUser.imagePath = imageuser
     }
 
     const request = edit
@@ -179,6 +184,7 @@ setStatus("active")
         setEnddate("");
         setEdit(false);
         setImageuser(null);
+        setorgImageuser(null);
       })
       .catch((error) => {
         const err = error?.response?.data?.error;
@@ -225,7 +231,7 @@ setStatus("active")
   return (
     <div className=" mt-5">
       <ToastContainer />
-      <div className="flex justify-between pr-10 ">
+      <div className="flex justify-between px-1 ">
         <span className="text-3xl font-medium text-center text-four ">
           {" "}
           Popup /<span className="text-one">
@@ -238,7 +244,7 @@ setStatus("active")
           <GiFastBackwardButton className="text-one text-3xl" />{" "}
         </button>
       </div>
-      <div className=" flex gap-7 flex-wrap  mt-10 pr-5 space-y-5 ">
+      <div className=" flex gap-7 flex-wrap  mt-10  space-y-5 ">
         <InputField
           placeholder="Title"
           name="title"
@@ -253,7 +259,7 @@ setStatus("active")
             onChange={handStartDate}
             placeholderText="Start date"
             dateFormat="yyyy-MM-dd"
-            className=" w-[300px]  h-[60px]  border-1  border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
+            className=" w-[280px]  h-[60px]  border-1  border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
             showYearDropdown
             scrollableYearDropdown
             minDate={
@@ -271,7 +277,7 @@ setStatus("active")
             onChange={handEndDate}
             placeholderText="End date"
             dateFormat="yyyy-MM-dd"
-            className=" w-[300px]  h-[60px]  border-1  border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
+            className=" w-[280px]  h-[60px]  border-1  border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
             showYearDropdown
             scrollableYearDropdown
             yearDropdownItemNumber={100}

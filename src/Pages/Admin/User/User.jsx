@@ -203,6 +203,7 @@ const columns = [
     }
   });
 };
+
 const filteredData = data.filter((item) => {
   const query = searchQuery.toLowerCase();
 

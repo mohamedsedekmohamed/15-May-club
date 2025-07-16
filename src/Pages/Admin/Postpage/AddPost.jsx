@@ -20,16 +20,22 @@ const AddPost = () => {
     const [edit, setEdit] = useState(false);
     const [checkLoading, setCheckLoading] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [imageuser, setImageuser] = useState("");
+    
+const [images, setImages] = useState([]);
+ const [deletedImages, setDeletedImages] = useState([]);
+  const [imagesChanged, setImagesChanged] = useState(false);
+  const [originalImages, setOriginalImages] = useState([]);
+
     const [title, setTitle] = useState("");
     const [category, setCategory] = useState("");
-    // const [categoryId, setcCategoryId] = useState([]);
+    // useEffect(()=>{
+    //   console.log(category.target.value)
+    // },[category])
     const [errors, setErrors] = useState({
       title: "",
       categoryId: "",
     });
       useEffect(() => {
-        console.log(sendData)
     if (sendData) {
       setEdit(true);
 
@@ -45,6 +51,14 @@ const AddPost = () => {
           if (item) {
             setTitle(item.post.title || "");
             setCategory(item.post.categoryId || "");
+              const oldImgs = Array.isArray(item.images)
+              ? item.images .map((img) => ({
+                  id: img.id,
+                  imagePath: img.imagePath,
+                }))
+              : [];
+            setImages(oldImgs);
+            setOriginalImages(oldImgs);
           }
         })
         .catch((error) => {
@@ -63,15 +77,34 @@ const AddPost = () => {
     const { name, value } = e.target;
     if (name === "title") setTitle(value);
   };
-   const handleFileChange = (file) => {
-    if (file) setImageuser(file);
+  const handleIamgesChange = (newFiles) => {
+    if (edit) {
+      const oldImagesWithId = originalImages;
+
+      const keptOldImages = oldImagesWithId.filter((oldImg) =>
+        newFiles.some((newImg) => newImg.id === oldImg.id)
+      );
+
+      const removedImages = oldImagesWithId.filter(
+        (oldImg) => !newFiles.some((newImg) => newImg.id === oldImg.id)
+      );
+
+      const newAddedImages = newFiles.filter((img) => !img.id);
+
+      setImages([...keptOldImages, ...newAddedImages]);
+      setDeletedImages(removedImages);
+      setImagesChanged(true);
+    } else {
+      setImages(newFiles);
+      setImagesChanged(true);
+    }
   };
     const validateForm = () => {
       let formErrors = {};
   
       if (!title) formErrors.title = "Title is required";  
       if(!category)formErrors.categoryId="Category is required"
-      if (!imageuser) {
+      if (!images) {
         formErrors.imageuser = "Image is required";
       }
       Object.values(formErrors).forEach((error) => {
@@ -89,16 +122,26 @@ const AddPost = () => {
     }
 
     const token = localStorage.getItem("token");
+    const newUseradd = {
+      title,
+      categoryId:category,
+        images: images.map(b=>b.imagePath),
+    };
     const newUser = {
       title,
       categoryId:category
     };
+       if (edit && imagesChanged) {
+      const newImages = images.filter((img) => !img.id);
+      const removedImages = deletedImages;
 
-    if (!edit) {
-      if (imageuser && !imageuser.startsWith("/uploads")) {
-        newUser.imagePath = imageuser;
-      }
+      newUser.images = [
+        ...newImages.map(({ imagePath }) => ({ imagePath })),
+        ...removedImages.map(({ id, imagePath }) => ({ id, imagePath })),
+      ];
     }
+
+  
 
     const request = edit
       ? axios.put(
@@ -110,7 +153,7 @@ const AddPost = () => {
             },
           }
         )
-      : axios.post("https://app.15may.club/api/admin/posts", newUser, {
+      : axios.post("https://app.15may.club/api/admin/posts", newUseradd, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -123,10 +166,15 @@ const AddPost = () => {
           navigate("/admin/posts");
         }, 3000);
 
+     setImages([])
+setDeletedImages([])
+   setImagesChanged(false)
+   setOriginalImages([])
+setCategory('')
+
         setTitle("");
         setEdit(false);
-        setImageuser(null);
-      })
+        })
       .catch((error) => {
         const err = error?.response?.data?.error;
         if (err?.details && Array.isArray(err.details)) {
@@ -141,24 +189,7 @@ const AddPost = () => {
         setCheckLoading(false);
       });
   };
-//  useEffect(() => {
-//     const token = localStorage.getItem("token");
-//     axios
-//       .get(`https://app.15may.club/api/admin/posts/categories`, {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       })
-//       .then((response) => {
-//         const item = response.data.data;
-//         if (item) {
-//           setcCategoryId(item.categories || "");
-//         }
-//       })
-//       .catch((error) => {
-//         toast.error("Error fetching this User:", error);
-//       });
-//   }, []);
+
 
   if (loading) {
     return (
@@ -172,7 +203,7 @@ const AddPost = () => {
   return (
   <div className=" mt-5">
       <ToastContainer />
-      <div className="flex justify-between pr-10 ">
+      <div className="flex justify-between px-2 ">
         <span className="text-3xl font-medium text-center text-four ">
           {" "}
           Posts /<span className="text-one">
@@ -185,7 +216,7 @@ const AddPost = () => {
           <GiFastBackwardButton className="text-one text-3xl" />{" "}
         </button>
       </div>
-      <div className=" flex gap-7 flex-wrap  mt-10 pr-5 space-y-5 ">
+      <div className=" flex gap-7 flex-wrap  mt-10  space-y-5 ">
         <InputField
           placeholder="Title"
           name="title"
@@ -193,22 +224,20 @@ const AddPost = () => {
           onChange={handleChange}
         />
 
-   
-      
+    <InputArrow
+        name="posts/categories"
+          value={category}
+          onChange={(e)=>setCategory(e.target.value)}
+          placeholder="Select Pages"
+        />
         <FileUploadButtonArroy
           name="Image"
           kind="Image"
-          flag={imageuser}
-          onFileChange={handleFileChange}
+          flag={images}
+          onFileChange={handleIamgesChange}
         />
-        <InputArrow
-        name="posts/categories"
-          value={category}
-          onChange={setCategory}
-          placeholder="Select Pages"
-        />
-
       </div>
+        
 
       <div className="flex mt-6">
         <button

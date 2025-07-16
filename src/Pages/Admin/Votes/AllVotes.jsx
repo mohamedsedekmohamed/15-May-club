@@ -12,7 +12,7 @@ const AllVotes = () => {
  if(sendData==="Options")setActiveTab("Options")
  },[location.state])
    return (
-    <div className="p-4">
+    <div className="">
       <div className="flex gap-4 mb-4 border-b justify-center pb-2">
          <button
            onClick={() => setActiveTab('Votes')}
@@ -33,7 +33,7 @@ const AllVotes = () => {
        </div>
  
        {/* Tab Content */}
-       <div className=" p-4  ">
+       <div className=" px-2  ">
          {activeTab === 'Votes' ? <AddVotes/> : <Option/>}
        </div>
      </div>

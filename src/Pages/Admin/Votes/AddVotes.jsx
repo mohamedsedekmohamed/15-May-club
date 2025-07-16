@@ -207,7 +207,7 @@ const AddVotes = () => {
   return (
     <div className=" mt-5">
       <ToastContainer />
-      <div className="flex justify-between pr-10 ">
+      <div className="flex justify-between px-2 ">
         <span className="text-3xl font-medium text-center text-four ">
           {" "}
           Votes /<span className="text-one">
@@ -242,7 +242,7 @@ const AddVotes = () => {
             onChange={handStartDate}
             placeholderText="Start date"
             dateFormat="yyyy-MM-dd"
-            className=" w-[300px]  h-[60px]  border-1  border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
+            className=" w-[280px]  h-[60px]  border-1  border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
             showYearDropdown
             scrollableYearDropdown
             minDate={
@@ -260,7 +260,7 @@ const AddVotes = () => {
             onChange={handEndDate}
             placeholderText="End date"
             dateFormat="yyyy-MM-dd"
-            className=" w-[300px]  h-[60px]  border-1  border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
+            className=" w-[280px]  h-[60px]  border-1  border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
             showYearDropdown
             scrollableYearDropdown
             yearDropdownItemNumber={100}

@@ -11,7 +11,7 @@ import { CiSearch, CiEdit } from "react-icons/ci";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Loader from "../../../UI/Loader";
 
-const Pages = () => {
+const Category = () => {
   const [data, setData] = useState([]);
       const [loading, setLoading] = useState(true);
   const [update, setUpdate] = useState(false);
@@ -34,7 +34,7 @@ const Pages = () => {
   }, 10000);
 
   axios
-    .get("https://app.15may.club/api/admin/popups/Apppages", {
+    .get("https://app.15may.club/api/admin/complaints/category", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -45,9 +45,10 @@ const Pages = () => {
       // setData(response.data.data.Apppages);
       
 setData(
-  response.data.data.Apppages.map((item) => ({
+  response.data.data.categories.map((item) => ({
     id: item.id,
     name: item.name,
+    description: item.description,
 
   }))
 );
@@ -70,7 +71,7 @@ setData(
 
 
   const handleEdit = (id) => {
-    navigate("/admin/addpages", { state: { sendData: id } });
+    navigate("/admin/addcategory", { state: { sendData: id } });
   };
     const handleDelete = (Id, userName) => {
     const token = localStorage.getItem("token");
@@ -85,7 +86,7 @@ setData(
       if (result.isConfirmed) {
         axios
           .delete(
-            `https://app.15may.club/api/admin/popups/apppages/${Id}`,
+            `https://app.15may.club/api/admin/complaints/category/${Id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -116,6 +117,7 @@ setData(
 
 const columns = [
   { key: "name", label: "Name" },
+  { key: "description", label: "Description" },
 
 ];
 
@@ -160,7 +162,7 @@ const filteredData = data.filter((item) => {
 
   return (
     <div>
-      <NavAndSearch nav="/admin/addpages" searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+      <NavAndSearch nav="/admin/addcategory" searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
 
 
      
@@ -211,4 +213,5 @@ const filteredData = data.filter((item) => {
   )
 }
 
-export default Pages
+
+export default Category

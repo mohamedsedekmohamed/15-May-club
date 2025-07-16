@@ -13,7 +13,7 @@ useEffect(()=>{
 if(sendData==="page")setActiveTab("Pages")
 },[location.state])
   return (
-   <div className="p-4">
+   <div className="">
      <div className="flex gap-4 mb-4 border-b justify-center pb-2">
         <button
           onClick={() => setActiveTab('popup')}
@@ -34,7 +34,7 @@ Pages
       </div>
 
       {/* Tab Content */}
-      <div className="p-4 ">
+      <div className="px-2 ">
         {activeTab === 'popup' ? <Addpopup/> : <Pages/>}
       </div>
     </div>

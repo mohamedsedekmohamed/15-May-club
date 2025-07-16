@@ -62,18 +62,7 @@ const links = [
     icon: <SlidersIcons  />,
     iconActive: <SlidersIcons active  />
   },
-  // {
-  //   to: "pending_users",
-  //   name: "Pending users",
-  //   icon: <PendingUserIcon  />,
-  //   iconActive: <PendingUserIcon active  />
-  // },
-  // {
-  //   to: "rejected_users",
-  //   name: "Rejected Users",
-  //   icon: <RejectedIcon  />,
-  //   iconActive: <RejectedIcon active  />
-  // },
+
   {
     to: "logout",
     name: "Logout",
@@ -93,6 +82,8 @@ const AdminSidebar = ({ setIsOpen, isOpen }) => {
       '/admin/addUser': '/admin/user',
       '/admin/addCompetitions':'/admin/competitions',
       '/admin/viewcompeitions':'/admin/competitions',
+      '/admin/category':'/admin/complaints',
+      '/admin/addcategory':'/admin/complaints',
       '/admin/addpopup': '/admin/popup',
       '/admin/allpopup': '/admin/popup',
       '/admin/addpages': '/admin/popup',

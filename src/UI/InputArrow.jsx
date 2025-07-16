@@ -8,8 +8,8 @@ const InputArrow = ({ placeholder, value, onChange, name }) => {
 
   const mapDataToOptions = (data) =>
     data.map((item) => ({
-      value: item.id || item.category_id,
-      label: item.name || item.category_name || item.bus_number,
+      value: item.id,
+      label: item.name || item.category_name 
     }));
 
   useEffect(() => {
@@ -23,7 +23,6 @@ const InputArrow = ({ placeholder, value, onChange, name }) => {
         let data = [];
 
         if (name === 'posts/categories') data = response.data.data.categories;
-        // Add conditions for other endpoints here
 
         setOptions(mapDataToOptions(data));
       })
@@ -33,7 +32,7 @@ const InputArrow = ({ placeholder, value, onChange, name }) => {
   }, [name]);
 
   return (
-    <div className="relative w-[300px] group form-control">
+    <div className="relative w-[280px] group form-control">
       <Select
         options={options}
         value={options.find((option) => option.value === value)}

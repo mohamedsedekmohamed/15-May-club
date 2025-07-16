@@ -221,9 +221,9 @@ const AddUser = () => {
     return <Loader />;
   }
   return (
-    <div className=" mt-5">
+    <div className=" mt-5 px-2">
       <ToastContainer />
-      <div className="flex justify-between pr-10 ">
+      <div className="flex justify-between  ">
         <span className="text-3xl font-medium text-center text-four ">
           {" "}
           User /<span className="text-one">
@@ -276,7 +276,7 @@ const AddUser = () => {
             onChange={handstartDate}
             placeholderText="Select date"
             dateFormat="yyyy-MM-dd"
-            className=" w-[300px]  h-[60px]  border-1  border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
+            className=" w-[280px]  h-[60px]  border-1  border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
             showYearDropdown
             scrollableYearDropdown
             yearDropdownItemNumber={100}

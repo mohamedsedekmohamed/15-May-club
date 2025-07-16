@@ -35,7 +35,7 @@ const MultiSelectField = ({ value, onChange, placeholder,options }) => {
 const StyledWrapper = styled.div`
   .form-control {
     position: relative;
-    width: 300px;
+    width: 280px;
   }
 
   .custom-select__control {

@@ -46,9 +46,9 @@ const Posts = () => {
       clearTimeout(timeout); 
 setData(
   response.data.data.posts.map((item) => ({
-    id: item.posts.id,
-    title: item.posts?.title,
-    image: item.posts_images?.imagePath,
+    id: item.id,
+    title: item.title,
+    image: item.images[1],
   }))
 );
       setLoading(false);

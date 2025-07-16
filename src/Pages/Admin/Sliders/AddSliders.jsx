@@ -18,7 +18,11 @@ const AddSliders = () => {
   const [edit, setEdit] = useState(false);
   const [checkLoading, setCheckLoading] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [imageuser, setImageuser] = useState("");
+    
+const [images, setImages] = useState([]);
+ const [deletedImages, setDeletedImages] = useState([]);
+  const [imagesChanged, setImagesChanged] = useState(false);
+  const [originalImages, setOriginalImages] = useState([]);
   const [name, setName] = useState("");
   const [order, setOrder] = useState("");
   const [errors, setErrors] = useState({
@@ -38,9 +42,16 @@ const AddSliders = () => {
         .then((response) => {
           const item = response.data.data;
           if (item) {
-            setName(item.slider.sliders.name || "");
-            setOrder(item.slider.sliders.order || "");
-            setImageuser(item.slider_images.image_path || "");
+            setName(item.slider.name || "");
+            setOrder(item.slider.order || "");
+              const oldImgs = Array.isArray(item.sliderImagesd)
+              ? item.sliderImagesd .map((img) => ({
+                  id: img.id,
+                  imagePath: img.image_path,
+                }))
+              : [];
+            setImages(oldImgs);
+            setOriginalImages(oldImgs);
           }
         })
         .catch((error) => {
@@ -53,8 +64,27 @@ const AddSliders = () => {
     return () => clearTimeout(timeout);
   }, [location.state]);
 
-  const handleFileChange = (file) => {
-    if (file) setImageuser(file);
+   const handleIamgesChange = (newFiles) => {
+    if (edit) {
+      const oldImagesWithId = originalImages;
+
+      const keptOldImages = oldImagesWithId.filter((oldImg) =>
+        newFiles.some((newImg) => newImg.id === oldImg.id)
+      );
+
+      const removedImages = oldImagesWithId.filter(
+        (oldImg) => !newFiles.some((newImg) => newImg.id === oldImg.id)
+      );
+
+      const newAddedImages = newFiles.filter((img) => !img.id);
+
+      setImages([...keptOldImages, ...newAddedImages]);
+      setDeletedImages(removedImages);
+      setImagesChanged(true);
+    } else {
+      setImages(newFiles);
+      setImagesChanged(true);
+    }
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -68,7 +98,7 @@ const AddSliders = () => {
 
     if (!order) formErrors.order = "Order Date is required";
 
-    if (!imageuser) {
+    if (!images) {
       formErrors.imageuser = "Image is required";
     }
     Object.values(formErrors).forEach((error) => {
@@ -89,16 +119,30 @@ const AddSliders = () => {
     }
 
     const token = localStorage.getItem("token");
+   
+   const newUseradd = {
+      name,
+order: Number(order) ,
+      images: images.map(b=>b.imagePath),
+
+   };
+
+   
     const newUser = {
       name,
 order: Number(order) 
    };
 
-    if (!edit) {
-      if (imageuser && !imageuser.startsWith("/uploads")) {
-        newUser.images = imageuser;
-      }
+     if (edit && imagesChanged) {
+      const newImages = images.filter((img) => !img.id);
+      const removedImages = deletedImages;
+
+      newUser.images = [
+        ...newImages.map(({ image_path }) => ({ image_path })),
+        ...removedImages.map(({ id, image_path }) => ({ id, image_path })),
+      ];
     }
+    
 
     const request = edit
       ? axios.put(
@@ -110,7 +154,7 @@ order: Number(order)
             },
           }
         )
-      : axios.post("https://app.15may.club/api/admin/sliders", newUser, {
+      : axios.post("https://app.15may.club/api/admin/sliders", newUseradd, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -126,7 +170,7 @@ order: Number(order)
         setName("");
         setOrder("");
         setEdit(false);
-        setImageuser(null);
+        setImages([]);
       })
       .catch((error) => {
         const err = error?.response?.data?.error;
@@ -149,7 +193,7 @@ order: Number(order)
   return (
     <div className=" mt-5">
       <ToastContainer />
-      <div className="flex justify-between pr-10 ">
+      <div className="flex justify-between px-2 ">
         <span className="text-3xl font-medium text-center text-four ">
           {" "}
           Slider /<span className="text-one">
@@ -162,7 +206,7 @@ order: Number(order)
           <GiFastBackwardButton className="text-one text-3xl" />{" "}
         </button>
       </div>
-      <div className=" flex gap-7 flex-wrap  mt-10 pr-5 space-y-5 ">
+      <div className=" flex gap-7 flex-wrap  mt-10 px-2 space-y-5 ">
         <InputField
           placeholder="Name"
           name="name"
@@ -179,8 +223,8 @@ order: Number(order)
         <FileUploadButtonArroy
           name="Image"
           kind="Image"
-          flag={imageuser}
-          onFileChange={handleFileChange}
+          flag={images}
+          onFileChange={handleIamgesChange}
         />
       </div>
 

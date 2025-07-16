@@ -35,7 +35,7 @@ const InputField = ({ placeholder, value, onChange, name, email, disabled }) => 
 const StyledWrapper = styled.div`
   .form-control {
     position: relative;
-    width:300px;
+    width:280px;
   
   }
 
