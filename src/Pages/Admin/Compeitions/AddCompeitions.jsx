@@ -202,7 +202,7 @@ const AddCompeitions = () => {
         } else if (err?.message) {
           toast.error(err.message);
         } else {
-          toast.error("حدث خطأ غير متوقع");
+          toast.error("Error fatch ");
         }
         setCheckLoading(false);
       });

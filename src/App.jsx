@@ -30,7 +30,10 @@ function App() {
                     setIsLoggedIn={setIsLoggedIn}
                   />
                 }/>
-                  
+                  <Route
+                path="/*"
+                element={<LandPage  />}
+              />
             </>
           ) : (
             <>

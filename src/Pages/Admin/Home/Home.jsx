@@ -68,11 +68,11 @@ const Home = () => {
           </div>
         ))}
       </div>
-<div className="flex flex-col md:flex-row gap-3">
-<div className="flex flex-col items-center gap-2 px-2 text-white">
-<button className="bg-one w-50 rounded-4xl py-2 flex gap-2 justify-center items-center" onClick={()=>{navigate("/admin/allPosts")}}><span>Add Posts</span><BsPostageFill/></button>
-<button className="bg-one w-50 rounded-4xl py-2 flex gap-2 justify-center items-center" onClick={()=>{navigate("/admin/allpopup")}}><span>Add Popup</span><AiOutlinePicture/></button>
-<button className="bg-one w-50 rounded-4xl py-2 flex gap-2 justify-center items-center" onClick={()=>{navigate("/admin/addSliders")}}><span>Add Sliders</span><TfiLayoutSliderAlt/></button>
+<div className="flex flex-col md:flex-row justify-center items-center gap-3">
+<div className="flex flex-col items-center gap-10 px-2 text-white w-full">
+<button className="bg-one w-full rounded-4xl py-4 flex gap-2 justify-center items-center hover:bg-one/90 " onClick={()=>{navigate("/admin/allPosts")}}><span>Add Posts</span><BsPostageFill/></button>
+<button className="bg-one w-full rounded-4xl py-4 flex gap-2 justify-center items-center hover:bg-one/90 " onClick={()=>{navigate("/admin/allpopup")}}><span>Add Popup</span><AiOutlinePicture/></button>
+<button className="bg-one w-full rounded-4xl py-4 flex gap-2 justify-center items-center hover:bg-one/90 " onClick={()=>{navigate("/admin/addSliders")}}><span>Add Sliders</span><TfiLayoutSliderAlt/></button>
 </div>
 <PieChartComponent/>
 </div>

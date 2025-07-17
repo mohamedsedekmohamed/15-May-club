@@ -87,7 +87,7 @@ const InputArrow = ({ placeholder, value, onChange, name }) => {
       />
 
       {/* Floating Label */}
-      <label className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none transition-all duration-300 ease-in-out text-one text-sm font-normal
+      <label className="absolute left-3 top-3/5 -translate-y-1/2 pointer-events-none transition-all duration-300 ease-in-out text-one text-[18px] font-normal
         group-focus-within:top-1 group-focus-within:text-xs group-focus-within:text-one
         peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm
         px-1 bg-white

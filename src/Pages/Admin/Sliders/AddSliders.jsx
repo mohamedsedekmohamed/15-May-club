@@ -133,15 +133,16 @@ order: Number(order) ,
 order: Number(order) 
    };
 
-     if (edit && imagesChanged) {
-      const newImages = images.filter((img) => !img.id);
-      const removedImages = deletedImages;
+   if (edit && imagesChanged) {
+  const newImages = images.filter((img) => !img.id); 
+  const removedImages = deletedImages; 
 
-      newUser.images = [
-        ...newImages.map(({ image_path }) => ({ image_path })),
-        ...removedImages.map(({ id, image_path }) => ({ id, image_path })),
-      ];
-    }
+  newUser.images = [
+   ...newImages.map(({ imagePath }) => ({ imagePath })),
+        ...removedImages.map(({ id, imagePath }) => ({ id, imagePath })),
+  ];
+}
+
     
 
     const request = edit

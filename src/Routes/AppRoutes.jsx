@@ -24,7 +24,7 @@ import AllviewCompeitions from '../Pages/Admin/Compeitions/AllviewCompeitions.js
 import AddOptions from "../Pages/Admin/Votes/AddOptions.jsx"
 import Category from '../Pages/Admin/Complaints/Category.jsx'
 import AddCategory from '../Pages/Admin/Complaints/AddCategory.jsx'
-const AppRoutes = () => {
+const AppRoutes = ({setIsLoggedIn}) => {
   return (
   <Routes>
       <Route path="/" element={<Navigate to="/admin/home" />} />  
@@ -53,7 +53,7 @@ const AppRoutes = () => {
                   {/* <Route path="pending_users" element={<Pending_users />} />
                   <Route path="rejected_users" element={<Rejected_Users />} /> */}
                   <Route path="category" element={<Category />} />
-                  <Route path="logout" element={<Logout />} />
+                  <Route path="logout" element={<Logout setIsLoggedIn={setIsLoggedIn} />} />
 
           </Route>
           

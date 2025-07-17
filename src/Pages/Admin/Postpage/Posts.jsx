@@ -48,7 +48,7 @@ setData(
   response.data.data.posts.map((item) => ({
     id: item.id,
     title: item.title,
-    image: item.images[1],
+    image: item.images[0],
   }))
 );
       setLoading(false);

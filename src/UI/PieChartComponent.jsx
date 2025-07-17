@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import axios from "axios";
 
-const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#a1c9f1"];
+const COLORS = ["#876340", "#876330", "#876320", "#876310", "#876300"];
 
 const PieChartComponent = () => {
   const [data, setData] = useState([]);

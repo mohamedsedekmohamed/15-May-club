@@ -57,7 +57,7 @@ setData(
     name: item.name,
 status: item.status,
     order: item.order,
-    image: item.images[1],
+    image: item.images[0],
   }))
 );
       setLoading(false);
