@@ -153,7 +153,7 @@ const AddUser = () => {
         newUser.purpose = purpose;
       }
       if (role === "member") {
-        newUser.imagePath = imageuser;
+        newUser.imageBase64 = imageuser;
       }
     } else {
       if (password && password.length >= 8) {

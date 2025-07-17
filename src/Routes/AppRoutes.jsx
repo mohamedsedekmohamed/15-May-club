@@ -15,15 +15,15 @@ import AllPosts from '../Pages/Admin/Postpage/AllPosts.jsx'
 import Complaints from "../Pages/Admin/Complaints/Complaints.jsx";
 import Sliders from '../Pages/Admin/Sliders/Sliders.jsx';
 import AddSliders from '../Pages/Admin/Sliders/AddSliders.jsx';
-import Logout from '../Pages/Admin/Logout/Logout.jsx';
-import Pending_users from '../Pages/Admin/Pending_users/Pending_users.jsx';
-import Rejected_Users from '../Pages/Admin/Rejected_Users/Rejected_Users.jsx'
+// import Logout from '../Pages/Admin/Logout/Logout.jsx';
 import AddPages from '../Pages/Admin/Popup/AddPages'
 import AddCategories from '../Pages/Admin/Postpage/AddCategories';
 import AllviewCompeitions from '../Pages/Admin/Compeitions/AllviewCompeitions.jsx'
 import AddOptions from "../Pages/Admin/Votes/AddOptions.jsx"
 import Category from '../Pages/Admin/Complaints/Category.jsx'
 import AddCategory from '../Pages/Admin/Complaints/AddCategory.jsx'
+import Information from "../Component/Information.jsx"
+import AddInformation from "../Component/AddInformation.jsx"
 const AppRoutes = ({setIsLoggedIn}) => {
   return (
   <Routes>
@@ -50,10 +50,10 @@ const AppRoutes = ({setIsLoggedIn}) => {
                   <Route path="sliders" element={<Sliders />} />  
                   <Route path="addSliders" element={<AddSliders />} />
                   <Route path="addcategory" element={<AddCategory />} />
-                  {/* <Route path="pending_users" element={<Pending_users />} />
-                  <Route path="rejected_users" element={<Rejected_Users />} /> */}
+                   <Route path="information" element={<Information  setIsLoggedIn={setIsLoggedIn} />} />
+                   <Route path="addInformation" element={<AddInformation/>} />
                   <Route path="category" element={<Category />} />
-                  <Route path="logout" element={<Logout setIsLoggedIn={setIsLoggedIn} />} />
+                  {/* <Route path="logout" element={<Logout setIsLoggedIn={setIsLoggedIn} />} /> */}
 
           </Route>
           

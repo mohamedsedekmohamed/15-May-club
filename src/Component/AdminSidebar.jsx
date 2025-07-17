@@ -63,12 +63,12 @@ const links = [
     iconActive: <SlidersIcons active  />
   },
 
-  {
-    to: "logout",
-    name: "Logout",
-    icon: <LogOutIcon />,
-    iconActive: <LogOutIcon active  />
-  },
+  // {
+  //   to: "logout",
+  //   name: "Logout",
+  //   icon: <LogOutIcon />,
+  //   iconActive: <LogOutIcon active  />
+  // },
  
   
 ];
