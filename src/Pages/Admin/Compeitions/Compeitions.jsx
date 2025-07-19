@@ -122,8 +122,12 @@ const Competitions = () => {
           image={item.image===null ? "https://via.placeholder.com/300x180": item.image}
           title={item.name}
           description={
-            <div className="text-sm text-gray-600 space-y-1">
-              <p>{item.description}</p>
+            <div className="text-sm text-gray-600 space-y-1 ">
+<p>
+  {item.description.length > 15
+    ? `${item.description.slice(0, 15)}...`
+    : item.description}
+</p>
               <p><strong>Start:</strong> {item.start}</p>
               <p><strong>End:</strong> {item.end}</p>
             </div>

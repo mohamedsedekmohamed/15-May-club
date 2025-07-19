@@ -135,7 +135,7 @@ const AddInformation = () => {
       <div className=' flex w-full'>
 
 <h1 className='w-full text-center font-medium text-3xl text-one py-4'>Edit Admin</h1>
- <button onClick={() =>  navigate("/admin/category")}>
+ <button onClick={() =>  navigate("/admin/information")}>
           {" "}
           <GiFastBackwardButton className="text-one text-3xl" />{" "}
         </button>

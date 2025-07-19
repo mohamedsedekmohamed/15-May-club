@@ -31,7 +31,7 @@ const AddVotes = () => {
       endDate: "",
     });
  useEffect(() => {
-    if (sendData) {
+    if (sendData &&sendData !=="Options") {
       setEdit(true);
 
       const token = localStorage.getItem("token");
@@ -207,7 +207,11 @@ const AddVotes = () => {
   return (
     <div className=" mt-5">
       <ToastContainer />
-      <div className="flex justify-between px-2 ">
+      <div className="flex gap-5 px-2 ">
+         <button onClick={() => navigate("/admin/votes")}>
+          {" "}
+          <GiFastBackwardButton className="text-one text-3xl" />{" "}
+        </button>
         <span className="text-3xl font-medium text-center text-four ">
           {" "}
           Votes /<span className="text-one">
@@ -215,10 +219,7 @@ const AddVotes = () => {
             {edit ? "Edit " : "Add "}
           </span>{" "}
         </span>
-        <button onClick={() => navigate("/admin/votes")}>
-          {" "}
-          <GiFastBackwardButton className="text-one text-3xl" />{" "}
-        </button>
+       
       </div>
       <div className=" flex gap-7 flex-wrap  mt-10 pr-5 space-y-5 ">
         <InputField

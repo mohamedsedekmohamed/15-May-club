@@ -119,9 +119,9 @@ status: item.status,
   
 const columns = [
   { key: "name", label: "Name" },
-  { key: "status", label: "Status" },
   { key: "order", label: "Order" },
-    { key: "image", label: "Image" }, 
+  { key: "image", label: "Image" }, 
+  { key: "status", label: "Status" },
 
 
 ];
@@ -129,7 +129,7 @@ const columns = [
 const filteredData = data.filter((item) => {
   const query = searchQuery.toLowerCase();
 
-  const statusText = item.status === false || item.status === 0 ? "active" : "disabled";
+  const statusText = item.status === false || item.status === 0 ? "disabled" : "active";
   const matchesStatus =
     statusFilter.length === 0 || statusFilter.includes(statusText);
 
@@ -137,7 +137,7 @@ const filteredData = data.filter((item) => {
     selectedFilter === ""
       ? Object.entries(item || {}).some(([key, value]) => {
           if (key === "status") {
-            const text = value === false || value === 0 ? "active" : "disabled";
+            const text = value === false || value === 0 ? "disabled" : "active";
             return text.toLowerCase().includes(query);
           }
 

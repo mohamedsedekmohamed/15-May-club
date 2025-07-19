@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DynamicTable from '../../../Component/DynamicTable';
 import Pagination from "@mui/material/Pagination";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -19,6 +19,7 @@ const Popup = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
   const navigate = useNavigate();
+  const مocation = useLocation();
 const handleStatusFilterChange = (status) => {
   setStatusFilter((prev) =>
     prev.includes(status)
@@ -26,7 +27,9 @@ const handleStatusFilterChange = (status) => {
       : [...prev, status]
   );
 };
-
+  useEffect(() => {
+    setUpdate((prev) => !prev);
+  }, [location.pathname]);
  useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery]);
@@ -161,6 +164,31 @@ const filteredData = data.filter((item) => {
       return (
             <Loader/>
       );}
+const handleToggleStatus = (row) => {
+  const newStatus = row.status === "active" ? "disabled" : "active";
+  const token = localStorage.getItem("token");
+ const newUser = {
+      title:row.title,
+      startDate:row.startDate,
+      endDate:row.endDate,
+      status:newStatus,
+    };
+  axios
+    .put(`https://app.15may.club/api/admin/popups/${row.id}`, 
+newUser
+    , {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(() => {
+      toast.success("Status updated successfully");
+      setUpdate(prev => !prev);
+    })
+    .catch(() => {
+      toast.error("Failed to update status");
+    });
+};
 
   return (
     <div>
@@ -192,6 +220,23 @@ const filteredData = data.filter((item) => {
   columns={columns}
   rowsPerPage={rowsPerPage}
   currentPage={currentPage}
+   buttonstatus={(row) => (
+    <div className="flex gap-1">
+<td>
+  <label className="flex items-center cursor-pointer">
+    <input
+      type="checkbox"
+      checked={row.status === "active"}
+      onChange={() => handleToggleStatus(row)}
+      className="sr-only peer"
+    />
+    <div className="w-11 h-6 bg-gray-300 peer-checked:bg-green-500 rounded-full peer relative after:content-[''] after:absolute after:w-5 after:h-5 after:bg-white after:rounded-full after:left-0.5 after:top-0.5 after:transition-all peer-checked:after:translate-x-full" />
+  </label>
+</td>
+     
+
+    </div>
+  )}
   actions={(row) => (
     <div className="flex gap-1">
       <CiEdit
@@ -202,8 +247,11 @@ const filteredData = data.filter((item) => {
         className="w-[24px] h-[24px] ml-2 text-red-600 cursor-pointer"
         onClick={() => handleDelete(row.id, row.title)}
       />
+     
+
     </div>
   )}
+ 
   customRender={(key, value) =>
     key === "imagePath" ? (
       <img
@@ -238,6 +286,7 @@ const filteredData = data.filter((item) => {
 />
 
       </div>
+      <ToastContainer/>
     </div>
   )
 }

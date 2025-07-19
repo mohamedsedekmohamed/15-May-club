@@ -194,7 +194,11 @@ order: Number(order)
   return (
     <div className=" mt-5">
       <ToastContainer />
-      <div className="flex justify-between px-2 ">
+      <div className="flex gap-5 px-2 ">
+         <button onClick={() => navigate("/admin/sliders")}>
+          {" "}
+          <GiFastBackwardButton className="text-one text-3xl" />{" "}
+        </button>
         <span className="text-3xl font-medium text-center text-four ">
           {" "}
           Slider /<span className="text-one">
@@ -202,10 +206,7 @@ order: Number(order)
             {edit ? "Edit " : "Add "}
           </span>{" "}
         </span>
-        <button onClick={() => navigate("/admin/sliders")}>
-          {" "}
-          <GiFastBackwardButton className="text-one text-3xl" />{" "}
-        </button>
+       
       </div>
       <div className=" flex gap-7 flex-wrap  mt-10 px-2 space-y-5 ">
         <InputField

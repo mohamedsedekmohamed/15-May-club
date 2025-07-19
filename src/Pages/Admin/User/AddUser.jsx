@@ -223,7 +223,11 @@ const AddUser = () => {
   return (
     <div className=" mt-5 px-2">
       <ToastContainer />
-      <div className="flex justify-between  ">
+      <div className="flex gap-5 px-2 ">
+        <button className="" onClick={() => navigate("/admin/user")}>
+          {" "}
+          <GiFastBackwardButton className="text-one text-3xl" />{" "}
+        </button>
         <span className="text-3xl font-medium text-center text-four ">
           {" "}
           User /<span className="text-one">
@@ -231,10 +235,7 @@ const AddUser = () => {
             {edit ? "Edit " : "Add "}
           </span>{" "}
         </span>
-        <button className="" onClick={() => navigate("/admin/user")}>
-          {" "}
-          <GiFastBackwardButton className="text-one text-3xl" />{" "}
-        </button>
+       
       </div>
       <div className=" flex gap-7 flex-wrap  mt-10 pr-5 space-y-5 ">
         <InputField
@@ -278,7 +279,7 @@ const AddUser = () => {
             dateFormat="yyyy-MM-dd"
             className=" w-[280px]  h-[60px]  border-1  border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
             showYearDropdown
-            scrollableYearDropdown
+            scrollableYearDropdown  maxDate={new Date()}
             yearDropdownItemNumber={100}
           />
         </div>

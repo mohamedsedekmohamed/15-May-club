@@ -203,7 +203,11 @@ setCategory('')
   return (
   <div className=" mt-5">
       <ToastContainer />
-      <div className="flex justify-between px-2 ">
+      <div className="flex gap-5 px-2 ">
+         <button onClick={() => navigate("/admin/posts")}>
+          {" "}
+          <GiFastBackwardButton className="text-one text-3xl" />{" "}
+        </button>
         <span className="text-3xl font-medium text-center text-four ">
           {" "}
           Posts /<span className="text-one">
@@ -211,10 +215,7 @@ setCategory('')
             {edit ? "Edit " : "Add "}
           </span>{" "}
         </span>
-        <button onClick={() => navigate("/admin/posts")}>
-          {" "}
-          <GiFastBackwardButton className="text-one text-3xl" />{" "}
-        </button>
+       
       </div>
       <div className=" flex gap-7 flex-wrap  mt-10  space-y-5 ">
         <InputField

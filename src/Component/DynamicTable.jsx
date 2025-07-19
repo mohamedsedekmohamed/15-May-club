@@ -10,7 +10,8 @@ const DynamicTable = ({
   customRender,
   actionsviewselect,
   Seen,
-  view
+  view,
+  buttonstatus
 }) => {
   if (!data.length) {
     return (
@@ -40,6 +41,7 @@ const DynamicTable = ({
             ))}
             {Seen && <th className="py-3 text-one px-4">Seen</th>}
             {view && <th className="py-3 text-one px-4">view</th>}
+            {buttonstatus && <th className="py-3 text-one px-4">Status Actions</th>}
             {actions && <th className="py-3 text-one px-4">Actions</th>}
             {actionsstates && (
               <th className="py-3 text-one px-4">Change Status</th>
@@ -66,11 +68,15 @@ const DynamicTable = ({
                 </td>
               ))}
               {Seen && <td className="py-3 px-4">{Seen(row)}</td>}
-              {view && <td className="py-3 px-4">{view  (row)}</td>}
+              {view && <td className="py-3 px-4">{view(row)}</td>}
+                {buttonstatus && (
+                  <td className="py-3 px-4">{buttonstatus(row)}</td>
+                )}
               {actions && <td className="py-3 px-4">{actions(row)}</td>}
               {actionsstates && (
                 <td className="py-3 px-4">{actionsstates(row)}</td>
               )}
+              
               {actionsviewselect && (
                 <td className="py-3 px-4">{actionsviewselect(row)}</td>
               )}

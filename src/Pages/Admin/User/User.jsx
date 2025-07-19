@@ -69,7 +69,7 @@ const handleStatusFilterChange = (status) => {
 
 
   const handleEdit = (id) => {
-    navigate("/admin/adduser", { state: { sendData: id } });
+    navigate("/admin/addUser", { state: { sendData: id } });
   };
     const handleDelete = (userId, userName) => {
     const token = localStorage.getItem("token");
