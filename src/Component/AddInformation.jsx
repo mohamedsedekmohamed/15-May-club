@@ -7,11 +7,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Loader from '../UI/Loader';
 import { GiFastBackwardButton } from "react-icons/gi";
-
+import FileUploadButton from '../UI/FileUploadButton'
 const AddInformation = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [name, setName] = useState('');
+  const [picAdmin,setPicAdmin]=useState(null)
+  const [check,setCheck]=useState(null)
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,6 +25,9 @@ const AddInformation = () => {
     password: ''
   });
  
+  const handleFileChange = (file) => {
+    if (file) setPicAdmin(file);
+  };
   useEffect(() => {
   
       const token = localStorage.getItem('token');
@@ -36,6 +41,8 @@ const AddInformation = () => {
             setName(user.name || '');
             setPhone(user.phoneNumber || '');
             setEmail(user.email || '');
+            setPicAdmin(user.imagePath || '');
+            setCheck(user.imagePath || '');
         })
         .catch(error => {
           console.error("Error fetching user:", error);
@@ -87,6 +94,10 @@ const AddInformation = () => {
       phoneNumber:phone,
       email,
     };
+     if ( picAdmin==!check||!picAdmin.startsWith("/uploads") ) {
+        newUser.imagePath = picAdmin;
+      }
+
     if(password){
       newUser.password=password
     }
@@ -100,7 +111,8 @@ const AddInformation = () => {
           setTimeout(() => {
             navigate(-1);
           }, 3000);
-          
+        setCheck(null)  
+        setPicAdmin(null)
     setName('');
     setPhone('');
     setEmail('');
@@ -132,17 +144,17 @@ const AddInformation = () => {
   return (
     <div>
       <ToastContainer/>
-      <div className=' flex w-full'>
-
-<h1 className='w-full text-center font-medium text-3xl text-one py-4'>Edit Admin</h1>
- <button onClick={() =>  navigate("/admin/information")}>
+      <div className=' flex gap-1.5'>
+<button onClick={() =>  navigate("/admin/information")}>
           {" "}
           <GiFastBackwardButton className="text-one text-3xl" />{" "}
         </button>
+<h1 className='w-full  font-medium text-3xl text-one py-4'>Edit Admin</h1>
+ 
       </div>
       <div className="flex flex-wrap gap-6 mt-6">
         <InputField
-          placeholder="User"
+          placeholder="Admin"
           name="name"
           value={name}
           onChange={handleChange}
@@ -161,7 +173,12 @@ const AddInformation = () => {
           onChange={handleChange}
         />
        
-        
+             <FileUploadButton
+            name="Image"
+            kind="Image"
+            flag={picAdmin}
+            onFileChange={handleFileChange}
+          />
           <InputField
             placeholder="Password"
             name="password"

@@ -34,7 +34,7 @@ const Information = ({ setIsLoggedIn }) => {
         {/* Avatar */}
         <div className='flex justify-center items-center mb-4 md:mb-0 md:mr-6'>
           <img
-            src={data?.avatar_image_link ?? null}
+            src={data?.imagePath ?? null}
             className='w-32 h-32 md:w-40 md:h-40 object-cover rounded-full border'
             alt="avatar"
           />

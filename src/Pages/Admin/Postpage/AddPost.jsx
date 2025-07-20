@@ -36,7 +36,8 @@ const [images, setImages] = useState([]);
       categoryId: "",
     });
       useEffect(() => {
-    if (sendData) {
+        console.log(sendData)
+    if (sendData  && sendData!=="Posts") {
       setEdit(true);
 
       const token = localStorage.getItem("token");
@@ -104,7 +105,7 @@ const [images, setImages] = useState([]);
   
       if (!title) formErrors.title = "Title is required";  
       if(!category)formErrors.categoryId="Category is required"
-      if (!images) {
+      if (!images|| images.length===0) {
         formErrors.imageuser = "Image is required";
       }
       Object.values(formErrors).forEach((error) => {
@@ -229,7 +230,7 @@ setCategory('')
         name="posts/categories"
           value={category}
           onChange={(e)=>setCategory(e.target.value)}
-          placeholder="Select Pages"
+          placeholder="Select Categories"
         />
         <FileUploadButtonArroy
           name="Image"

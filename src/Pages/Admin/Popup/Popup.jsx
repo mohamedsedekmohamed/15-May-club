@@ -33,29 +33,40 @@ const handleStatusFilterChange = (status) => {
  useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery]);
-  useEffect(() => {
+ useEffect(() => {
   const token = localStorage.getItem("token");
-  const source = axios.CancelToken.source(); 
+  const source = axios.CancelToken.source();
 
-  const timeout = setTimeout(() => {
-    source.cancel("Request timeout after 10 seconds.");
-    setLoading(false);
-    toast.error("Request timed out. Please try again.");
-  }, 10000);
+  const fetchTwice = async () => {
+    setLoading(true);
 
-  axios
-    .get("https://app.15may.club/api/admin/popups", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      cancelToken: source.token,
-    })
-    .then((response) => {
-      clearTimeout(timeout); 
-      setData(response.data.data.popups);
+    const timeout = setTimeout(() => {
+      source.cancel("Request timeout after 10 seconds.");
       setLoading(false);
-    })
-    .catch((error) => {
+      toast.error("Request timed out. Please try again.");
+    }, 10000);
+
+    try {
+      // الطلب الأول (مش هنخزن نتيجته)
+      await axios.get("https://app.15may.club/api/admin/popups", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        cancelToken: source.token,
+      });
+
+      // الطلب الثاني (هو اللي هنعرضه)
+      const response2 = await axios.get("https://app.15may.club/api/admin/popups", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        cancelToken: source.token,
+      });
+
+      clearTimeout(timeout);
+      setData(response2.data.data.popups);
+      setLoading(false);
+    } catch (error) {
       clearTimeout(timeout);
       if (axios.isCancel(error)) {
         console.log("Request canceled:", error.message);
@@ -63,14 +74,15 @@ const handleStatusFilterChange = (status) => {
         toast.error("Error fetching data");
       }
       setLoading(false);
-    });
+    }
+  };
 
-  return () => clearTimeout(timeout); // تنظيف العداد عند الخروج
+  fetchTwice();
+
+  return () => {
+    source.cancel(); // إلغاء الطلب لو خرجنا من الصفحة
+  };
 }, [update]);
-
-//  const handleChange = (e) => {
-//     setSelectedFilter(e.target.value);
-//   };
 
 
   const handleEdit = (id) => {

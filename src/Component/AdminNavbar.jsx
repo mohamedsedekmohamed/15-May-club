@@ -24,8 +24,8 @@ const AdminNavbar = () => {
   return (
     <div className="w-full flex justify-between items-center relative">
       <div className='flex items-center gap-0.5'>
-        {data.avatar_image_link ? (
-          <img src={data.avatar_image_link} className='w-4 md:w-10 md:h-10 h-4 rounded-full' />
+        {data.imagePath ? (
+          <img src={data.imagePath??null} className='w-4 md:w-10 md:h-10 h-4 rounded-full' />
         ) : (
           <span className='w-4 md:w-10 h-4 md:h-10 bg-gray-200 rounded-full' />
         )}

@@ -300,7 +300,7 @@ const filteredData = data.filter((item) => {
                       }}
                       defaultValue="select"
                     >
-                      <option value="select">select</option>
+                      <option disabled>select</option>
                       <option value="approve">Approve</option>
                       <option value="reject">Reject</option>
                     </select>
