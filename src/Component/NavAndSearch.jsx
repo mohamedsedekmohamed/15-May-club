@@ -2,10 +2,13 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { CiSearch } from "react-icons/ci";
 import { IoMdAddCircle } from "react-icons/io";
+import { useTranslation } from "react-i18next";
 
 
 const NavAndSearch = ({nav ,searchQuery,setSearchQuery, like}) => {
     const navigate = useNavigate();
+      const { t } = useTranslation();
+    
   return (
     <div className='mt-2'><div className="flex justify-between items-center gap-3">
         <div className="relative items-center w-1/2 ">
@@ -21,7 +24,7 @@ const NavAndSearch = ({nav ,searchQuery,setSearchQuery, like}) => {
         </div>
   {!like&&(<button onClick={()=>navigate(nav)}
   className='bg-one flex gap-3 px-4 py-2 items-center rounded-2xl font-medium transition-transform hover:scale-95'> 
-    <span className=" text-[20px] lg:text-2xl text-white">Add</span>
+    <span className=" text-[20px] lg:text-2xl text-white">{t("Add")}</span>
     <IoMdAddCircle className="text-[20px] lg:text-2xl text-white" />
   </button>)}
       </div></div>

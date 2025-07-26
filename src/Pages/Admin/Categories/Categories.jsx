@@ -58,7 +58,7 @@ const Categories = () => {
   return () => clearTimeout(timeout); 
 }, [update]);
  const handleEdit = (id) => {
-    navigate("/admin/addCategories", { state: { sendData: id } });
+    navigate("/admin/addcategories", { state: { sendData: id } });
   };
    const handleDelete = (Id, userName) => {
     const token = localStorage.getItem("token");
@@ -144,7 +144,7 @@ const filteredData = data.filter((item) => {
       );}
   return (
     <div>
-      <NavAndSearch nav="/admin/addCategories" searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+      <NavAndSearch nav="/admin/addcategories" searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
 
 
      

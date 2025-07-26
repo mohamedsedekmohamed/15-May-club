@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "../Pages/Admin/Home/Home.jsx";
 import User from "../Pages/Admin/User/User.jsx";
@@ -7,24 +7,49 @@ import AdminLayout from "../Layouts/AdminLayout.jsx";
 import Addcompetitions from "../Pages/Admin/Compeitions/AddCompeitions.jsx";
 import Competitions from "../Pages/Admin/Compeitions/Compeitions.jsx"; 
 import Popup from "../Pages/Admin/Popup/Popup.jsx";
-import AllPopup from "../Pages/Admin/Popup/AllPopup.jsx";
+import AddPopuo from "../Pages/Admin/Popup/Addpopup.jsx";
+import Pages from '../Pages/Admin/Pages/Pages.jsx'
 import Votes from "../Pages/Admin/Votes/Votes.jsx";
-import AllVotes from "../Pages/Admin/Votes/AllVotes.jsx";
+import AddVotes from "../Pages/Admin/Votes/AddVotes.jsx";
 import Poats from '../Pages/Admin/Postpage/Posts.jsx';
-import AllPosts from '../Pages/Admin/Postpage/AllPosts.jsx'
 import Complaints from "../Pages/Admin/Complaints/Complaints.jsx";
 import Sliders from '../Pages/Admin/Sliders/Sliders.jsx';
 import AddSliders from '../Pages/Admin/Sliders/AddSliders.jsx';
-// import Logout from '../Pages/Admin/Logout/Logout.jsx';
-import AddPages from '../Pages/Admin/Popup/AddPages'
-import AddCategories from '../Pages/Admin/Postpage/AddCategories';
+import Options from '../Pages/Admin/Options/Options.jsx';
+import AddPages from '../Pages/Admin/Pages/AddPages.jsx'
+import Categories from '../Pages/Admin/Categories/Categories.jsx';
+import AddCategories from '../Pages/Admin/Categories/AddCategories.jsx';
 import AllviewCompeitions from '../Pages/Admin/Compeitions/AllviewCompeitions.jsx'
-import AddOptions from "../Pages/Admin/Votes/AddOptions.jsx"
+import AddOptions from "../Pages/Admin/Options/AddOptions.jsx"
 import Category from '../Pages/Admin/Complaints/Category.jsx'
 import AddCategory from '../Pages/Admin/Complaints/AddCategory.jsx'
 import Information from "../Component/Information.jsx"
 import AddInformation from "../Component/AddInformation.jsx"
+import AddPost from '../Pages/Admin/Postpage/AddPost.jsx';
+import { useTranslation } from 'react-i18next';
+import '../translation/i18n'; 
 const AppRoutes = ({setIsLoggedIn}) => {
+       const {  i18n } = useTranslation();
+useEffect(() => {
+  const storedLang = localStorage.getItem('language');
+  const browserLang = navigator.language.startsWith('ar') ? 'ar' : 'en';
+  const langToUse = storedLang || browserLang;
+
+  if (i18n.language !== langToUse) {
+    i18n.changeLanguage(langToUse);
+  }
+
+  // حفظ اللغة المختارة
+  if (!storedLang) {
+    localStorage.setItem('language', langToUse);
+  }
+
+  // ✅ تغيير الاتجاه حسب اللغة
+  document.body.dir = langToUse === 'ar' ? 'rtl' : 'ltr';
+
+}, []);
+  
+
   return (
   <Routes>
       <Route path="/" element={<Navigate to="/admin/home" />} />  
@@ -37,15 +62,23 @@ const AppRoutes = ({setIsLoggedIn}) => {
                   <Route path="competitions" element={<Competitions />} />
                   <Route path="addCompetitions" element={<Addcompetitions />} />
                   <Route path="viewcompeitions" element={<AllviewCompeitions />} />
+
                   <Route path="popup" element={<Popup />} />
-                  <Route path="allpopup" element={<AllPopup />} />
-                  <Route path="addCategories" element={<AddCategories />} />
+                  <Route path="addpopup" element={<AddPopuo />} />
+                  <Route path="pages" element={<Pages />} />
+                  
+                  <Route path="addcategories" element={<AddCategories />} />
+                  <Route path="categories" element={<Categories />} />
                   <Route path="addpages" element={<AddPages />} />
                   <Route path="votes" element={<Votes />} />
+
+                  <Route path="options" element={<Options />} />
                   <Route path="addoptions" element={<AddOptions />} />
-                  <Route path="allvotes" element={<AllVotes />} />
+                  <Route path="addvotes" element={<AddVotes />} />
+
                   <Route path="posts" element={<Poats />} />
-                  <Route path="allPosts" element={<AllPosts />} />
+                  <Route path="addpost" element={<AddPost />} />
+
                   <Route path="complaints" element={<Complaints />} />  
                   <Route path="sliders" element={<Sliders />} />  
                   <Route path="addSliders" element={<AddSliders />} />
@@ -53,7 +86,6 @@ const AppRoutes = ({setIsLoggedIn}) => {
                    <Route path="information" element={<Information  setIsLoggedIn={setIsLoggedIn} />} />
                    <Route path="addInformation" element={<AddInformation/>} />
                   <Route path="category" element={<Category />} />
-                  {/* <Route path="logout" element={<Logout setIsLoggedIn={setIsLoggedIn} />} /> */}
 
           </Route>
           

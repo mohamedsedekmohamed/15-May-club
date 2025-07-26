@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const DynamicTable = ({
   data = [],
@@ -13,6 +14,8 @@ const DynamicTable = ({
   view,
   buttonstatus
 }) => {
+  const { t } = useTranslation();
+
   if (!data.length) {
     return (
       <div className="mt-6 text-center text-gray-500">No data available</div>
@@ -39,16 +42,13 @@ const DynamicTable = ({
                 {col.label}
               </th>
             ))}
-            {Seen && <th className="py-3 text-one px-4">Seen</th>}
-            {view && <th className="py-3 text-one px-4">view</th>}
-            {buttonstatus && <th className="py-3 text-one px-4">Status Actions</th>}
-            {actions && <th className="py-3 text-one px-4">Actions</th>}
-            {actionsstates && (
-              <th className="py-3 text-one px-4">Change Status</th>
-            )}
-            {actionsviewselect && (
-              <th className="py-3 text-one px-4">Options</th>
-            )}
+       {Seen && <th className="py-3 text-one px-4">{t("seen")}</th>}
+{view && <th className="py-3 text-one px-4">{t("view")}</th>}
+{buttonstatus && <th className="py-3 text-one px-4">{t("button_status")}</th>}
+{actions && <th className="py-3 text-one px-4">{t("actions")}</th>}
+{actionsstates && <th className="py-3 text-one px-4">{t("actions_states")}</th>}
+{actionsviewselect && <th className="py-3 text-one px-4">{t("actions_view_select")}</th>}
+
           </tr>
         </thead>
         <tbody>

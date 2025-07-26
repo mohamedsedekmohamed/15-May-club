@@ -2,11 +2,16 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { IoIosArrowDown } from "react-icons/io";
+import '../translation/i18n'
+import { GrLanguage } from "react-icons/gr";
 
 const AdminNavbar = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
+    const { t, i18n } = useTranslation();
 
   useEffect(() => {
     axios.get("https://app.15may.club/api/admin/profile", {
@@ -19,6 +24,13 @@ const AdminNavbar = () => {
       });
   }, []);
 
+const handleLanguage = (event) => {
+  const newLang = event.target.value;
+  i18n.changeLanguage(newLang);
+  localStorage.setItem('language', newLang);
+  
+    document.body.dir = newLang === 'ar' ? 'rtl' : 'ltr';
+};
 
 
   return (
@@ -40,9 +52,19 @@ const AdminNavbar = () => {
         <button onClick={() => navigate('/admin/information')}>
           <IoPersonCircleSharp className='text-[12px] md:text-2xl text-one' />
         </button>
-
+  <select
+  onChange={handleLanguage}
+  value={i18n.language}
+  className="flex gap-1 items-center justify-center bg-one text-white"
+>
+            <GrLanguage />
+            <option className='pb-1' value='ar'>AR</option> 
+            <option className='pb-1 ' value='en'>EN</option> 
+            <IoIosArrowDown />
+          </select>
       </div>
- 
+  
+  
 
 
     </div>

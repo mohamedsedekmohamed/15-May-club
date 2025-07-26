@@ -3,17 +3,20 @@ import Loader from "../../../UI/Loader";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import PieChartComponent from '../../../UI/PieChartComponent'
+import PieChartComponent from "../../../UI/PieChartComponent";
 import { useNavigate } from "react-router-dom";
 import { BsPostageFill } from "react-icons/bs";
 import { AiOutlinePicture } from "react-icons/ai";
 import { TfiLayoutSliderAlt } from "react-icons/tfi";
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
+  const { t } = useTranslation();
   const [data, setData] = useState({});
   const [supdata, setSupData] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
   useEffect(() => {
     const token = localStorage.getItem("token");
 
@@ -37,14 +40,14 @@ const Home = () => {
           }))
         );
       } catch (error) {
-        toast.error("Failed to fetch dashboard data");
+        toast.error(t("dashboard.fetch_error"));
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [t]);
 
   if (loading) return <Loader />;
 
@@ -52,12 +55,12 @@ const Home = () => {
     <div className="w-full flex flex-col gap-5">
       <div className="flex flex-wrap gap-5 px-5 pt-5">
         {[
-          { label: "User", value: data.userCount },
-          { label: "Complaint", value: data.complaintCount },
-          { label: "Competitions", value: data.competitionsCount },
-          { label: "Votes", value: data.votesCount },
-          { label: "Posts", value: data.postsCount },
-          { label: "Popups", value: data.popupsCount },
+          { label: t("dashboard.user"), value: data.userCount },
+          { label: t("dashboard.complaint"), value: data.complaintCount },
+          { label: t("dashboard.competitions"), value: data.competitionsCount },
+          { label: t("dashboard.votes"), value: data.votesCount },
+          { label: t("dashboard.posts"), value: data.postsCount },
+          { label: t("dashboard.popups"), value: data.popupsCount },
         ].map((item, index) => (
           <div
             key={index}
@@ -68,24 +71,52 @@ const Home = () => {
           </div>
         ))}
       </div>
-<div className="flex flex-col md:flex-row justify-center items-center gap-3">
-<div className="flex flex-col items-center gap-10 px-2 text-white w-full">
-<button className="bg-one w-full rounded-4xl py-4 flex gap-2 justify-center items-center hover:bg-one/90 " onClick={()=>{navigate("/admin/allPosts")}}><span>Add Posts</span><BsPostageFill/></button>
-<button className="bg-one w-full rounded-4xl py-4 flex gap-2 justify-center items-center hover:bg-one/90 " onClick={()=>{navigate("/admin/allpopup")}}><span>Add Popup</span><AiOutlinePicture/></button>
-<button className="bg-one w-full rounded-4xl py-4 flex gap-2 justify-center items-center hover:bg-one/90 " onClick={()=>{navigate("/admin/addSliders")}}><span>Add Sliders</span><TfiLayoutSliderAlt/></button>
-</div>
-<PieChartComponent/>
-</div>
+
+      <div className="flex flex-col md:flex-row justify-center items-center gap-3">
+        <div className="flex flex-col items-center gap-10 px-2 text-white w-full">
+          <button
+            className="bg-one w-full rounded-4xl py-4 flex gap-2 justify-center items-center hover:bg-one/90"
+            onClick={() => {
+              navigate("/admin/allPosts");
+            }}
+          >
+            <span>{t("dashboard.add_posts")}</span>
+            <BsPostageFill />
+          </button>
+          <button
+            className="bg-one w-full rounded-4xl py-4 flex gap-2 justify-center items-center hover:bg-one/90"
+            onClick={() => {
+              navigate("/admin/allpopup");
+            }}
+          >
+            <span>{t("dashboard.add_popup")}</span>
+            <AiOutlinePicture />
+          </button>
+          <button
+            className="bg-one w-full rounded-4xl py-4 flex gap-2 justify-center items-center hover:bg-one/90"
+            onClick={() => {
+              navigate("/admin/addSliders");
+            }}
+          >
+            <span>{t("dashboard.add_sliders")}</span>
+            <TfiLayoutSliderAlt />
+          </button>
+        </div>
+        <PieChartComponent />
+      </div>
+
       <div className="px-5">
-        <h2 className="text-xl font-semibold text-one mb-2">Rejected Users</h2>
+        <h2 className="text-xl font-semibold text-one mb-2">{t("dashboard.rejected_users")}</h2>
         {supdata.length > 0 ? (
           supdata.map((data, index) => (
             <div key={index} className="my-2 bg-three p-3 text-sm text-gray-700">
-              <span>{data.name} - {data.rejectionReason} - {data.rejectDate}</span>
+              <span>
+                {data.name} - {data.rejectionReason} - {data.rejectDate}
+              </span>
             </div>
           ))
         ) : (
-          <p className="text-gray-500 text-sm">No rejected users found.</p>
+          <p className="text-gray-500 text-sm">{t("dashboard.no_rejected_users")}</p>
         )}
       </div>
     </div>

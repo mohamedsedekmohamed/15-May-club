@@ -12,7 +12,7 @@ const showOptions = ({options}) => {
       <div className="space-y-2 text-right">
         {options.map((opt) => (
           <div key={opt.id} className="p-2 bg-gray-100 rounded-lg shadow text-gray-700">
-            {opt.text}
+            {opt.text} 
           </div>
         ))}
       </div>

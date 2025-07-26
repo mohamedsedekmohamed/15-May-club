@@ -48,6 +48,7 @@ setData(
   response.data.data.posts.map((item) => ({
     id: item.id,
     title: item.title,
+    category: item.category,
     image: item.images[0],
   }))
 );
@@ -65,7 +66,7 @@ setData(
   return () => clearTimeout(timeout); 
 }, [update]);
  const handleEdit = (id) => {
-    navigate("/admin/allPosts", { state: { sendData: id } });
+    navigate("/admin/addpost", { state: { sendData: id } });
   };
      const handleDelete = (userId, userName) => {
     const token = localStorage.getItem("token");
@@ -110,6 +111,7 @@ setData(
   
 const columns = [
   { key: "title", label: "Title" },
+  { key: "category", label: "Category" },
     { key: "image", label: "Image" }, 
 
 
@@ -160,7 +162,7 @@ const filteredData = data.filter((item) => {
 
   return  (
     <div>
-      <NavAndSearch nav="/admin/allPosts" searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+      <NavAndSearch nav="/admin/addpost" searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
 
 
      

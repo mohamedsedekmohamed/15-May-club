@@ -86,7 +86,7 @@ const handleStatusFilterChange = (status) => {
 
 
   const handleEdit = (id) => {
-    navigate("/admin/allpopup", { state: { sendData: id  } });
+    navigate("/admin/addpopup", { state: { sendData: id  } });
   };
     const handleDelete = (Id, userName) => {
     const token = localStorage.getItem("token");
@@ -204,7 +204,7 @@ newUser
 
   return (
     <div>
-      <NavAndSearch nav="/admin/allpopup" searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+      <NavAndSearch nav="/admin/addpopup" searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
   <div className="flex gap-4 justify-end flex-wrap mt-4 mb-2 px-4">
   {[
     { label: "Active", value: "active", color: "text-one" },

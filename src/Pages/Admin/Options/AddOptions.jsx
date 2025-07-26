@@ -8,7 +8,7 @@ import InputField from "../../../UI/InputField";
 import Loader from "../../../UI/Loader";
 import { GiFastBackwardButton } from "react-icons/gi";
 
-const AddPages = () => {
+const AddOptions = () => {
       const navigate = useNavigate();
       const location = useLocation();
       const { sendData } = location.state || {};
@@ -25,15 +25,15 @@ const AddPages = () => {
 
       const token = localStorage.getItem("token");
       axios
-        .get(`https://app.15may.club/api/admin/popups/apppages/${sendData}`, {
+        .get(`https://app.15may.club/api/admin/votes/items/${sendData}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((response) => {
-          const item = response.data.data.page;
+          const item = response.data.data.option;
           if (item) {
-            setName(item.name || "");
+            setName(item.item || "");
           
           }
         })
@@ -73,13 +73,13 @@ const AddPages = () => {
 
     const token = localStorage.getItem("token");
     const newUser = {
-      name,
+      item:name,
     };
 
   
     const request = edit
       ? axios.put(
-          `https://app.15may.club/api/admin/popups/apppages/${sendData}`,
+          `https://app.15may.club/api/admin/votes/items/${sendData}`,
           newUser,
           {
             headers: {
@@ -87,7 +87,7 @@ const AddPages = () => {
             },
           }
         )
-      : axios.post("https://app.15may.club/api/admin/popups/apppages", newUser, {
+      : axios.post("https://app.15may.club/api/admin/votes/items", newUser, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -95,9 +95,9 @@ const AddPages = () => {
 
     request
       .then(() => {
-        toast.success(`Pages ${edit ? "updated" : "added"} successfully`);
+        toast.success(`Options ${edit ? "updated" : "added"} successfully`);
         setTimeout(() => {
-    navigate("/admin/allpopup", { state: { sendData: "page" } });
+    navigate("/admin/options", { state: { sendData: "Options" } });
         }, 3000);
 
         setName("");
@@ -130,19 +130,19 @@ const AddPages = () => {
   <div className=" mt-5">
       <ToastContainer />
       <div className="flex gap-5 px-2 ">
-       <button onClick={() =>  navigate("/admin/allpopup", { state: { sendData: "page" } })}>
+        <button onClick={() =>  navigate("/admin/options", { state: { sendData: "Options" } })}>
           {" "}
           <GiFastBackwardButton className="text-one text-3xl" />{" "}
         </button>
         <span className="text-3xl font-medium text-center text-four ">
           {" "}
-          Page /<span className="text-one">
+          Options /<span className="text-one">
             {" "}
             {edit ? "Edit " : "Add "}
           </span>{" "}
         </span>
 
-       
+        
       </div>
       <div className=" flex gap-7 flex-wrap  mt-10 pr-5 space-y-5 ">
         <InputField
@@ -168,4 +168,4 @@ const AddPages = () => {
     </div>  )
 }
 
-export default AddPages
+export default AddOptions

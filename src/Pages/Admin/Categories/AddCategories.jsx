@@ -8,8 +8,8 @@ import InputField from "../../../UI/InputField";
 import Loader from "../../../UI/Loader";
 import { GiFastBackwardButton } from "react-icons/gi";
 
-const AddOptions = () => {
-      const navigate = useNavigate();
+const AddCategories = () => {
+  const navigate = useNavigate();
       const location = useLocation();
       const { sendData } = location.state || {};
       const [edit, setEdit] = useState(false);
@@ -25,15 +25,15 @@ const AddOptions = () => {
 
       const token = localStorage.getItem("token");
       axios
-        .get(`https://app.15may.club/api/admin/votes/items/${sendData}`, {
+        .get(`https://app.15may.club/api/admin/posts/categories/${sendData}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((response) => {
-          const item = response.data.data.option;
+          const item = response.data.data.category;
           if (item) {
-            setName(item.item || "");
+            setName(item.name || "");
           
           }
         })
@@ -73,13 +73,13 @@ const AddOptions = () => {
 
     const token = localStorage.getItem("token");
     const newUser = {
-      item:name,
+      name,
     };
 
   
     const request = edit
       ? axios.put(
-          `https://app.15may.club/api/admin/votes/items/${sendData}`,
+          `https://app.15may.club/api/admin/posts/categories/${sendData}`,
           newUser,
           {
             headers: {
@@ -87,7 +87,7 @@ const AddOptions = () => {
             },
           }
         )
-      : axios.post("https://app.15may.club/api/admin/votes/items", newUser, {
+      : axios.post("https://app.15may.club/api/admin/posts/categories", newUser, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -95,9 +95,9 @@ const AddOptions = () => {
 
     request
       .then(() => {
-        toast.success(`Options ${edit ? "updated" : "added"} successfully`);
+        toast.success(`Categories ${edit ? "updated" : "added"} successfully`);
         setTimeout(() => {
-    navigate("/admin/allvotes", { state: { sendData: "Options" } });
+    navigate("/admin/categories", { state: { sendData: "Posts" } });
         }, 3000);
 
         setName("");
@@ -130,19 +130,19 @@ const AddOptions = () => {
   <div className=" mt-5">
       <ToastContainer />
       <div className="flex gap-5 px-2 ">
-        <button onClick={() =>  navigate("/admin/allvotes", { state: { sendData: "Options" } })}>
+           <button onClick={() =>  navigate("/admin/categories")}>
           {" "}
           <GiFastBackwardButton className="text-one text-3xl" />{" "}
         </button>
         <span className="text-3xl font-medium text-center text-four ">
           {" "}
-          Options /<span className="text-one">
+          Categories /<span className="text-one">
             {" "}
             {edit ? "Edit " : "Add "}
           </span>{" "}
         </span>
 
-        
+    
       </div>
       <div className=" flex gap-7 flex-wrap  mt-10 pr-5 space-y-5 ">
         <InputField
@@ -168,4 +168,4 @@ const AddOptions = () => {
     </div>  )
 }
 
-export default AddOptions
+export default AddCategories

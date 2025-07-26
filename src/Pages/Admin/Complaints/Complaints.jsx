@@ -211,12 +211,12 @@ const onClose=()=>{
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
       />
-      <div className="flex px-1 mt-5 justify-between">
+      <div className="flex px-1 mt-5 justify-end">
 
-        <button onClick={()=>navigate("/admin/category")} className="flex gap-1 bg-one text-[16px] px-1 rounded-3xl text-white  items-center justify-center w-50 h-15 hover:bg-one/90 "> 
+        {/* <button onClick={()=>navigate("/admin/category")} className="flex gap-1 bg-one text-[16px] px-1 rounded-3xl text-white  items-center justify-center w-50 h-15 hover:bg-one/90 "> 
            <button     className=" "> Add Category</button>
          <span className="text-2xl">+</span>
-        </button>
+        </button> */}
          <div className="flex gap-4 justify-end flex-wrap mt-4 mb-2 px-4">
         {[
           { label: "Seen", value: "Seen", color: "text-one" },

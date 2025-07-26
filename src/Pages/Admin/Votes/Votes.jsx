@@ -66,7 +66,7 @@ const Votes = () => {
 }, [update]);
 
   const handleEdit = (id) => {
-    navigate("/admin/allvotes", { state: { sendData: id } });
+    navigate("/admin/addvotes", { state: { sendData: id } });
   };
     const handleDelete = (userId, userName) => {
     const token = localStorage.getItem("token");
@@ -146,7 +146,7 @@ const filteredData = data.filter((item) => {
   { key: "maxSelections", label: "Max Selections" },
   { key: "startDate", label: "Start Date " },
   { key: "endDate", label: "End Date" },
-  { key: "votesCount", label: "votes Count " },
+  { key: "votesCount", label: "Votes Count " },
 ];
    if (loading) {
       return (
@@ -156,7 +156,7 @@ const filteredData = data.filter((item) => {
 
   return (
  <div>
-      <NavAndSearch nav="/admin/allvotes" searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+      <NavAndSearch nav="/admin/addvotes" searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
     <DynamicTable
         data={paginatedData}
         columns={columns}
@@ -176,7 +176,7 @@ const filteredData = data.filter((item) => {
         )}
       actionsviewselect={(row) => (
   <button
-    onClick={() => ShowOptions({ options: row.options })}
+    onClick={() => ShowOptions({ options: row.id })}
     className="bg-one/90 text-white px-4 py-2  rounded-2xl text-[12px] hover:bg-one  "
   >
 View Options  </button>

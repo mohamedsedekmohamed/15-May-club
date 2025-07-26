@@ -8,37 +8,26 @@ function App() {
     const stored = sessionStorage.getItem("isLoggedIn");
     return stored === "true";
   });
-    useEffect(() => {
-    sessionStorage.setItem('isLoggedIn', isLoggedIn ? 'true' : 'false');
-  }, [isLoggedIn ]);
+  useEffect(() => {
+    sessionStorage.setItem("isLoggedIn", isLoggedIn ? "true" : "false");
+  }, [isLoggedIn]);
 
   return (
     <div className=" h-screen overflow-x-hidden  bg-gray-50">
-      
       <BrowserRouter>
         <Routes>
           {!isLoggedIn ? (
             <>
-             <Route
-                path="/"
-                element={<LandPage  />}
-              />
+              <Route path="/" element={<LandPage />} />
               <Route
                 path="/login"
-                element={
-                  <Login
-                    setIsLoggedIn={setIsLoggedIn}
-                  />
-                }/>
-                  <Route
-                path="/*"
-                element={<LandPage  />}
+                element={<Login setIsLoggedIn={setIsLoggedIn} />}
               />
+              <Route path="/*" element={<LandPage />} />
             </>
           ) : (
             <>
-           
-            <Route
+              <Route
                 path="/*"
                 element={<AppRoutes setIsLoggedIn={setIsLoggedIn} />}
               />

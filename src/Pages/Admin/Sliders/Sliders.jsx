@@ -69,7 +69,7 @@ status: item.status,
       } else {
         toast.error("Error fetching data");
       }
-      setLoading(false);
+        setLoading(false);
     });
   return () => clearTimeout(timeout); 
 }, [update]);
@@ -121,7 +121,7 @@ const columns = [
   { key: "name", label: "Name" },
   { key: "order", label: "Order" },
   { key: "image", label: "Image" }, 
-  { key: "status", label: "Status" },
+  // { key: "status", label: "Status" },
 
 
 ];
@@ -170,6 +170,29 @@ const filteredData = data.filter((item) => {
     currentPage * rowsPerPage
   );
  
+  const handleToggleStatus = (row) => {
+  const newStatus = row.status ? "disabled" : "active";
+  const token = localStorage.getItem("token");
+ const newUser = {
+      status:newStatus,
+    };
+  axios
+    .patch(`https://app.15may.club/api/admin/sliders/${row.id}/status`, 
+newUser
+    , {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(() => {
+      toast.success("Status updated successfully");
+      setUpdate(prev => !prev);
+    })
+    .catch(() => {
+      toast.error("Failed to update status");
+    });
+};
+
    if (loading) {
       return (
         <Loader/>
@@ -177,6 +200,7 @@ const filteredData = data.filter((item) => {
 
   return  (
     <div>
+      <ToastContainer/> 
       <NavAndSearch nav="/admin/addSliders" searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
    <div className="flex gap-4 justify-end flex-wrap mt-4 mb-2 px-4">
   {[
@@ -205,6 +229,23 @@ const filteredData = data.filter((item) => {
   columns={columns}
   rowsPerPage={rowsPerPage}
   currentPage={currentPage}
+    buttonstatus={(row) => (
+    <div className="flex gap-1">
+<td>
+  <label className="flex items-center cursor-pointer">
+    <input
+      type="checkbox"
+      checked={row.status}
+      onChange={() => handleToggleStatus(row)}
+      className="sr-only peer"
+    />
+    <div className="w-11 h-6 bg-gray-300 peer-checked:bg-green-500 rounded-full peer relative after:content-[''] after:absolute after:w-5 after:h-5 after:bg-white after:rounded-full after:left-0.5 after:top-0.5 after:transition-all peer-checked:after:translate-x-full" />
+  </label>
+</td>
+     
+
+    </div>
+  )}
   actions={(row) => (
     <div className="flex gap-1">
       <CiEdit

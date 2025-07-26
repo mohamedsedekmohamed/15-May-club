@@ -8,8 +8,8 @@ import InputField from "../../../UI/InputField";
 import Loader from "../../../UI/Loader";
 import { GiFastBackwardButton } from "react-icons/gi";
 
-const AddCategories = () => {
-  const navigate = useNavigate();
+const AddPages = () => {
+      const navigate = useNavigate();
       const location = useLocation();
       const { sendData } = location.state || {};
       const [edit, setEdit] = useState(false);
@@ -25,13 +25,13 @@ const AddCategories = () => {
 
       const token = localStorage.getItem("token");
       axios
-        .get(`https://app.15may.club/api/admin/posts/categories/${sendData}`, {
+        .get(`https://app.15may.club/api/admin/popups/apppages/${sendData}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         .then((response) => {
-          const item = response.data.data.category;
+          const item = response.data.data.page;
           if (item) {
             setName(item.name || "");
           
@@ -79,7 +79,7 @@ const AddCategories = () => {
   
     const request = edit
       ? axios.put(
-          `https://app.15may.club/api/admin/posts/categories/${sendData}`,
+          `https://app.15may.club/api/admin/popups/apppages/${sendData}`,
           newUser,
           {
             headers: {
@@ -87,7 +87,7 @@ const AddCategories = () => {
             },
           }
         )
-      : axios.post("https://app.15may.club/api/admin/posts/categories", newUser, {
+      : axios.post("https://app.15may.club/api/admin/popups/apppages", newUser, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -95,9 +95,9 @@ const AddCategories = () => {
 
     request
       .then(() => {
-        toast.success(`Categories ${edit ? "updated" : "added"} successfully`);
+        toast.success(`Pages ${edit ? "updated" : "added"} successfully`);
         setTimeout(() => {
-    navigate("/admin/allposts", { state: { sendData: "Posts" } });
+    navigate("/admin/pages", { state: { sendData: "page" } });
         }, 3000);
 
         setName("");
@@ -130,19 +130,19 @@ const AddCategories = () => {
   <div className=" mt-5">
       <ToastContainer />
       <div className="flex gap-5 px-2 ">
-           <button onClick={() =>  navigate("/admin/allposts", { state: { sendData: "Posts" } })}>
+       <button onClick={() =>  navigate("/admin/pages", { state: { sendData: "page" } })}>
           {" "}
           <GiFastBackwardButton className="text-one text-3xl" />{" "}
         </button>
         <span className="text-3xl font-medium text-center text-four ">
           {" "}
-          Categories /<span className="text-one">
+          Page /<span className="text-one">
             {" "}
             {edit ? "Edit " : "Add "}
           </span>{" "}
         </span>
 
-    
+       
       </div>
       <div className=" flex gap-7 flex-wrap  mt-10 pr-5 space-y-5 ">
         <InputField
@@ -168,4 +168,4 @@ const AddCategories = () => {
     </div>  )
 }
 
-export default AddCategories
+export default AddPages

@@ -97,6 +97,7 @@ const [images, setImages] = useState([]);
     if (!name) formErrors.name = "Name is required";
 
     if (!order) formErrors.order = "Order Date is required";
+    if (order && order<0) formErrors.order = "Order Date is only positive";
 
     if (!images) {
       formErrors.imageuser = "Image is required";

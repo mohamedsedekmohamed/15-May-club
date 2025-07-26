@@ -32,7 +32,7 @@ function Login({ setIsLoggedIn }) {
       }, 3000);
     } else {
       toast.error('Unauthorized access');
-    }
+    } 
   } catch {
     toast.error('Connection failed');
   }
