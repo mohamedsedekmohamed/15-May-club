@@ -33,10 +33,17 @@ const AdminSidebar = ({ setIsOpen, isOpen }) => {
       name: t("sidebar.popups"),
       icon: <PopupIcon />,
       iconActive: <PopupIcon active />,
-      subLinks: [
-        { to: "pages", name: t("sidebar.pages") },
-      ]
+     
     },
+    // {
+    //   to: "popup",
+    //   name: t("sidebar.popups"),
+    //   icon: <PopupIcon />,
+    //   iconActive: <PopupIcon active />,
+    //   subLinks: [
+    //     { to: "pages", name: t("sidebar.pages") },
+    //   ]
+    // },
     {
       to: "votes",
       name: t("sidebar.votes"),
@@ -90,7 +97,7 @@ const AdminSidebar = ({ setIsOpen, isOpen }) => {
       '/admin/viewcompeitions': '/admin/competitions',
       '/admin/addcategory': '/admin/category',
       '/admin/addpopup': '/admin/popup',
-      '/admin/addpages': '/admin/popup',
+      '/admin/addpages': '/admin/pages',
       '/admin/addvotes': '/admin/votes',
       '/admin/addoptions': '/admin/options',
       '/admin/addpost': '/admin/posts',
@@ -135,7 +142,7 @@ const AdminSidebar = ({ setIsOpen, isOpen }) => {
     links.map((link) => {
       const isCurrent = isActive === `/admin/${link.to}`;
       const isSubActive = link.subLinks?.some(sub => isActive === `/admin/${sub.to}`);
-      const isActiveParent = isCurrent || isSubActive;
+const isActiveParent = isCurrent;
       const isOpenMenu = openMenus[link.name] || false;
 
       if (link.subLinks) {

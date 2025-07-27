@@ -10,6 +10,7 @@ import NavAndSearch from '../../../Component/NavAndSearch';
 import { CiSearch, CiEdit } from "react-icons/ci";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Loader from "../../../UI/Loader";
+import { useTranslation } from "react-i18next";
 
 const Category = () => {
   const [data, setData] = useState([]);
@@ -18,7 +19,8 @@ const Category = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
   const navigate = useNavigate();
-
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === "ar";
 
  useEffect(() => {
     setCurrentPage(1);
@@ -77,11 +79,11 @@ setData(
     const token = localStorage.getItem("token");
 
     Swal.fire({
-      title: `Are you sure you want to delete ${userName}?`,
+      title: t("AreYouSureDelete", { name: userName }),
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Yes",
-      cancelButtonText: "No",
+        confirmButtonText: t("Yes"),
+      cancelButtonText: t("No"),
     }).then((result) => {
       if (result.isConfirmed) {
         axios
@@ -95,29 +97,23 @@ setData(
           )
           .then(() => {
             setUpdate(!update);
-            Swal.fire(
-              "Deleted!",
-              `${userName} has been deleted successfully.`,
-              "success"
-            );
+                     Swal.fire(t("Deleted"), t("DeletedSuccessfully", { name: userName }), "success");
+         
           })
           .catch(() => {
-            Swal.fire(
-              "Error!",
-              `There was an error while deleting ${userName}.`,
-              "error"
-            );
+                    Swal.fire(t("Error"), t("ErrorWhileDeleting", { name: userName }), "error");
+        
           });
       } else {
-        Swal.fire("Cancelled", `${userName} was not deleted.`, "info");
+        Swal.fire(t("Cancelled"), t("NotDeleted", { name: userName }), "info");
       }
     });
   };
 
 
 const columns = [
-  { key: "name", label: "Name" },
-  { key: "description", label: "Description" },
+  { key: "name", label: t("Name") },
+  { key: "description", label: t("Description") },
 
 ];
 
@@ -172,7 +168,7 @@ const filteredData = data.filter((item) => {
   rowsPerPage={rowsPerPage}
   currentPage={currentPage}
   actions={(row) => (
-    <div className="flex gap-1">
+          <div className={`flex gap-1 ${isRTL?"justify-end":" justify-start"} `}>
       <CiEdit
         className="w-[24px] h-[24px] text-green-600 cursor-pointer"
         onClick={() => handleEdit(row.id)}

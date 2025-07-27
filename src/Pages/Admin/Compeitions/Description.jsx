@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../../UI/Loader";
+import { useTranslation } from "react-i18next";
 
 const Description = ({ID}) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+      const { t, i18n } = useTranslation();
+      const isRTL = i18n.language === "ar";
    useEffect(() => {
     const token = localStorage.getItem("token");
     const source = axios.CancelToken.source();
@@ -54,7 +57,7 @@ const Description = ({ID}) => {
         alt="Image"
         className="w-24 h-24 object-cover rounded-xl"
       />
-      <div className="flex flex-col justify-start text-left">
+      <div className={`flex flex-col ${isRTL?"right-left":"text-left"} justify-start `}>
         <h2 className="text-lg font-semibold text-gray-800 mb-1">{data.name}</h2>
         <p className="text-sm text-gray-600 leading-relaxed">
 {data.description}

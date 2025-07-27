@@ -7,8 +7,11 @@ import { useNavigate, useLocation } from "react-router-dom";
 import InputField from "../../../UI/InputField";
 import Loader from "../../../UI/Loader";
 import { GiFastBackwardButton } from "react-icons/gi";
+import { useTranslation } from "react-i18next";
 
 const AddPages = () => {
+  const { t, i18n } = useTranslation();
+    const isRTL = i18n.language === "ar"
       const navigate = useNavigate();
       const location = useLocation();
       const { sendData } = location.state || {};
@@ -55,7 +58,7 @@ const AddPages = () => {
   const validateForm = () => {
       let formErrors = {};
   
-      if (!name) formErrors.name = "Name is required";
+      if (!name) formErrors.name = t("Nameisrequired");
       
       Object.values(formErrors).forEach((error) => {
         toast.error(error);
@@ -95,7 +98,7 @@ const AddPages = () => {
 
     request
       .then(() => {
-        toast.success(`Pages ${edit ? "updated" : "added"} successfully`);
+toast.success(t(edit ? "PagesUpdatedSuccessfully" : "PagesAddedSuccessfully"));
         setTimeout(() => {
     navigate("/admin/pages", { state: { sendData: "page" } });
         }, 3000);
@@ -136,9 +139,9 @@ const AddPages = () => {
         </button>
         <span className="text-3xl font-medium text-center text-four ">
           {" "}
-          Page /<span className="text-one">
+          {t("Page")} /<span className="text-one">
             {" "}
-            {edit ? "Edit " : "Add "}
+          {edit ? t("edit") : t("add")}
           </span>{" "}
         </span>
 
@@ -146,7 +149,7 @@ const AddPages = () => {
       </div>
       <div className=" flex gap-7 flex-wrap  mt-10 pr-5 space-y-5 ">
         <InputField
-          placeholder="Name"
+          placeholder={t("name")}
           name="name"
           value={name}
           onChange={handleChange}
@@ -162,7 +165,7 @@ const AddPages = () => {
           className="transition-transform hover:scale-95 w-[300px] text-[32px] text-white font-medium h-[72px] bg-one rounded-[16px]"
           onClick={handleSave}
         >
-          {checkLoading ? "Loading" : <span>{edit ? "Edit " : "Add "}</span>}
+          {checkLoading ? t("loading") : <span>{edit ? t("edit") : t("add")}</span>}
         </button>
       </div>
     </div>  )

@@ -1,29 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { FaRegCalendarAlt } from "react-icons/fa";
+import { GiFastBackwardButton } from "react-icons/gi";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import InputField from "../../../UI/InputField";
 import Loader from "../../../UI/Loader";
-import { GiFastBackwardButton } from "react-icons/gi";
+import { useTranslation } from "react-i18next";
 
 const AddCategories = () => {
   const navigate = useNavigate();
-      const location = useLocation();
-      const { sendData } = location.state || {};
-      const [edit, setEdit] = useState(false);
-      const [checkLoading, setCheckLoading] = useState(false);
-      const [loading, setLoading] = useState(true);
-        const [name, setName] = useState("");
-       const [errors, setErrors] = useState({
-          name: "",
-        });
-        useEffect(() => {
+  const location = useLocation();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === "ar";
+
+  const { sendData } = location.state || {};
+  const [edit, setEdit] = useState(false);
+  const [checkLoading, setCheckLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [name, setName] = useState("");
+  const [errors, setErrors] = useState({ name: "" });
+
+  useEffect(() => {
     if (sendData) {
       setEdit(true);
-
       const token = localStorage.getItem("token");
+
       axios
         .get(`https://app.15may.club/api/admin/posts/categories/${sendData}`, {
           headers: {
@@ -34,11 +36,10 @@ const AddCategories = () => {
           const item = response.data.data.category;
           if (item) {
             setName(item.name || "");
-          
           }
         })
-        .catch((error) => {
-          toast.error("Error fetching this User:", error);
+        .catch(() => {
+          toast.error(t("FetchError"));
         });
     }
 
@@ -47,24 +48,23 @@ const AddCategories = () => {
     }, 1000);
 
     return () => clearTimeout(timeout);
-  }, [location.state]);
-    const handleChange = (e) => {
+  }, [location.state, t]);
+
+  const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "name") setName(value);
   };
+
   const validateForm = () => {
-      let formErrors = {};
-  
-      if (!name) formErrors.name = "Name is required";
-      
-      Object.values(formErrors).forEach((error) => {
-        toast.error(error);
-      });
-  
-      setErrors(formErrors);
-      return Object.keys(formErrors).length === 0;
-    };
-     const handleSave = () => {
+    let formErrors = {};
+    if (!name) formErrors.name = t("NameRequired");
+
+    Object.values(formErrors).forEach((error) => toast.error(error));
+    setErrors(formErrors);
+    return Object.keys(formErrors).length === 0;
+  };
+
+  const handleSave = () => {
     setCheckLoading(true);
     if (!validateForm()) {
       setCheckLoading(false);
@@ -72,32 +72,29 @@ const AddCategories = () => {
     }
 
     const token = localStorage.getItem("token");
-    const newUser = {
-      name,
-    };
+    const categoryData = { name };
 
-  
     const request = edit
       ? axios.put(
           `https://app.15may.club/api/admin/posts/categories/${sendData}`,
-          newUser,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          categoryData,
+          { headers: { Authorization: `Bearer ${token}` } }
         )
-      : axios.post("https://app.15may.club/api/admin/posts/categories", newUser, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+      : axios.post(
+          "https://app.15may.club/api/admin/posts/categories",
+          categoryData,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
 
     request
       .then(() => {
-        toast.success(`Categories ${edit ? "updated" : "added"} successfully`);
+        toast.success(
+          edit ? t("CategoryUpdated") : t("CategoryAdded")
+        );
         setTimeout(() => {
-    navigate("/admin/categories", { state: { sendData: "Posts" } });
+          navigate("/admin/categories", {
+            state: { sendData: "Posts" },
+          });
         }, 3000);
 
         setName("");
@@ -106,66 +103,61 @@ const AddCategories = () => {
       .catch((error) => {
         const err = error?.response?.data?.error;
         if (err?.details && Array.isArray(err.details)) {
-          err.details.forEach((detail) => {
-            toast.error(`${detail.field}: ${detail.message}`);
-          });
+          err.details.forEach((detail) =>
+            toast.error(`${detail.field}: ${detail.message}`)
+          );
         } else if (err?.message) {
           toast.error(err.message);
         } else {
-          toast.error("Something went wrong.");
+          toast.error(t("GenericError"));
         }
         setCheckLoading(false);
       });
   };
-    if (loading) {
+
+  if (loading) {
     return (
-
       <div className="mt-40">
-      <Loader />
-
-    </div>
-    )
-  }
-  return (
-  <div className=" mt-5">
-      <ToastContainer />
-      <div className="flex gap-5 px-2 ">
-           <button onClick={() =>  navigate("/admin/categories")}>
-          {" "}
-          <GiFastBackwardButton className="text-one text-3xl" />{" "}
-        </button>
-        <span className="text-3xl font-medium text-center text-four ">
-          {" "}
-          Categories /<span className="text-one">
-            {" "}
-            {edit ? "Edit " : "Add "}
-          </span>{" "}
-        </span>
-
-    
+        <Loader />
       </div>
-      <div className=" flex gap-7 flex-wrap  mt-10 pr-5 space-y-5 ">
+    );
+  }
+
+  return (
+    <div className="mt-5">
+      <ToastContainer />
+      <div className="flex gap-5 px-2">
+        <button onClick={() => navigate("/admin/categories")}>
+          <GiFastBackwardButton className="text-one text-3xl" />
+        </button>
+        <span className="text-3xl font-medium text-four">
+          {t("Categories")} /{" "}
+          <span className="text-one">
+            {edit ? t("Edit") : t("Add")}
+          </span>
+        </span>
+      </div>
+
+      <div className="flex gap-7 flex-wrap mt-10 pr-5 space-y-5">
         <InputField
-          placeholder="Name"
+          placeholder={t("Name")}
           name="name"
           value={name}
           onChange={handleChange}
         />
-
-     
-    
       </div>
 
       <div className="flex mt-6">
         <button
           disabled={checkLoading}
-          className="transition-transform hover:scale-95 w-[300px] text-[32px] text-white font-medium h-[72px] bg-one rounded-[16px]"
           onClick={handleSave}
+          className="transition-transform hover:scale-95 w-[300px] text-[32px] text-white font-medium h-[72px] bg-one rounded-[16px]"
         >
-          {checkLoading ? "Loading" : <span>{edit ? "Edit " : "Add "}</span>}
+          {checkLoading ? t("Loading") : <span>{edit ? t("Edit") : t("Add")}</span>}
         </button>
       </div>
-    </div>  )
-}
+    </div>
+  );
+};
 
-export default AddCategories
+export default AddCategories;

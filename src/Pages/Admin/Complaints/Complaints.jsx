@@ -7,11 +7,14 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import NavAndSearch from "../../../Component/NavAndSearch";
-import { CiSearch, CiEdit } from "react-icons/ci";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Loader from "../../../UI/Loader";
+import { useTranslation } from "react-i18next";
 
 const Complaints = () => {
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === "ar";
+
   const [data, setData] = useState([]);
   const [supdata, setSupData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -22,6 +25,7 @@ const Complaints = () => {
   const [thisid, setThisId] = useState("");
   const [View, setView] = useState(false);
   const navigate = useNavigate();
+
   const handleStatusFilterChange = (status) => {
     setStatusFilter((prev) =>
       prev.includes(status)
@@ -29,22 +33,23 @@ const Complaints = () => {
         : [...prev, status]
     );
   };
+
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery]);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     const source = axios.CancelToken.source();
     const timeout = setTimeout(() => {
-      source.cancel("Request timeout after 10 seconds.");
+      source.cancel(t("RequestTimeout"));
       setLoading(false);
-      toast.error("Request timed out. Please try again.");
+      toast.error(t("RequestTimeout"));
     }, 10000);
+
     axios
       .get("https://app.15may.club/api/admin/complaints", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
         cancelToken: source.token,
       })
       .then((response) => {
@@ -63,80 +68,63 @@ const Complaints = () => {
       })
       .catch((error) => {
         clearTimeout(timeout);
-        if (axios.isCancel(error)) {
-          console.log("Request canceled:", error.message);
-        } else {
-          toast.error("Error fetching data");
-        }
+        if (!axios.isCancel(error)) toast.error(t("ErrorFetchingData"));
         setLoading(false);
       });
 
     return () => clearTimeout(timeout);
   }, [update]);
+
   const handleDelete = (userId, userName) => {
     const token = localStorage.getItem("token");
 
     Swal.fire({
-      title: `Are you sure you want to delete ${userName}?`,
+      title: t("DeleteConfirmation", { name: userName }),
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Yes",
-      cancelButtonText: "No",
+      confirmButtonText: t("Yes"),
+      cancelButtonText: t("No"),
     }).then((result) => {
       if (result.isConfirmed) {
         axios
           .delete(`https://app.15may.club/api/admin/complaints/${userId}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           })
           .then(() => {
             setUpdate(!update);
-            Swal.fire(
-              "Deleted!",
-              `${userName} has been deleted successfully.`,
-              "success"
-            );
+            Swal.fire(t("Deleted"), t("DeleteSuccess", { name: userName }), "success");
           })
           .catch(() => {
-            Swal.fire(
-              "Error!",
-              `There was an error while deleting ${userName}.`,
-              "error"
-            );
+            Swal.fire(t("Error"), t("DeleteError", { name: userName }), "error");
           });
       } else {
-        Swal.fire("Cancelled", `${userName} was not deleted.`, "info");
+        Swal.fire(t("Cancelled"), t("DeleteCancelled", { name: userName }), "info");
       }
     });
   };
+
   const columns = [
-    { key: "categoryName", label: "Category Name" },
-    { key: "username", label: "Username" },
-    { key: "description", label: "Description" },
+    { key: "categoryName", label: t("CategoryName") },
+    { key: "username", label: t("Username") },
+    { key: "description", label: t("Description") },
   ];
+
   const filteredData = data.filter((item) => {
     const query = searchQuery.toLowerCase();
-
-    const statusText =
-      item.seen === false || item.status === 0 ? "UnSeen" : "Seen";
-    const matchesStatus =
-      statusFilter.length === 0 || statusFilter.includes(statusText);
-
+    const statusText = item.seen ? t("Seen") : t("UnSeen");
+    const matchesStatus = statusFilter.length === 0 || statusFilter.includes(statusText);
     const matchesSearch =
       selectedFilter === ""
-        ? Object.entries(item || {}).some(([key, value]) => {
+        ? Object.entries(item).some(([key, value]) => {
             if (key === "seen") {
-              const text = value === false || value === 0 ? "UnSeen" : "Seen";
+              const text = value ? t("Seen") : t("UnSeen");
               return text.toLowerCase().includes(query);
             }
-
             if (typeof value === "object" && value !== null) {
-              return Object.values(value || {}).some((sub) =>
+              return Object.values(value).some((sub) =>
                 sub?.toString().toLowerCase().includes(query)
               );
             }
-
             return value?.toString().toLowerCase().includes(query);
           })
         : (() => {
@@ -156,53 +144,52 @@ const Complaints = () => {
     (currentPage - 1) * rowsPerPage,
     currentPage * rowsPerPage
   );
+
   const handleView = (id) => {
     const token = localStorage.getItem("token");
-   
-       axios
+    axios
       .get(`https://app.15may.club/api/admin/complaints/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
         setThisId(id);
-        setSupData(response.data.data.complaint)
-         setView(true);
-      }).catch(()=>{
-         setView(false);
-    setThisId("");
-    toast.error("No complaint ")
+        setSupData(response.data.data.complaint);
+        setView(true);
       })
+      .catch(() => {
+        setView(false);
+        setThisId("");
+        toast.error(t("NoDataAvailable"));
+      });
   };
+
   const onSeen = () => {
     const token = localStorage.getItem("token");
-
     axios
-      .put(`https://app.15may.club/api/admin/complaints/${thisid}`,{}, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      .put(`https://app.15may.club/api/admin/complaints/${thisid}`, {}, {
+        headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {
         setUpdate(!update);
         setThisId("");
-        toast.success("Seen");
-        setView(false);
-      }).catch(()=>{
-         setUpdate(!update);
-        setThisId("");
-        toast.error("Error Seen");
+        toast.success(t("Seen"));
         setView(false);
       })
+      .catch(() => {
+        setUpdate(!update);
+        setThisId("");
+        toast.error(t("ErrorSeen"));
+        setView(false);
+      });
   };
-const onClose=()=>{
-      setView(false);
+
+  const onClose = () => {
+    setView(false);
     setThisId("");
-}
-  if (loading) {
-    return <Loader />;
-  }
+  };
+
+  if (loading) return <Loader />;
+
   return (
     <div>
       <ToastContainer />
@@ -211,34 +198,29 @@ const onClose=()=>{
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
       />
-      <div className="flex px-1 mt-5 justify-end">
 
-        {/* <button onClick={()=>navigate("/admin/category")} className="flex gap-1 bg-one text-[16px] px-1 rounded-3xl text-white  items-center justify-center w-50 h-15 hover:bg-one/90 "> 
-           <button     className=" "> Add Category</button>
-         <span className="text-2xl">+</span>
-        </button> */}
-         <div className="flex gap-4 justify-end flex-wrap mt-4 mb-2 px-4">
-        {[
-          { label: "Seen", value: "Seen", color: "text-one" },
-          { label: "UnSeen", value: "UnSeen", color: "text-one/50" },
-        ].map(({ label, value, color }) => (
-          <label
-            key={value}
-            className={`flex items-center space-x-2 px-3 py-1 border border-gray-300 rounded-full cursor-pointer transition-all duration-200 hover:shadow-sm ${color}`}
-          >
-            <input
-              type="checkbox"
-              value={value}
-              checked={statusFilter.includes(value)}
-              onChange={() => handleStatusFilterChange(value)}
-              className="form-checkbox accent-current w-4 h-4"
-            />
-            <span className="text-sm font-medium">{label}</span>
-          </label>
-        ))}
+      <div className="flex px-1 mt-5 justify-end">
+        <div className="flex gap-4 justify-end flex-wrap mt-4 mb-2 px-4">
+          {[
+            { label: t("Seen"), value: t("Seen"), color: "text-one" },
+            { label: t("UnSeen"), value: t("UnSeen"), color: "text-one/50" },
+          ].map(({ label, value, color }) => (
+            <label
+              key={value}
+              className={`flex items-center space-x-2 px-3 py-1 border border-gray-300 rounded-full cursor-pointer transition-all duration-200 hover:shadow-sm ${color}`}
+            >
+              <input
+                type="checkbox"
+                value={value}
+                checked={statusFilter.includes(value)}
+                onChange={() => handleStatusFilterChange(value)}
+                className="form-checkbox accent-current w-4 h-4"
+              />
+              <span className="text-sm font-medium">{label}</span>
+            </label>
+          ))}
+        </div>
       </div>
-      </div>
-      
 
       <DynamicTable
         data={paginatedData}
@@ -246,32 +228,30 @@ const onClose=()=>{
         rowsPerPage={rowsPerPage}
         currentPage={currentPage}
         actions={(row) => (
-          <div className="flex gap-1">
+          <div className={`flex gap-1 ${isRTL ? "justify-end" : "justify-start"}`}>
             <RiDeleteBin6Line
               className="w-[24px] h-[24px] ml-2 text-red-600 cursor-pointer"
-              onClick={() => handleDelete(row.id, row.content)}
+              onClick={() => handleDelete(row.id, row.username)}
             />
           </div>
         )}
         Seen={(row) => (
-          <div className="flex gap-1">
-            <span>{row.seen ? "Seen" : "UnSeen"}</span>
+          <div className={`flex gap-1 ${isRTL ? "justify-end" : "justify-start"}`}>
+            <span>{row.seen ? t("Seen") : t("UnSeen")}</span>
           </div>
         )}
         view={(row) => (
-          <div className="flex gap-1">
+          <div className={`flex gap-1 ${isRTL ? "justify-end" : "justify-start"}`}>
             <button
-              className=" rounded-4xl text-white px-2 py-1 bg-one cursor-pointer hover:bg-one/90"
-              onClick={() => {
-                handleView(row.id);
-              }}
+              className="rounded-4xl text-white px-2 py-1 bg-one cursor-pointer hover:bg-one/90"
+              onClick={() => handleView(row.id)}
             >
-              {" "}
-              View
+              {t("View")}
             </button>
           </div>
         )}
       />
+
       <div className="flex justify-center mt-4">
         <Pagination
           count={pageCount}
@@ -280,22 +260,23 @@ const onClose=()=>{
           shape="rounded"
           sx={{
             "& .MuiPaginationItem-root": {
-              color: "#876340", // لون النص
+              color: "#876340",
               borderColor: "#876340",
             },
             "& .Mui-selected": {
               backgroundColor: "#876340",
               color: "white",
               "&:hover": {
-                backgroundColor: "#5d4037", // بني أغمق عند التمرير
+                backgroundColor: "#5d4037",
               },
             },
           }}
         />
+
         {View && (
           <div className="fixed inset-0 bg-white opacity-90 flex items-center justify-center z-50">
             <div className="bg-white w-[90%] max-w-md rounded-lg shadow-lg p-6 text-center">
-              <h2 className="text-xl text-one font-bold mb-4">Description</h2>
+              <h2 className="text-xl text-one font-bold mb-4">{t("Description")}</h2>
               <p className="text-black mb-6">{supdata.description}</p>
               <p className="text-black mb-6">{supdata.username}</p>
 
@@ -304,13 +285,13 @@ const onClose=()=>{
                   onClick={onSeen}
                   className="bg-one hover:bg-one/90 text-white px-4 py-2 rounded"
                 >
-                  Seen
+                  {t("Seen")}
                 </button>
                 <button
                   onClick={onClose}
                   className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded"
                 >
-                  Close
+                  {t("Close")}
                 </button>
               </div>
             </div>

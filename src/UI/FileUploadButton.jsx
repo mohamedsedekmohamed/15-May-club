@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { MdOutlineCloudDownload } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 
 const FileUploadButton = ({ onFileChange, kind, flag }) => {
   const [showed, setShowed] = useState(flag);
   const [error, setError] = useState('');
-
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === "ar";
   useEffect(() => {
     setShowed(flag);
   }, [flag]);
@@ -58,7 +60,7 @@ const FileUploadButton = ({ onFileChange, kind, flag }) => {
               alt="Preview"
             />
           ) : (
-            <span className='text-gray-500 text-sm'>Upload pic for Card</span>
+            <span className='text-gray-500 text-sm'>{t("UploadpicforCard")}</span>
           )}
         </div>
       </button>

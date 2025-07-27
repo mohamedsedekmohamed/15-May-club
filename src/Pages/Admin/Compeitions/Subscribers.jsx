@@ -6,16 +6,20 @@ import Swal from "sweetalert2";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import NavAndSearch from "../../../Component/NavAndSearch";
-import { CiSearch, CiEdit } from "react-icons/ci";
-import { RiDeleteBin6Line } from "react-icons/ri";
 import Loader from "../../../UI/Loader";
-const Subscribers = ({ID} ) => {
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { useTranslation } from "react-i18next";
+
+const Subscribers = ({ ID }) => {
+  const { t, i18n } = useTranslation();
+    const isRTL = i18n.language === "ar";
+
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [update, setUpdate] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,10 +33,8 @@ const Subscribers = ({ID} ) => {
     const timeout = setTimeout(() => {
       source.cancel("Request timeout after 10 seconds.");
       setLoading(false);
-      toast.error("Request timed out. Please try again.");
+      toast.error(t("RequestTimeout"));
     }, 10000);
-
-
 
     axios
       .get(`https://app.15may.club/api/admin/competitions/${ID}/users`, {
@@ -43,12 +45,14 @@ const Subscribers = ({ID} ) => {
       })
       .then((response) => {
         clearTimeout(timeout);
-        setData(response.data.data.users.map((item) => ({
-    id: item.userId,
-    name: item.name,
-    gender: item.gender,
-    dateOfBirth: item.dateOfBirth,
-  })))
+        setData(
+          response.data.data.users.map((item) => ({
+            id: item.userId,
+            name: item.name,
+            gender: item.gender,
+            dateOfBirth: item.dateOfBirth,
+          }))
+        );
         setLoading(false);
       })
       .catch((error) => {
@@ -56,22 +60,23 @@ const Subscribers = ({ID} ) => {
         if (axios.isCancel(error)) {
           console.log("Request canceled:", error.message);
         } else {
-          toast.error("Error fetching data");
+          toast.error(t("ErrorFetchingData"));
         }
         setLoading(false);
       });
 
     return () => clearTimeout(timeout);
   }, [update]);
-   const handleDelete = (id, userName) => {
+
+  const handleDelete = (id, userName) => {
     const token = localStorage.getItem("token");
 
     Swal.fire({
-      title: `Are you sure you want to delete ${userName}?`,
+      title: t("DeleteConfirmation", { name: userName }),
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Yes",
-      cancelButtonText: "No",
+      confirmButtonText: t("Yes"),
+      cancelButtonText: t("No"),
     }).then((result) => {
       if (result.isConfirmed) {
         axios
@@ -86,110 +91,106 @@ const Subscribers = ({ID} ) => {
           .then(() => {
             setUpdate(!update);
             Swal.fire(
-              "Deleted!",
-              `${userName} has been deleted successfully.`,
+              t("Deleted"),
+              t("DeleteSuccess", { name: userName }),
               "success"
             );
           })
           .catch(() => {
             Swal.fire(
-              "Error!",
-              `There was an error while deleting ${userName}.`,
+              t("Error"),
+              t("DeleteError", { name: userName }),
               "error"
             );
           });
       } else {
-        Swal.fire("Cancelled", `${userName} was not deleted.`, "info");
+        Swal.fire(t("Cancelled"), t("DeleteCancelled", { name: userName }), "info");
       }
     });
   };
-const columns = [
-  { key: "name", label: "Name" },
-  { key: "gender", label: "Gender" },
-  { key: "dateOfBirth", label: "Date Of Birth" },
-];
-const filteredData = data.filter((item) => {
-  const query = searchQuery.toLowerCase();
 
-  const matchesSearch =
-    selectedFilter === ""
-      ? Object.values(item || {}).some((value) =>
-          typeof value === "object" && value !== null
-            ? Object.values(value || {}).some((sub) =>
-                sub?.toString().toLowerCase().includes(query)
-              )
-            : value?.toString().toLowerCase().includes(query)
-        )
-      : (() => {
-          const keys = selectedFilter.split(".");
-          let value = item;
-          for (let key of keys) value = value?.[key];
-          return value?.toString().toLowerCase().includes(query);
-        })();
+  const columns = [
+    { key: "name", label: t("Name") },
+    { key: "gender", label: t("Gender") },
+    { key: "dateOfBirth", label: t("DateOfBirth") },
+  ];
 
+  const filteredData = data.filter((item) => {
+    const query = searchQuery.toLowerCase();
+    const matchesSearch =
+      selectedFilter === ""
+        ? Object.values(item || {}).some((value) =>
+            typeof value === "object" && value !== null
+              ? Object.values(value || {}).some((sub) =>
+                  sub?.toString().toLowerCase().includes(query)
+                )
+              : value?.toString().toLowerCase().includes(query)
+          )
+        : (() => {
+            const keys = selectedFilter.split(".");
+            let value = item;
+            for (let key of keys) value = value?.[key];
+            return value?.toString().toLowerCase().includes(query);
+          })();
 
-  return matchesSearch ;
-});
+    return matchesSearch;
+  });
 
-
-    const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
   const pageCount = Math.ceil(filteredData.length / rowsPerPage);
   const paginatedData = filteredData.slice(
     (currentPage - 1) * rowsPerPage,
     currentPage * rowsPerPage
   );
- 
-   if (loading) {
-      return (
-        <div className="mt-40">
-          <Loader/>
-        </div>
-      );}
-  return <div>
 
-<ToastContainer/>
-  <DynamicTable
-  data={paginatedData}
-  columns={columns}
-  rowsPerPage={rowsPerPage}
-  currentPage={currentPage}
-  actions={(row) => (
-    <div className="flex gap-1">
-     
-      <RiDeleteBin6Line
-        className="w-[24px] h-[24px] ml-2 text-red-600 cursor-pointer"
-        onClick={() => handleDelete(row.id, row.name)}
-      />
-    </div>
-  )}
- 
-/>
+  if (loading) {
+    return (
+      <div className="mt-40">
+        <Loader />
+      </div>
+    );
+  }
 
-      <div className="flex justify-center mt-4">
-           <Pagination
-      count={pageCount}
-      page={currentPage}
-      onChange={(e, page) => setCurrentPage(page)}
-      shape="rounded"
-      sx={{
-        '& .MuiPaginationItem-root': {
-          color: '#876340', // لون النص
-          borderColor: '#876340',
-        },
-        '& .Mui-selected': {
-          backgroundColor: '#876340',
-          color: 'white',
-          '&:hover': {
-            backgroundColor: '#5d4037', // بني أغمق عند التمرير
-          },
-        },
-      
-      }}
-    />
+  return (
+    <div>
+      <ToastContainer />
+      <DynamicTable
+        data={paginatedData}
+        columns={columns}
+        rowsPerPage={rowsPerPage}
+        currentPage={currentPage}
+        actions={(row) => (
+          <div className={`flex gap-1 ${isRTL?"justify-end":" justify-start"} `}>
+            <RiDeleteBin6Line
+              className="w-[24px] h-[24px] ml-2 text-red-600 cursor-pointer"
+              onClick={() => handleDelete(row.id, row.name)}
+            />
           </div>
-  </div>;
+        )}
+      />
+      <div className="flex justify-center mt-4">
+        <Pagination
+          count={pageCount}
+          page={currentPage}
+          onChange={(e, page) => setCurrentPage(page)}
+          shape="rounded"
+          sx={{
+            "& .MuiPaginationItem-root": {
+              color: "#876340",
+              borderColor: "#876340",
+            },
+            "& .Mui-selected": {
+              backgroundColor: "#876340",
+              color: "white",
+              "&:hover": {
+                backgroundColor: "#5d4037",
+              },
+            },
+          }}
+        />
+      </div>
+    </div>
+  );
 };
 
-
-export default Subscribers
+export default Subscribers;

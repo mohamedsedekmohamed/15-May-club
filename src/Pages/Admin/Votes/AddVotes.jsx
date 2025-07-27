@@ -10,12 +10,14 @@ import InputField from "../../../UI/InputField";
 import Loader from "../../../UI/Loader";
 import { GiFastBackwardButton } from "react-icons/gi";
 import MultiSelectField from "../../../UI/MultiSelectField";
+import { useTranslation } from "react-i18next";
 
 const AddVotes = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { sendData } = location.state || {};
-
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === "ar";
   const [edit, setEdit] = useState(false);
   const [checkLoading, setCheckLoading] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -26,7 +28,7 @@ const AddVotes = () => {
   const [endDate, setEnddate] = useState("");
 
   const [optionId, setoptionId] = useState([]);
-  const [optionIdtwo, setoptionIdtwo] = useState([]); // ✅ أصل البيانات
+  const [optionIdtwo, setoptionIdtwo] = useState([]);
   const [optionsIds, setOptionIds] = useState([]);
   const [deletedItems, setDeletedItems] = useState([]);
   const [errors, setErrors] = useState({});
@@ -53,7 +55,7 @@ const AddVotes = () => {
                 }))
               : [];
             setoptionId(formattedOptions);
-            setoptionIdtwo(formattedOptions); // ✅ حفظ الأصل للمقارنة
+            setoptionIdtwo(formattedOptions);
             setDeletedItems(formattedOptions);
             setStartdate(item.startDate?.split("T")[0] || "");
             setEnddate(item.endDate?.split("T")[0] || "");
@@ -98,14 +100,14 @@ const AddVotes = () => {
 
   const validateForm = () => {
     const formErrors = {};
-    if (!title) formErrors.title = "Title is required";
-    if (!number) formErrors.number = "Max Selections is required";
-    if (!startDate) formErrors.startDate = "Start Date is required";
-    if (!endDate) formErrors.endDate = "End Date is required";
+    if (!title) formErrors.title = t("Titleisrequired");
+    if (!number) formErrors.number = t("MaxSelectionsIsRequired");
+    if (!startDate) formErrors.startDate = t("StartDateisrequired");
+    if (!endDate) formErrors.endDate = t("EndDateisrequired");
     if (startDate && endDate && new Date(endDate) < new Date(startDate)) {
-      formErrors.endDate = "End Date cannot be before Start Date";
+      formErrors.endDate = t("EndDatecannotbebeforeStartDate");
     }
-    if (optionId.length === 0) formErrors.optionId = "Options are required";
+    if (optionId.length === 0) formErrors.optionId = t("OptionsAreRequired");
 
     Object.values(formErrors).forEach((error) => toast.error(error));
     setErrors(formErrors);
@@ -146,14 +148,11 @@ const AddVotes = () => {
     if (edit) {
       const items = [];
 
-      // ✅ عناصر جديدة أو تم تعديلها
       optionId.forEach((item) => {
         const original = optionIdtwo.find((old) => old.value === item.value);
         if (!original) {
-          // عنصر جديد
           items.push({ id: item.value, value: item.label });
         } else if (original.label !== item.label) {
-          // عنصر معدل
           items.push({ id: item.value, value: item.label });
         }
       });
@@ -167,8 +166,6 @@ const AddVotes = () => {
         items,
       };
 
-      console.log("EDIT payload:", payload);
-
       axios
         .put(`https://app.15may.club/api/admin/votes/${sendData}`, payload, {
           headers: {
@@ -176,7 +173,7 @@ const AddVotes = () => {
           },
         })
         .then(() => {
-          toast.success("Vote updated successfully");
+          toast.success(t("Voteupdatedsuccessfully"));
           resetForm();
         })
         .catch(handleError)
@@ -184,10 +181,8 @@ const AddVotes = () => {
     } else {
       const newVote = {
         ...baseData,
-        items: optionId.map(val=>val.value)
+        items: optionId.map(val => val.value),
       };
-
-      console.log("ADD payload:", newVote);
 
       axios
         .post("https://app.15may.club/api/admin/votes", newVote, {
@@ -196,7 +191,7 @@ const AddVotes = () => {
           },
         })
         .then(() => {
-          toast.success("Vote added successfully");
+          toast.success(t("Voteaddedsuccessfully"));
           resetForm();
         })
         .catch(handleError)
@@ -213,7 +208,7 @@ const AddVotes = () => {
     } else if (err?.message) {
       toast.error(err.message);
     } else {
-      toast.error("Something went wrong.");
+      toast.error(t("Something went wrong."));
     }
     setCheckLoading(false);
   };
@@ -249,31 +244,31 @@ const AddVotes = () => {
           <GiFastBackwardButton className="text-one text-3xl" />
         </button>
         <span className="text-3xl font-medium text-center text-four">
-          Votes / <span className="text-one">{edit ? "Edit" : "Add"}</span>
+          {t("Votes")} / <span className="text-one">{edit ? t("edit") : t("add")}</span>
         </span>
       </div>
 
       <div className="flex gap-7 flex-wrap mt-10 pr-5 space-y-5">
         <InputField
-          placeholder="Title"
+          placeholder={t("Title")}
           name="title"
           value={title}
           onChange={handleChange}
         />
         <InputField
           email="number"
-          placeholder="Max Selections"
+          placeholder={t("MaxSelections")}
           name="number"
           value={number}
           onChange={handleChange}
         />
 
         <div className="relative flex flex-col h-[50px]">
-          <FaRegCalendarAlt className="absolute top-[60%] right-10 transform -translate-y-1/2 text-one z-10" />
+          <FaRegCalendarAlt className={`absolute top-[60%] ${i18n.language==="ar"?"left-10":" right-10"} transform -translate-y-1/2 text-one z-10`} />
           <DatePicker
             selected={startDate}
             onChange={handStartDate}
-            placeholderText="Start date"
+            placeholderText={t("Startdate")}
             dateFormat="yyyy-MM-dd"
             className="w-[280px] h-[60px] border-1 border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
             showYearDropdown
@@ -284,11 +279,11 @@ const AddVotes = () => {
         </div>
 
         <div className="relative flex flex-col h-[50px]">
-          <FaRegCalendarAlt className="absolute top-[60%] right-10 transform -translate-y-1/2 text-one z-10" />
+          <FaRegCalendarAlt className={`absolute top-[60%] ${i18n.language==="ar"?"left-10":" right-10"} transform -translate-y-1/2 text-one z-10`} />
           <DatePicker
             selected={endDate}
             onChange={handEndDate}
-            placeholderText="End date"
+            placeholderText={t("Enddate")}
             dateFormat="yyyy-MM-dd"
             className="w-[280px] h-[60px] border-1 border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
             showYearDropdown
@@ -302,7 +297,7 @@ const AddVotes = () => {
           getname
           value={optionId}
           onChange={setoptionId}
-          placeholder="Select Options"
+          placeholder={t("SelectOptions")}
           options={optionsIds}
         />
       </div>
@@ -313,7 +308,7 @@ const AddVotes = () => {
           className="transition-transform hover:scale-95 w-[300px] text-[32px] text-white font-medium h-[72px] bg-one rounded-[16px]"
           onClick={handleSave}
         >
-          {checkLoading ? "Loading" : <span>{edit ? "Edit" : "Add"}</span>}
+          {checkLoading ? t("loading") : <span>{edit ? t("Edit") : t("Add")}</span>}
         </button>
       </div>
     </div>

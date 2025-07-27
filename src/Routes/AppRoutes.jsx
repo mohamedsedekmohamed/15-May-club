@@ -65,11 +65,11 @@ useEffect(() => {
 
                   <Route path="popup" element={<Popup />} />
                   <Route path="addpopup" element={<AddPopuo />} />
-                  <Route path="pages" element={<Pages />} />
+                  {/* <Route path="pages" element={<Pages />} /> */}
                   
                   <Route path="addcategories" element={<AddCategories />} />
                   <Route path="categories" element={<Categories />} />
-                  <Route path="addpages" element={<AddPages />} />
+                  {/* <Route path="addpages" element={<AddPages />} /> */}
                   <Route path="votes" element={<Votes />} />
 
                   <Route path="options" element={<Options />} />

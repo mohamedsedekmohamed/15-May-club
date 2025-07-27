@@ -7,38 +7,36 @@ import { useNavigate, useLocation } from "react-router-dom";
 import InputField from "../../../UI/InputField";
 import Loader from "../../../UI/Loader";
 import { GiFastBackwardButton } from "react-icons/gi";
+import { useTranslation } from "react-i18next";
 
 const AddOptions = () => {
-      const navigate = useNavigate();
-      const location = useLocation();
-      const { sendData } = location.state || {};
-      const [edit, setEdit] = useState(false);
-      const [checkLoading, setCheckLoading] = useState(false);
-      const [loading, setLoading] = useState(true);
-        const [name, setName] = useState("");
-       const [errors, setErrors] = useState({
-          name: "",
-        });
-        useEffect(() => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { sendData } = location.state || {};
+  const [edit, setEdit] = useState(false);
+  const [checkLoading, setCheckLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [name, setName] = useState("");
+  const [errors, setErrors] = useState({ name: "" });
+
+  useEffect(() => {
     if (sendData) {
       setEdit(true);
-
       const token = localStorage.getItem("token");
+
       axios
         .get(`https://app.15may.club/api/admin/votes/items/${sendData}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
           const item = response.data.data.option;
           if (item) {
             setName(item.item || "");
-          
           }
         })
-        .catch((error) => {
-          toast.error("Error fetching this User:", error);
+        .catch(() => {
+          toast.error(t("ErrorFetchingData"));
         });
     }
 
@@ -47,24 +45,23 @@ const AddOptions = () => {
     }, 1000);
 
     return () => clearTimeout(timeout);
-  }, [location.state]);
-    const handleChange = (e) => {
+  }, [location.state, t]);
+
+  const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "name") setName(value);
   };
+
   const validateForm = () => {
-      let formErrors = {};
-  
-      if (!name) formErrors.name = "Name is required";
-      
-      Object.values(formErrors).forEach((error) => {
-        toast.error(error);
-      });
-  
-      setErrors(formErrors);
-      return Object.keys(formErrors).length === 0;
-    };
-     const handleSave = () => {
+    let formErrors = {};
+    if (!name) formErrors.name = t("Nameisrequired");
+
+    Object.values(formErrors).forEach((error) => toast.error(error));
+    setErrors(formErrors);
+    return Object.keys(formErrors).length === 0;
+  };
+
+  const handleSave = () => {
     setCheckLoading(true);
     if (!validateForm()) {
       setCheckLoading(false);
@@ -72,34 +69,24 @@ const AddOptions = () => {
     }
 
     const token = localStorage.getItem("token");
-    const newUser = {
-      item:name,
-    };
+    const payload = { item: name };
 
-  
     const request = edit
-      ? axios.put(
-          `https://app.15may.club/api/admin/votes/items/${sendData}`,
-          newUser,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-      : axios.post("https://app.15may.club/api/admin/votes/items", newUser, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      ? axios.put(`https://app.15may.club/api/admin/votes/items/${sendData}`, payload, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      : axios.post("https://app.15may.club/api/admin/votes/items", payload, {
+          headers: { Authorization: `Bearer ${token}` },
         });
 
     request
       .then(() => {
-        toast.success(`Options ${edit ? "updated" : "added"} successfully`);
+        toast.success(
+          edit ? t("OptionUpdatedSuccessfully") : t("OptionAddedSuccessfully")
+        );
         setTimeout(() => {
-    navigate("/admin/options", { state: { sendData: "Options" } });
+          navigate("/admin/options", { state: { sendData: "Options" } });
         }, 3000);
-
         setName("");
         setEdit(false);
       })
@@ -112,48 +99,46 @@ const AddOptions = () => {
         } else if (err?.message) {
           toast.error(err.message);
         } else {
-          toast.error("Something went wrong.");
+          toast.error(t("SomethingWentWrong"));
         }
         setCheckLoading(false);
       });
   };
-    if (loading) {
+
+  if (loading) {
     return (
-
       <div className="mt-40">
-      <Loader />
-
-    </div>
-    )
-  }
-  return (
-  <div className=" mt-5">
-      <ToastContainer />
-      <div className="flex gap-5 px-2 ">
-        <button onClick={() =>  navigate("/admin/options", { state: { sendData: "Options" } })}>
-          {" "}
-          <GiFastBackwardButton className="text-one text-3xl" />{" "}
-        </button>
-        <span className="text-3xl font-medium text-center text-four ">
-          {" "}
-          Options /<span className="text-one">
-            {" "}
-            {edit ? "Edit " : "Add "}
-          </span>{" "}
-        </span>
-
-        
+        <Loader />
       </div>
-      <div className=" flex gap-7 flex-wrap  mt-10 pr-5 space-y-5 ">
+    );
+  }
+
+  return (
+    <div className="mt-5">
+      <ToastContainer />
+      <div className="flex gap-5 px-2">
+        <button
+          onClick={() =>
+            navigate("/admin/options", { state: { sendData: "Options" } })
+          }
+        >
+          <GiFastBackwardButton className="text-one text-3xl" />
+        </button>
+        <span className="text-3xl font-medium text-center text-four">
+          {t("Options")} /{" "}
+          <span className="text-one">
+            {edit ? t("EditOption") : t("AddOption")}
+          </span>
+        </span>
+      </div>
+
+      <div className="flex gap-7 flex-wrap mt-10 pr-5 space-y-5">
         <InputField
-          placeholder="Name"
+          placeholder={t("Name")}
           name="name"
           value={name}
           onChange={handleChange}
         />
-
-     
-    
       </div>
 
       <div className="flex mt-6">
@@ -162,10 +147,11 @@ const AddOptions = () => {
           className="transition-transform hover:scale-95 w-[300px] text-[32px] text-white font-medium h-[72px] bg-one rounded-[16px]"
           onClick={handleSave}
         >
-          {checkLoading ? "Loading" : <span>{edit ? "Edit " : "Add "}</span>}
+          {checkLoading ? t("Loading") : edit ? t("Edit") : t("Add")}
         </button>
       </div>
-    </div>  )
-}
+    </div>
+  );
+};
 
-export default AddOptions
+export default AddOptions;

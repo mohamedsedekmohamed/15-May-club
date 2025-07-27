@@ -10,6 +10,7 @@ import NavAndSearch from '../../../Component/NavAndSearch';
 import { CiSearch, CiEdit } from "react-icons/ci";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Loader from "../../../UI/Loader";
+import { useTranslation } from "react-i18next";
 
 const Pages = () => {
   const [data, setData] = useState([]);
@@ -18,6 +19,8 @@ const Pages = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === "ar"; // 👈 التحقق من الاتجاه
 
 
  useEffect(() => {
@@ -115,7 +118,7 @@ setData(
 
 
 const columns = [
-  { key: "name", label: "Name" },
+  { key: "name", label: t("name") },
 
 ];
 
@@ -170,7 +173,7 @@ const filteredData = data.filter((item) => {
   rowsPerPage={rowsPerPage}
   currentPage={currentPage}
   actions={(row) => (
-    <div className="flex gap-1">
+          <div className={`flex gap-1 ${isRTL?"justify-end":" justify-start"} `}>
       <CiEdit
         className="w-[24px] h-[24px] text-green-600 cursor-pointer"
         onClick={() => handleEdit(row.id)}

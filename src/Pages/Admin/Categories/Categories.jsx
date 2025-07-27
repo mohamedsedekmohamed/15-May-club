@@ -7,191 +7,180 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import NavAndSearch from '../../../Component/NavAndSearch';
-import { CiSearch, CiEdit } from "react-icons/ci";
+import { CiEdit } from "react-icons/ci";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Loader from "../../../UI/Loader";
+import { useTranslation } from "react-i18next";
+
 const Categories = () => {
-   const [data, setData] = useState([]);
-       const [loading, setLoading] = useState(true);
-   const [update, setUpdate] = useState(false);
-   const [searchQuery, setSearchQuery] = useState("");
-   const [selectedFilter, setSelectedFilter] = useState("");
-   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === "ar";
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [update, setUpdate] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
+
   useEffect(() => {
-     setCurrentPage(1);
-   }, [searchQuery]);
-      useEffect(() => {
-  const token = localStorage.getItem("token");
-  const source = axios.CancelToken.source(); 
+    setCurrentPage(1);
+  }, [searchQuery]);
 
-  const timeout = setTimeout(() => {
-    source.cancel("Request timeout after 10 seconds.");
-    setLoading(false);
-    toast.error("Request timed out. Please try again.");
-  }, 10000);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const source = axios.CancelToken.source();
 
-  axios
-    .get("https://app.15may.club/api/admin/posts/categories", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      cancelToken: source.token,
-    })
-    .then((response) => {
-      clearTimeout(timeout); 
-      console.log(response.data.data.categories)
-      setData(response.data.data.categories);
-      
-
+    const timeout = setTimeout(() => {
+      source.cancel("Request timeout after 10 seconds.");
       setLoading(false);
-    })
-    .catch((error) => {
-      clearTimeout(timeout);
-      if (axios.isCancel(error)) {
-        console.log("Request canceled:", error.message);
-      } else {
-        toast.error("Error fetching data");
-      }
-      setLoading(false);
-    });
+      toast.error(t("RequestTimeout"));
+    }, 10000);
 
-  return () => clearTimeout(timeout); 
-}, [update]);
- const handleEdit = (id) => {
+    axios
+      .get("https://app.15may.club/api/admin/posts/categories", {
+        headers: { Authorization: `Bearer ${token}` },
+        cancelToken: source.token,
+      })
+      .then((response) => {
+        clearTimeout(timeout);
+        setData(response.data.data.categories);
+        setLoading(false);
+      })
+      .catch((error) => {
+        clearTimeout(timeout);
+        if (!axios.isCancel(error)) {
+          toast.error(t("ErrorFetchingData"));
+        }
+        setLoading(false);
+      });
+
+    return () => clearTimeout(timeout);
+  }, [update]);
+
+  const handleEdit = (id) => {
     navigate("/admin/addcategories", { state: { sendData: id } });
   };
-   const handleDelete = (Id, userName) => {
+
+  const handleDelete = (Id, userName) => {
     const token = localStorage.getItem("token");
 
     Swal.fire({
-      title: `Are you sure you want to delete ${userName}?`,
+      title: t("ConfirmDeleteTitle", { name: userName }),
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Yes",
-      cancelButtonText: "No",
+      confirmButtonText: t("Yes"),
+      cancelButtonText: t("No"),
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(
-            `https://app.15may.club/api/admin/categories/${Id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          )
+          .delete(`https://app.15may.club/api/admin/categories/${Id}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
           .then(() => {
             setUpdate(!update);
-            Swal.fire(
-              "Deleted!",
-              `${userName} has been deleted successfully.`,
-              "success"
-            );
+            Swal.fire(t("Deleted"), t("DeletedSuccess", { name: userName }), "success");
           })
           .catch(() => {
-            Swal.fire(
-              "Error!",
-              `There was an error while deleting ${userName}.`,
-              "error"
-            );
+            Swal.fire(t("Error"), t("DeleteError", { name: userName }), "error");
           });
       } else {
-        Swal.fire("Cancelled", `${userName} was not deleted.`, "info");
+        Swal.fire(t("Cancelled"), t("DeleteCancelled", { name: userName }), "info");
       }
     });
   };
-const columns = [
-  { key: "name", label: "Name" },
-];
 
-const filteredData = data.filter((item) => {
-  const query = searchQuery.toLowerCase();
+  const columns = [
+    { key: "name", label: t("Name") },
+  ];
 
-  const matchesSearch =
-    selectedFilter === ""
-      ? Object.values(item || {}).some((value) =>
-          typeof value === "object" && value !== null
-            ? Object.values(value || {}).some((sub) =>
-                sub?.toString().toLowerCase().includes(query)
-              )
-            : value?.toString().toLowerCase().includes(query)
-        )
-      : (() => {
-          const keys = selectedFilter.split(".");
-          let value = item;
-          for (let key of keys) value = value?.[key];
-          return value?.toString().toLowerCase().includes(query);
-        })();
+  const filteredData = data.filter((item) => {
+    const query = searchQuery.toLowerCase();
+    const matchesSearch =
+      selectedFilter === ""
+        ? Object.values(item || {}).some((value) =>
+            typeof value === "object" && value !== null
+              ? Object.values(value || {}).some((sub) =>
+                  sub?.toString().toLowerCase().includes(query)
+                )
+              : value?.toString().toLowerCase().includes(query)
+          )
+        : (() => {
+            const keys = selectedFilter.split(".");
+            let value = item;
+            for (let key of keys) value = value?.[key];
+            return value?.toString().toLowerCase().includes(query);
+          })();
 
+    return matchesSearch;
+  });
 
-  return matchesSearch ;
-});
-
-
-    const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
   const pageCount = Math.ceil(filteredData.length / rowsPerPage);
   const paginatedData = filteredData.slice(
     (currentPage - 1) * rowsPerPage,
     currentPage * rowsPerPage
   );
- 
-   if (loading) {
-      return (
-        <div className="mt-40">
-          <Loader/>
-        </div>
-      );}
+
+  if (loading) {
+    return (
+      <div className="mt-40">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <div>
-      <NavAndSearch nav="/admin/addcategories" searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
-
-
-     
-    <DynamicTable
-  data={paginatedData}
-  columns={columns}
-  rowsPerPage={rowsPerPage}
-  currentPage={currentPage}
-  actions={(row) => (
-    <div className="flex gap-1">
-      <CiEdit
-        className="w-[24px] h-[24px] text-green-600 cursor-pointer"
-        onClick={() => handleEdit(row.id)}
+      <ToastContainer />
+      <NavAndSearch
+        nav="/admin/addcategories"
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        title={t("Categories")}
+        addButtonText={t("Add")}
       />
-      <RiDeleteBin6Line
-        className="w-[24px] h-[24px] ml-2 text-red-600 cursor-pointer"
-        onClick={() => handleDelete(row.id, row.name)}
+
+      <DynamicTable
+        data={paginatedData}
+        columns={columns}
+        rowsPerPage={rowsPerPage}
+        currentPage={currentPage}
+        actions={(row) => (
+          <div className={`flex gap-1 ${isRTL ? "justify-end" : "justify-start"}`}>
+            <CiEdit
+              className="w-[24px] h-[24px] text-green-600 cursor-pointer"
+              onClick={() => handleEdit(row.id)}
+            />
+            <RiDeleteBin6Line
+              className="w-[24px] h-[24px] ml-2 text-red-600 cursor-pointer"
+              onClick={() => handleDelete(row.id, row.name)}
+            />
+          </div>
+        )}
       />
-    </div>
-  )}
- 
-/>
 
-          <div className="flex justify-center mt-4">
-       <Pagination
-  count={pageCount}
-  page={currentPage}
-  onChange={(e, page) => setCurrentPage(page)}
-  shape="rounded"
-  sx={{
-    '& .MuiPaginationItem-root': {
-      color: '#876340', // لون النص
-      borderColor: '#876340',
-    },
-    '& .Mui-selected': {
-      backgroundColor: '#876340',
-      color: 'white',
-      '&:hover': {
-        backgroundColor: '#5d4037', // بني أغمق عند التمرير
-      },
-    },
-  
-  }}
-/>
-
+      <div className="flex justify-center mt-4">
+        <Pagination
+          count={pageCount}
+          page={currentPage}
+          onChange={(e, page) => setCurrentPage(page)}
+          shape="rounded"
+          sx={{
+            '& .MuiPaginationItem-root': {
+              color: '#876340',
+              borderColor: '#876340',
+            },
+            '& .Mui-selected': {
+              backgroundColor: '#876340',
+              color: 'white',
+              '&:hover': { backgroundColor: '#5d4037' },
+            },
+          }}
+        />
       </div>
-    </div>  )
-}
+    </div>
+  );
+};
 
-export default Categories
+export default Categories;

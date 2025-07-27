@@ -1,17 +1,21 @@
 import React from 'react';
 import Select from 'react-select';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
+const MultiSelectField = ({ value, onChange, placeholder, options }) => {
+  const { i18n } = useTranslation();
+  const isArabic = i18n.language === 'ar';
 
+  const optionsarray =
+    options?.map((page) => ({
+      value: page.id,
+      label: page.name || page.item,
+    })) || [];
 
-const MultiSelectField = ({ value, onChange, placeholder,options }) => {
-     const optionsarray = options?.map(page => ({
-    value: page.id,
-    label: page.name ||page.item,
-  })) || [];
   return (
-    <StyledWrapper>
-      <div className="form-control">
+    <StyledWrapper $isArabic={isArabic}>
+      <div className="form-control" dir={isArabic ? 'rtl' : 'ltr'}>
         <Select
           isMulti
           options={optionsarray}
@@ -21,11 +25,7 @@ const MultiSelectField = ({ value, onChange, placeholder,options }) => {
           classNamePrefix="custom-select"
         />
         <label>
-          {placeholder.split('').map((char, index) => (
-            <span key={index} style={{ transitionDelay: `${index * 50}ms` }}>
-              {char}
-            </span>
-          ))}
+          <span>{placeholder}</span>
         </label>
       </div>
     </StyledWrapper>
@@ -46,6 +46,8 @@ const StyledWrapper = styled.div`
     font-size: 18px;
     color: #876340;
     min-height: 60px;
+    direction: ${(props) => (props.$isArabic ? 'rtl' : 'ltr')};
+    text-align: ${(props) => (props.$isArabic ? 'right' : 'left')};
   }
 
   .custom-select__control--is-focused {
@@ -67,19 +69,19 @@ const StyledWrapper = styled.div`
   .form-control label {
     position: absolute;
     top: 18px;
-    left: 10px;
+    left: ${(props) => (props.$isArabic ? 'unset' : '10px')};
+    right: ${(props) => (props.$isArabic ? '10px' : 'unset')};
     pointer-events: none;
   }
 
   .form-control label span {
     display: inline-block;
     font-size: 18px;
-    padding-left: 3px;
     color: #bcc1c9;
     transition: 0.3s ease;
+    letter-spacing: 0;
   }
 
-  /* When select is focused or has value, float label */
   .custom-select__control--is-focused + label span,
   .form-control:has(.custom-select__multi-value) label span {
     color: #876340;

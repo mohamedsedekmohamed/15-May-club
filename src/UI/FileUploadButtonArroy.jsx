@@ -1,8 +1,10 @@
 import React, { useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 const FileUploadButtonArroy = ({ name, kind, flag = [], onFileChange }) => {
   const fileInputRef = useRef(null);
-
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === "ar";
   // عند اختيار صور جديدة
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -67,7 +69,7 @@ const FileUploadButtonArroy = ({ name, kind, flag = [], onFileChange }) => {
         onClick={() => fileInputRef.current.click()}
         className="px-4 py-2 bg-one text-white rounded-lg"
       >
-        Upload {kind}
+        {t("Upload")} {kind}
       </button>
     </div>
   );
