@@ -222,7 +222,7 @@ const User = () => {
             }}
             defaultValue="select"
           >
-            <option disabled>{t("select")}</option>
+            <option value='' >{t("select")}</option>
             <option value="approve">{t("approve")}</option>
             <option value="reject">{t("reject")}</option>
           </select>
