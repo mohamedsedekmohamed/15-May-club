@@ -189,7 +189,7 @@ const handstartDate = (newData) => {
 
     <div className="relative flex flex-col justify-end pb-5 h-[80px]"> {/* زودنا الارتفاع */}
   <label className="text-sm text-one mb-1">
-    {t("selectDate")} 
+    {t("DateOfBirth")} 
   </label>
 
   <div className="relative">
@@ -199,7 +199,7 @@ const handstartDate = (newData) => {
     <DatePicker
       selected={birthdate}
       onChange={handstartDate}
-      placeholderText={t("selectDate")}
+      placeholderText={t("DateOfBirth")}
       dateFormat="yyyy-MM-dd"
       className="w-[280px] h-[60px] border-1 border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
       showYearDropdown

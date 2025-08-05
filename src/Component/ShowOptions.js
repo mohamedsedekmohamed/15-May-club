@@ -28,8 +28,8 @@ const ShowOptions = async (id, t, i18n) => {
 
     const results = data.results;
     const labels = results.map((item) => item.item);
-    const values = results.map((item) => parseFloat(item.percentage));
-
+    const values = results.map((item) => item.percentage);
+// const values = results.map((item) => item.votesCount);
     // ✅ شرط: لو كل النسب = 0
     const allZero = values.every((val) => val === 0);
     if (allZero) {
