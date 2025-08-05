@@ -92,10 +92,16 @@ const AddUser = () => {
     return Object.keys(formErrors).length === 0;
   };
 
-  const handstartDate = (newData) => {
-    if (newData) setbirthdate(newData.toISOString().split("T")[0]);
-    else setbirthdate("");
-  };
+const handstartDate = (newData) => {
+  if (newData) {
+    const localDate = new Date(newData.getTime() - newData.getTimezoneOffset() * 60000)
+      .toISOString()
+      .split("T")[0];
+    setbirthdate(localDate);
+  } else {
+    setbirthdate("");
+  }
+};
 
   const handleSave = () => {
     setCheckLoading(true);
@@ -181,20 +187,29 @@ const AddUser = () => {
         <InputField placeholder={t("password")} name="password" value={password} onChange={handleChange} />
         <Inputfiltter placeholder={t("role")} name="role" value={role} like onChange={handleChange} />
 
-        <div className="relative flex flex-col h-[50px]">
-          <FaRegCalendarAlt className={`absolute top-[60%] ${i18n.language==="ar"?"left-10":" right-10"} transform -translate-y-1/2 text-one z-10`} />
-          <DatePicker
-            selected={birthdate}
-            onChange={handstartDate}
-            placeholderText={t("selectDate")}
-            dateFormat="yyyy-MM-dd"
-            className="w-[280px] h-[60px] border-1 border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
-            showYearDropdown
-            scrollableYearDropdown
-            maxDate={new Date()}
-            yearDropdownItemNumber={100}
-          />
-        </div>
+    <div className="relative flex flex-col justify-end pb-5 h-[80px]"> {/* زودنا الارتفاع */}
+  <label className="text-sm text-one mb-1">
+    {t("selectDate")} 
+  </label>
+
+  <div className="relative">
+    <FaRegCalendarAlt
+      className={`absolute top-[50%] ${i18n.language === "ar" ? "left-10" : "right-10"} transform -translate-y-1/2 text-one z-10`}
+    />
+    <DatePicker
+      selected={birthdate}
+      onChange={handstartDate}
+      placeholderText={t("selectDate")}
+      dateFormat="yyyy-MM-dd"
+      className="w-[280px] h-[60px] border-1 border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
+      showYearDropdown
+      scrollableYearDropdown
+      maxDate={new Date()}
+      yearDropdownItemNumber={100}
+    />
+  </div>
+</div>
+
       </div>
 
       <div className="mt-10 md:mt-5">

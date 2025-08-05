@@ -83,27 +83,38 @@ const Addpopup = () => {
     if (!endDate) formErrors.endDate = t("EndDateisrequired");
     if (!pageIds.length) formErrors.pageIds = t("pagedarerequired");
     if (!imageuser) formErrors.imageuser = t("Imageisrequired");
-
+if (startDate && endDate && new Date(endDate) < new Date(startDate)) {
+  formErrors.endDate = t("EndDatemustbelaterthanStartDate");
+}
     Object.values(formErrors).forEach((error) => toast.error(error));
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
   };
 
-  const formatLocalDate = (date) => {
-    const year = date.getFullYear();
-    const month = `0${date.getMonth() + 1}`.slice(-2);
-    const day = `0${date.getDate()}`.slice(-2);
-    return `${year}-${month}-${day}`;
-  };
+ 
+  
 
-  const handStartDate = (newData) => {
-    if (newData) setStartdate(formatLocalDate(newData));
-    else setStartdate("");
-  };
+const handStartDate = (newData) => {
+  if (newData) {
+    const localDate = new Date(newData.getTime() - newData.getTimezoneOffset() * 60000)
+      .toISOString()
+      .split("T")[0];
+    setStartdate(localDate);
+  } else {
+    setStartdate("");
+  }
+};
+
 
   const handEndDate = (newData) => {
-    if (newData) setEnddate(formatLocalDate(newData));
-    else setEnddate("");
+   if (newData) {
+    const localDate = new Date(newData.getTime() - newData.getTimezoneOffset() * 60000)
+      .toISOString()
+      .split("T")[0];
+    setEnddate(localDate);
+  } else {
+    setEnddate("");
+  }
   };
 
   const handleSave = () => {
@@ -197,9 +208,15 @@ const Addpopup = () => {
           onChange={handleChange}
         />
 
-        <div className="relative flex flex-col h-[50px]">
-          <FaRegCalendarAlt className={`absolute top-[60%] ${ isRTL?"left-10":"right-10"} transform -translate-y-1/2 text-one z-10`} />
-          <DatePicker
+         <div className="relative flex flex-col justify-end pb-5 h-[80px]"> {/* زودنا الارتفاع */}
+        <label className="text-sm text-one mb-1">
+          {t("selectDate")} 
+        </label>
+      
+        <div className="relative">
+          <FaRegCalendarAlt
+            className={`absolute top-[50%] ${i18n.language === "ar" ? "left-10" : "right-10"} transform -translate-y-1/2 text-one z-10`}
+          /> <DatePicker
             selected={startDate}
             onChange={handStartDate}
             placeholderText={t("Startdate")}
@@ -211,10 +228,17 @@ const Addpopup = () => {
             yearDropdownItemNumber={100}
           />
         </div>
+        </div>
 
-        <div className="relative flex flex-col h-[50px]">
-          <FaRegCalendarAlt className={`absolute top-[60%] ${ isRTL?"left-10":"right-10"} transform -translate-y-1/2 text-one z-10`} />
-          <DatePicker
+          <div className="relative flex flex-col justify-end pb-5 h-[80px]"> {/* زودنا الارتفاع */}
+         <label className="text-sm text-one mb-1">
+           {t("Enddate")} 
+         </label>
+       
+         <div className="relative">
+           <FaRegCalendarAlt
+             className={`absolute top-[50%] ${i18n.language === "ar" ? "left-10" : "right-10"} transform -translate-y-1/2 text-one z-10`}
+           />  <DatePicker
             selected={endDate}
             onChange={handEndDate}
             placeholderText={t("Enddate")}
@@ -225,6 +249,7 @@ const Addpopup = () => {
             yearDropdownItemNumber={100}
             minDate={new Date(new Date().toLocaleString("en-US", { timeZone: "Africa/Cairo" }))}
           />
+        </div>
         </div>
 
         <FileUploadButton

@@ -108,27 +108,39 @@ const AddVotes = () => {
       formErrors.endDate = t("EndDatecannotbebeforeStartDate");
     }
     if (optionId.length === 0) formErrors.optionId = t("OptionsAreRequired");
-
+    if (startDate && endDate && new Date(endDate) < new Date(startDate)) {
+      formErrors.endDate = t("EndDatemustbelaterthanStartDate");
+    }
     Object.values(formErrors).forEach((error) => toast.error(error));
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
   };
 
-  const formatLocalDate = (date) => {
-    const year = date.getFullYear();
-    const month = `0${date.getMonth() + 1}`.slice(-2);
-    const day = `0${date.getDate()}`.slice(-2);
-    return `${year}-${month}-${day}`;
+  const handStartDate = (newData) => {
+    if (newData) {
+      const localDate = new Date(
+        newData.getTime() - newData.getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .split("T")[0];
+      setStartdate(localDate);
+    } else {
+      setStartdate("");
+    }
   };
 
-  const handStartDate = (date) => {
-    setStartdate(date ? formatLocalDate(date) : "");
+  const handEndDate = (newData) => {
+    if (newData) {
+      const localDate = new Date(
+        newData.getTime() - newData.getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .split("T")[0];
+      setEnddate(localDate);
+    } else {
+      setEnddate("");
+    }
   };
-
-  const handEndDate = (date) => {
-    setEnddate(date ? formatLocalDate(date) : "");
-  };
-
   const handleSave = () => {
     setCheckLoading(true);
     if (!validateForm()) {
@@ -181,7 +193,7 @@ const AddVotes = () => {
     } else {
       const newVote = {
         ...baseData,
-        items: optionId.map(val => val.value),
+        items: optionId.map((val) => val.value),
       };
 
       axios
@@ -244,7 +256,8 @@ const AddVotes = () => {
           <GiFastBackwardButton className="text-one text-3xl" />
         </button>
         <span className="text-3xl font-medium text-center text-four">
-          {t("Votes")} / <span className="text-one">{edit ? t("edit") : t("add")}</span>
+          {t("Votes")} /{" "}
+          <span className="text-one">{edit ? t("edit") : t("add")}</span>
         </span>
       </div>
 
@@ -263,34 +276,61 @@ const AddVotes = () => {
           onChange={handleChange}
         />
 
-        <div className="relative flex flex-col h-[50px]">
-          <FaRegCalendarAlt className={`absolute top-[60%] ${i18n.language==="ar"?"left-10":" right-10"} transform -translate-y-1/2 text-one z-10`} />
-          <DatePicker
-            selected={startDate}
-            onChange={handStartDate}
-            placeholderText={t("Startdate")}
-            dateFormat="yyyy-MM-dd"
-            className="w-[280px] h-[60px] border-1 border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
-            showYearDropdown
-            scrollableYearDropdown
-            minDate={new Date(new Date().toLocaleString("en-US", { timeZone: "Africa/Cairo" }))}
-            yearDropdownItemNumber={100}
-          />
+        <div className="relative flex flex-col justify-end pb-5 h-[80px]">
+          {" "}
+          <label className="text-sm text-one mb-1">{t("Startdate")}</label>
+          <div className="relative">
+            <FaRegCalendarAlt
+              className={`absolute top-[50%] ${
+                i18n.language === "ar" ? "left-10" : "right-10"
+              } transform -translate-y-1/2 text-one z-10`}
+            />{" "}
+            <DatePicker
+              selected={startDate}
+              onChange={handStartDate}
+              placeholderText={t("Startdate")}
+              dateFormat="yyyy-MM-dd"
+              className="w-[280px] h-[60px] border-1 border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
+              showYearDropdown
+              scrollableYearDropdown
+              minDate={
+                new Date(
+                  new Date().toLocaleString("en-US", {
+                    timeZone: "Africa/Cairo",
+                  })
+                )
+              }
+              yearDropdownItemNumber={100}
+            />
+          </div>
         </div>
-
-        <div className="relative flex flex-col h-[50px]">
-          <FaRegCalendarAlt className={`absolute top-[60%] ${i18n.language==="ar"?"left-10":" right-10"} transform -translate-y-1/2 text-one z-10`} />
-          <DatePicker
-            selected={endDate}
-            onChange={handEndDate}
-            placeholderText={t("Enddate")}
-            dateFormat="yyyy-MM-dd"
-            className="w-[280px] h-[60px] border-1 border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
-            showYearDropdown
-            scrollableYearDropdown
-            minDate={new Date(new Date().toLocaleString("en-US", { timeZone: "Africa/Cairo" }))}
-            yearDropdownItemNumber={100}
-          />
+        <div className="relative flex flex-col justify-end pb-5 h-[80px]">
+          {" "}
+          <label className="text-sm text-one mb-1">{t("Enddate")}</label>
+          <div className="relative">
+            <FaRegCalendarAlt
+              className={`absolute top-[50%] ${
+                i18n.language === "ar" ? "left-10" : "right-10"
+              } transform -translate-y-1/2 text-one z-10`}
+            />{" "}
+            <DatePicker
+              selected={endDate}
+              onChange={handEndDate}
+              placeholderText={t("Enddate")}
+              dateFormat="yyyy-MM-dd"
+              className="w-[280px] h-[60px] border-1 border-four focus-within:border-one rounded-[16px] placeholder-one pl-5"
+              showYearDropdown
+              scrollableYearDropdown
+              minDate={
+                new Date(
+                  new Date().toLocaleString("en-US", {
+                    timeZone: "Africa/Cairo",
+                  })
+                )
+              }
+              yearDropdownItemNumber={100}
+            />
+          </div>
         </div>
 
         <MultiSelectField
@@ -308,7 +348,11 @@ const AddVotes = () => {
           className="transition-transform hover:scale-95 w-[300px] text-[32px] text-white font-medium h-[72px] bg-one rounded-[16px]"
           onClick={handleSave}
         >
-          {checkLoading ? t("loading") : <span>{edit ? t("Edit") : t("Add")}</span>}
+          {checkLoading ? (
+            t("loading")
+          ) : (
+            <span>{edit ? t("Edit") : t("Add")}</span>
+          )}
         </button>
       </div>
     </div>

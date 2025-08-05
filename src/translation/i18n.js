@@ -15,6 +15,7 @@ i18n
     resources: {
       en: {
         translation: {
+            EndDatemustbelaterthanStartDate: "End date must be later than start date",
           personal_info: "Personal Information",
           logout: "Logout",
           edit_profile: "Edit Info",
@@ -231,6 +232,7 @@ FailedToFetchResults: "Failed to fetch vote results",
 },
 ar: {
   translation: {
+    EndDatemustbelaterthanStartDate:"يجب أن يكون تاريخ الانتهاء لاحقًا من تاريخ البدء",
     AvailableOptions: "الخيارات المتاحة",
 VotePercentage: "نسبة التصويت",
 Close: "إغلاق",
