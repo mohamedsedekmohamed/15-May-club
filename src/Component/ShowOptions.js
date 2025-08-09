@@ -73,7 +73,7 @@ const ShowOptions = async (id, t, i18n) => {
             responsive: true,
             plugins: {
               legend: {
-                position: i18n.language === "ar" ? "left" : "right",
+                // position: i18n.language === "ar" ? "left" : "right",
               },
             },
           },
@@ -90,7 +90,7 @@ const ShowOptions = async (id, t, i18n) => {
   } catch {
     MySwal.mixin({
       toast: true,
-      position: i18n.language === "ar" ? "top-left" : "top-right",
+      // position: i18n.language === "ar" ? "top-left" : "top-right",
       icon: "error",
       showConfirmButton: false,
       timer: 3000,

@@ -49,9 +49,9 @@ const AdminSidebar = ({ setIsOpen, isOpen }) => {
       name: t("sidebar.votes"),
       icon: <VotesIcon />,
       iconActive: <VotesIcon active />,
-      subLinks: [
-        { to: "options", name: t("sidebar.options") },
-      ]
+      // subLinks: [
+      //   { to: "options", name: t("sidebar.options") },
+      // ]
     },
     {
       to: "competitions",

@@ -72,8 +72,8 @@ useEffect(() => {
                   {/* <Route path="addpages" element={<AddPages />} /> */}
                   <Route path="votes" element={<Votes />} />
 
-                  <Route path="options" element={<Options />} />
-                  <Route path="addoptions" element={<AddOptions />} />
+                  {/* <Route path="options" element={<Options />} /> */}
+                  {/* <Route path="addoptions" element={<AddOptions />} /> */}
                   <Route path="addvotes" element={<AddVotes />} />
 
                   <Route path="posts" element={<Poats />} />

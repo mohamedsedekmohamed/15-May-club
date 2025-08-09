@@ -66,7 +66,7 @@ const Categories = () => {
     const token = localStorage.getItem("token");
 
     Swal.fire({
-      title: t("ConfirmDeleteTitle", { name: userName }),
+    title: t("ConfirmDeleteTitle", { name: userName }) ,
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: t("Yes"),
@@ -74,7 +74,7 @@ const Categories = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`https://app.15may.club/api/admin/categories/${Id}`, {
+          .delete(`https://app.15may.club/api/admin/posts/categories/${Id}`, {
             headers: { Authorization: `Bearer ${token}` },
           })
           .then(() => {
