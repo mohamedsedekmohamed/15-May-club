@@ -226,12 +226,23 @@ VotePercentage: "Vote Percentage",
 NoData: "No data",
 NoVoteFound: "No vote results found",
 FailedToFetchResults: "Failed to fetch vote results",
-  NoVotesYet: "No one has voted yet"
-
+  NoVotesYet: "No one has voted yet",
+editnotificationsSuccess:"Edit notifications successful.",
+addnotificationsSuccess:"Add notifications successful.",
+notifications:"Notifications",
+body:'body',
+title:"title",
+Descroption:"Descroption",
 }
 },
 ar: {
   translation: {
+    Descroption:"الوصف",
+    title:"العنوان",
+    body:"الوصف",
+    notifications:"الإشعار",
+    addnotificationsSuccess:"تم اضافة الإشعار بنجاح",
+    editnotificationsSuccess:"تم تعديل الإشعار بنجاح",
     EndDatemustbelaterthanStartDate:"يجب أن يكون تاريخ الانتهاء لاحقًا من تاريخ البدء",
     AvailableOptions: "الخيارات المتاحة",
 VotePercentage: "نسبة التصويت",

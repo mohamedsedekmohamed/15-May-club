@@ -8,6 +8,7 @@ import VotesIcon from '../Icons/VotesIcon';
 import ComplaintsIcon from '../Icons/ComplaintsIcon';
 import CompetitionsIcon from '../Icons/CompetitionsIcon';
 import PostIcon from '../Icons/PostIcon';
+import NotificationsIcon from '../Icons/NotificationsIcon';
 import { ImUser } from "react-icons/im";
 import { ChevronDown } from 'lucide-react';
 import { useTranslation } from "react-i18next";
@@ -82,6 +83,12 @@ const AdminSidebar = ({ setIsOpen, isOpen }) => {
       name: t("sidebar.sliders"),
       icon: <SlidersIcons />,
       iconActive: <SlidersIcons active />
+    },
+    {
+      to: "notifications",
+      name: "NotificationsIcon",
+      icon: <NotificationsIcon />,
+      iconActive: <NotificationsIcon active />
     },
   ];
 

@@ -34,7 +34,9 @@ const AddUser = () => {
     if (file) setImageuser(file);
   };
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({
+    
+  });
 
   useEffect(() => {
     if (sendData) {

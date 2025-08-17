@@ -23,6 +23,8 @@ import AllviewCompeitions from '../Pages/Admin/Compeitions/AllviewCompeitions.js
 import AddOptions from "../Pages/Admin/Options/AddOptions.jsx"
 import Category from '../Pages/Admin/Complaints/Category.jsx'
 import AddCategory from '../Pages/Admin/Complaints/AddCategory.jsx'
+import Notifications from '../Pages/Admin/Notifications/Notifications.jsx'
+import AddNotifications from '../Pages/Admin/Notifications/AddNotifications.jsx'
 import Information from "../Component/Information.jsx"
 import AddInformation from "../Component/AddInformation.jsx"
 import AddPost from '../Pages/Admin/Postpage/AddPost.jsx';
@@ -86,6 +88,9 @@ useEffect(() => {
                    <Route path="information" element={<Information  setIsLoggedIn={setIsLoggedIn} />} />
                    <Route path="addInformation" element={<AddInformation/>} />
                   <Route path="category" element={<Category />} />
+
+                  <Route path="notifications" element={<Notifications />} />
+                  <Route path="addnotifications" element={<AddNotifications />} />
 
           </Route>
           
