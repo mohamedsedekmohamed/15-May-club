@@ -49,9 +49,8 @@ const Notifications = () => {
       .then((response) => {
         clearTimeout(timeout);
                 setLoading(false);
-
  setData(
-  response.data.data.data.map((item) => ({
+  response.data.data.map((item) => ({
     id: item.id,
     title: item.title,
     body: item.body,
