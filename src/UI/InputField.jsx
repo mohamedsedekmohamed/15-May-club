@@ -2,7 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
-const InputField = ({ placeholder, value, onChange, name, email, disabled }) => {
+const InputField = ({ placeholder, value, onChange, name, email, disabled
+  ,min=null
+ }) => {
   const { t, i18n } = useTranslation();
 
   const inputType = email || 'text';
@@ -22,6 +24,7 @@ const InputField = ({ placeholder, value, onChange, name, email, disabled }) => 
           value={value}
           onChange={onChange}
           required
+          min={min}
           disabled={disabled}
           maxLength={maxLength}
           placeholder=""

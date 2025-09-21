@@ -36,11 +36,8 @@ const handleLanguage = (event) => {
   return (
     <div className="w-full flex justify-between items-center relative">
       <div className='flex items-center gap-0.5'>
-        {data.imagePath ? (
-          <img src={data.imagePath??null} className='w-4 md:w-10 md:h-10 h-4 rounded-full' />
-        ) : (
-          <span className='w-4 md:w-10 h-4 md:h-10 bg-gray-200 rounded-full' />
-        )}
+      
+          <img src={data.imagePath} alt='main pic' className='w-4 md:w-10 md:h-10 h-4 rounded-full' />
         <div className='flex flex-col gap-0.5'>
           <span className='text-[12px] md:text-2xl font-bold text-one'>{data.name || "no name"}</span>
         </div>

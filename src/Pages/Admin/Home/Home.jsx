@@ -77,7 +77,7 @@ const Home = () => {
           <button
             className="bg-one w-full rounded-4xl py-4 flex gap-2 justify-center items-center hover:bg-one/90"
             onClick={() => {
-              navigate("/admin/allPosts");
+              navigate("/admin/addpost");
             }}
           >
             <span>{t("dashboard.add_posts")}</span>
@@ -86,7 +86,7 @@ const Home = () => {
           <button
             className="bg-one w-full rounded-4xl py-4 flex gap-2 justify-center items-center hover:bg-one/90"
             onClick={() => {
-              navigate("/admin/allpopup");
+              navigate("/admin/addpopup");
             }}
           >
             <span>{t("dashboard.add_popup")}</span>

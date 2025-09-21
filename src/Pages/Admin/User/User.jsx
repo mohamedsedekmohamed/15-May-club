@@ -30,29 +30,21 @@ const User = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const source = axios.CancelToken.source();
-    const timeout = setTimeout(() => {
-      source.cancel(t("request_timeout"));
-      setLoading(false);
-      toast.error(t("request_timeout_message"));
-    }, 10000);
+  
 
     axios.get("https://app.15may.club/api/admin/users", {
       headers: { Authorization: `Bearer ${token}` },
-      cancelToken: source.token,
     })
       .then((response) => {
-        clearTimeout(timeout);
         setData(response.data.data.users);
         setLoading(false);
       })
       .catch((error) => {
-        clearTimeout(timeout);
-        if (!axios.isCancel(error)) toast.error(t("fetch_error"));
+        if (!axios.isCancel(error))
+           toast.error(t("fetch_error"));
         setLoading(false);
       });
 
-    return () => clearTimeout(timeout);
   }, [update]);
 
   const handleEdit = (id) => {
@@ -212,21 +204,28 @@ const User = () => {
             <RiDeleteBin6Line className="w-[24px] h-[24px] ml-2 text-red-600 cursor-pointer" onClick={() => handleDelete(row.id, row.name)} />
           </div>
         )}
-        actionsstates={(row) => (
-          <select
-            className="text-sm border px-2 py-1 rounded-4xl bg-one text-white"
-            onChange={(e) => {
-              const value = e.target.value;
-              if (value === "approve") approve(row.id, row.name);
-              else if (value === "reject") reject(row.id, row.name);
-            }}
-            defaultValue="select"
-          >
-            <option value='' >{t("select")}</option>
-            <option value="approve">{t("approve")}</option>
-            <option value="reject">{t("reject")}</option>
-          </select>
-        )}
+      actionsstates={(row) => (
+  row.status === "pending" ? (
+    <select
+      className="text-sm border px-2 py-1 rounded-4xl bg-one text-white"
+      onChange={(e) => {
+        const value = e.target.value;
+        if (value === "approve") {
+          approve(row.id, row.name);
+        } else if (value === "reject") {
+          reject(row.id, row.name);
+        }
+        e.target.value = "select"; // يرجع للافتراضي
+      }}
+      defaultValue="select"
+    >
+      <option value="select">{t("select")}</option>
+      <option value="approve">{t("approve")}</option>
+      <option value="reject">{t("reject")}</option>
+    </select>
+  ) : null
+)}
+
       />
 
       <div className="flex justify-center mt-4">

@@ -207,6 +207,7 @@ const AddSliders = () => {
           placeholder={t("Order")}
           name="order"
           value={order}
+          min={1}
           onChange={handleChange}
           email="number"
         />
