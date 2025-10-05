@@ -66,7 +66,6 @@ const AddInformation = () => {
   const validateForm = () => {
     let formErrors = {};
     if (!name) formErrors.name = 'Name is required';
-    // if (!password || password.length>=8) formErrors.password = 'password is required and 8 char';
     if (!phone) {
       formErrors.phone = 'Phone is required';
     } else if (!/^\+?\d+$/.test(phone)) {
@@ -81,58 +80,47 @@ const AddInformation = () => {
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
   };
+const handleSave = () => {
+  if (!validateForm()) return;
 
-  const handleSave = () => {
-    if (!validateForm()) {
-      return;
-    }
-
-
-    const token = localStorage.getItem('token');
-    const newUser = {
-      name,
-      phoneNumber:phone,
-      email,
-    };
-     if ( picAdmin==!check||!picAdmin.startsWith("/uploads") ) {
-        newUser.imagePath = picAdmin;
-      }
-
-    if(password){
-      newUser.password=password
-    }
-      axios.put(`https://app.15may.club/api/admin/profile`, newUser, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then(() => {
-          toast.success('Admin updated successfully');
-          setTimeout(() => {
-            navigate(-1);
-          }, 3000);
-        setCheck(null)  
-        setPicAdmin(null)
-    setName('');
-    setPhone('');
-    setEmail('');
-    setPassword('');
-        })
-         .catch((error) => {
-      const err = error?.response?.data?.error;
-             if (err?.details?.length) {
-               err.details.forEach((detail) => {
-                 toast.error(`${detail.field}: ${detail.message}`);
-               });
-             } else if (err?.message) {
-               toast.error(err.message);
-             } else {
-               toast.error("Error fatch ");
-             }
-      });
-   
-
+  const token = localStorage.getItem('token');
+  const newUser = {
+    name: name.trim(),
+    phoneNumber: phone.trim(),
+    email: email.trim(),
   };
+
+  // ✅ تحديد الصورة الجديدة فقط لو اتغيرت
+  if (picAdmin && picAdmin !== check && !picAdmin.startsWith("/uploads")) {
+    newUser.imagePath = picAdmin;
+  }
+
+  // ✅ فقط أضف الباسورد لو المستخدم كتب واحد جديد
+  if (password.trim()) {
+    newUser.password = password.trim();
+  }
+
+  axios.put("https://app.15may.club/api/admin/profile", newUser, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+    .then(() => {
+      toast.success('Admin updated successfully');
+      setTimeout(() => navigate(-1), 2000);
+    })
+    .catch((error) => {
+      const err = error?.response?.data?.error;
+      if (err?.details?.length) {
+        err.details.forEach((detail) => {
+          toast.error(`${detail.field}: ${detail.message}`);
+        });
+      } else if (err?.message) {
+        toast.error(err.message);
+      } else {
+        toast.error("Error updating admin.");
+      }
+    });
+};
+
 
 
   if (loading) {
