@@ -15,10 +15,10 @@ import { useTranslation } from "react-i18next";
 const Votes = () => {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === "ar";
-
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [update, setUpdate] = useState(false);
+  
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);

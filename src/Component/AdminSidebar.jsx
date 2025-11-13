@@ -12,7 +12,8 @@ import NotificationsIcon from '../Icons/NotificationsIcon';
 import { ImUser } from "react-icons/im";
 import { ChevronDown } from 'lucide-react';
 import { useTranslation } from "react-i18next";
-
+import BannerIcon from '../Icons/BannerIcon'
+import NumberIcon from '../Icons/NumberIcon';
 const AdminSidebar = ({ setIsOpen, isOpen }) => {
   const { t } = useTranslation();
 
@@ -86,9 +87,21 @@ const AdminSidebar = ({ setIsOpen, isOpen }) => {
     },
     {
       to: "notifications",
-      name: "NotificationsIcon",
+      name: t("NotificationsIcon"),
       icon: <NotificationsIcon />,
       iconActive: <NotificationsIcon active />
+    },
+    {
+      to: "banner",
+      name: t("banner"),
+      icon: <BannerIcon />,
+      iconActive: <BannerIcon active />
+    },
+    {
+      to: "members",
+      name: t("Members"),
+      icon: <NumberIcon />,
+      iconActive: <NumberIcon active />
     },
   ];
 
@@ -111,6 +124,8 @@ const AdminSidebar = ({ setIsOpen, isOpen }) => {
       '/admin/addcategories': '/admin/categories',
       '/admin/allposts': '/admin/posts',
       '/admin/addSliders': '/admin/sliders',
+      '/admin/addbanner': '/admin/banner',
+      '/admin/addmembers': '/admin/members',
     };
 
     const newPath = customPaths[location.pathname] || location.pathname;

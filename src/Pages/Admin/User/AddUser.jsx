@@ -25,6 +25,7 @@ const AddUser = () => {
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState("");
   const [purpose, setPurpose] = useState("");
+  const [cardId, setCardId] = useState("");
   const [imageuser, setImageuser] = useState("");
   const [edit, setEdit] = useState(false);
   const [checkLoading, setCheckLoading] = useState(false);
@@ -56,6 +57,7 @@ const AddUser = () => {
             setRole(user.role || "");
             setPurpose(user.purpose || "");
             setImageuser(user.imagePath || "");
+            setCardId(user.cardId || "");
           }
         })
         .catch((error) => {
@@ -74,11 +76,13 @@ const AddUser = () => {
     if (name === "email") setEmail(value);
     if (name === "password") setPassword(value);
     if (name === "purpose") setPurpose(value);
+    if (name === "cardId") setCardId(value);
   };
 
   const validateForm = () => {
     let formErrors = {};
     if (!name) formErrors.name = t("nameRequired");
+    if (!cardId) formErrors.cardId = t("cardIdRequired");
     if (!birthdate) formErrors.birthdate = t("birthdateRequired");
     if (!phone) formErrors.phone = t("phoneRequired");
     else if (!/^01\d{9}$/.test(phone)) formErrors.phone = t("phoneInvalid");
@@ -119,6 +123,7 @@ const handstartDate = (newData) => {
       email,
       role,
       dateOfBirth: birthdate,
+      cardId
     };
 
     if (!edit) {
@@ -149,6 +154,7 @@ const handstartDate = (newData) => {
         setName("");
         setPhone("");
         setRole("");
+        setCardId('')
         setPurpose("");
         setEmail("");
         setPassword("");
@@ -184,12 +190,13 @@ const handstartDate = (newData) => {
 
       <div className="flex gap-7 flex-wrap mt-10 pr-5 space-y-5">
         <InputField placeholder={t("user")} name="name" value={name} onChange={handleChange} />
+        <InputField placeholder={t("cardId")} name="cardId" value={cardId} onChange={handleChange} />
         <InputField placeholder={t("phone")} name="phone" value={phone} onChange={handleChange} />
         <InputField placeholder={t("email")} name="email" value={email} onChange={handleChange} />
         <InputField placeholder={t("password")} name="password" value={password} onChange={handleChange} />
         <Inputfiltter placeholder={t("role")} name="role" value={role} like onChange={handleChange} />
 
-    <div className="relative flex flex-col justify-end pb-5 h-[80px]"> {/* زودنا الارتفاع */}
+    <div className="relative flex flex-col justify-end pb-5 h-[80px]"> 
   <label className="text-sm text-one mb-1">
     {t("DateOfBirth")} 
   </label>

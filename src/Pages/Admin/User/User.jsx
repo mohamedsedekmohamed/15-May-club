@@ -195,6 +195,7 @@ const User = () => {
           { key: "email", label: t("email") },
           { key: "status", label: t("status") },
           { key: "purpose", label: t("purpose") },
+          { key: "cardId", label: t("cardId") },
         ]}
         rowsPerPage={rowsPerPage}
         currentPage={currentPage}

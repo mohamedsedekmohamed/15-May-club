@@ -60,7 +60,7 @@ const FileUploadButton = ({ onFileChange, kind, flag }) => {
               alt="Preview"
             />
           ) : (
-            <span className='text-gray-500 text-sm'>{t("UploadpicforCard")}</span>
+            <span className='text-gray-500 text-sm'>{kind}</span>
           )}
         </div>
       </button>
