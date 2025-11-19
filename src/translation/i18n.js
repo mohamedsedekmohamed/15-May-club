@@ -20,6 +20,7 @@ i18n.use(initReactI18next).init({
         personal_info: "Personal Information",
         logout: "Logout",
         edit_profile: "Edit Info",
+        fulltext: "fulltext",
         no_name: "No Name",
         no_email: "No Email",
         super_admin: "Super Admin",
@@ -250,13 +251,19 @@ i18n.use(initReactI18next).init({
         Updatedsuccessfully:"Updated successfully",
         Addedsuccessfully:"Added successfully",
         Members:"Members",
-        Member:"Member"
-
+        Member:"Member",
+Layer:"Layer",
+SeletLayer:"SeletLayer",
+ descriptionisrequired: "Description is required",
+  layerisrequired: "Layer is required"
       },
     },
     ar: {
       translation: {
         Member:"مرشح",
+        SeletLayer:"اختيار الطبقة ", 
+        descriptionisrequired: "الوصف مطلوب",
+  layerisrequired: "المستوى مطلوب",
         PhotoSymbol: "رمز الصورة",
 Number: "الرقم",
 Namesymbolisrequired: "رمز الاسم مطلوب",
@@ -275,6 +282,8 @@ NameSymbol: "رمز الاسم",
         Descroption: "الوصف",
         title: "العنوان",
         body: "الوصف",
+        fulltext:"الداتا كامل ",
+        Layer:"الطبقة ",
         notifications: "الإشعار",
         addnotificationsSuccess: "تم اضافة الإشعار بنجاح",
         editnotificationsSuccess: "تم تعديل الإشعار بنجاح",

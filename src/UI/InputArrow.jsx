@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
 
-const InputArrow = ({ placeholder, value, onChange, name }) => {
-  const [options, setOptions] = useState([]);
+const InputArrow = ({ placeholder, value, onChange, name ,optionsList }) => {
+  const [options, setOptions] = useState(optionsList||[]);
   const [isFocused, setIsFocused] = useState(false);
 
   const mapDataToOptions = (data) =>
@@ -14,7 +14,7 @@ const InputArrow = ({ placeholder, value, onChange, name }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-
+if(name==="layer")return
     axios
       .get(`https://app.15may.club/api/admin/${name}`, {
         headers: { Authorization: `Bearer ${token}` },

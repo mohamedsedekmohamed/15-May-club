@@ -103,8 +103,8 @@ const location = useLocation();
   const columns = [
     { key: "name", label: t("Name") },
     { key: "photo", label: t("Photo") },
-    { key: "nameSymbol", label: t("NameSymbol") },
-    { key: "photoSymbol", label: t("PhotoSymbol") },
+    { key: "layer", label: t("Layer") },
+    { key: "description", label: t("Description") },
     { key: "number", label: t("Number") },
   ];
 

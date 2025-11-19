@@ -4,8 +4,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import InputField from "../../../UI/InputField";
+import InputArrow from "../../../UI/InputArrow";
 import FileUploadButton from "../../../UI/FileUploadButton";
-import SwitchButton from "../../../UI/SwitchButton";
 import Loader from "../../../UI/Loader";
 import { GiFastBackwardButton } from "react-icons/gi";
 import { useTranslation } from "react-i18next";
@@ -21,8 +21,8 @@ const AddNumbers = () => {
 
   const [photo, setPhoto] = useState(null);
   const [name, setName] = useState("");
-  const [nameSymbol, setNameSymbol] = useState("");
-  const [photoSymbol, setPhotoSymbol] = useState(null);
+  const [description, setDescription] = useState("");
+  const [layer, setLayer] = useState("");
   const [number, setNumber] = useState("");
 
   const [errors, setErrors] = useState({});
@@ -39,10 +39,10 @@ const AddNumbers = () => {
           const item = response.data.data.member;
           if (item) {
             setName(item.name || "");
-            setNameSymbol(item.nameSymbol || "");
+            setDescription(item.description || "");
+            setLayer(item.layer || "");
             setNumber(item.number || "");
             setPhoto(item.photo || "");
-            setPhotoSymbol(item.photoSymbol || "");
           }
         })
         .catch(() => toast.error(t("Errorfetchingdata")));
@@ -54,23 +54,23 @@ const AddNumbers = () => {
 
   const handleFileChange = (file, field) => {
     if (field === "photo") setPhoto(file);
-    if (field === "photoSymbol") setPhotoSymbol(file);
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "name") setName(value);
-    if (name === "nameSymbol") setNameSymbol(value);
+    if (name === "description") setDescription(value);
+    if (name === "layer") setLayer(value);
     if (name === "number") setNumber(value);
   };
 
   const validateForm = () => {
     let formErrors = {};
     if (!name) formErrors.name = t("Nameisrequired");
-    if (!nameSymbol) formErrors.nameSymbol = t("Namesymbolisrequired");
+    if (!description) formErrors.description = t("descriptionisrequired");
+    if (!layer) formErrors.layer = t("layerisrequired");
     if (!number) formErrors.number = t("Numberisrequired");
     if (!photo) formErrors.photo = t("Photoisrequired");
-    if (!photoSymbol) formErrors.photoSymbol = t("Photosymbolisrequired");
 
     Object.values(formErrors).forEach((error) => toast.error(error));
     setErrors(formErrors);
@@ -87,10 +87,10 @@ const AddNumbers = () => {
     const token = localStorage.getItem("token");
     const newData = {
       name,
-      nameSymbol,
+       description,
       number:String(number),
       photo,
-      photoSymbol,
+       layer,
     };
 
     const request = edit
@@ -120,6 +120,11 @@ setTimeout(() => navigate("/admin/members", { state: { refresh: true } }), 500);
         setCheckLoading(false);
       });
   };
+const numbers = Array.from({ length: 10 }, (_, i) => ({
+  value: i + 1,
+  label: (i + 1).toString(),
+}));
+
 
   if (loading) return <div className="mt-40"><Loader /></div>;
 
@@ -137,11 +142,17 @@ setTimeout(() => navigate("/admin/members", { state: { refresh: true } }), 500);
 
       <div className="flex gap-7 flex-wrap mt-10 space-y-5">
         <InputField placeholder={t("Name")} name="name" value={name} onChange={handleChange} />
-        <InputField placeholder={t("NameSymbol")} name="nameSymbol" value={nameSymbol} onChange={handleChange} />
+        <InputField placeholder={t("Description")} name="description" value={description} onChange={handleChange} />
+     
         <InputField placeholder={t("Number")} email={"number"}  name="number" value={number} onChange={handleChange} />
-
+<InputArrow
+  placeholder={t("SeletLayer")}
+  name="layer"
+  value={layer}
+  onChange={(e) => setLayer(e.target.value)}
+  optionsList={numbers}
+/>
         <FileUploadButton name={t("Photo")} kind={t("Image")} flag={photo} onFileChange={(f) => handleFileChange(f, "photo")} />
-        <FileUploadButton name={t("PhotoSymbol")} kind={t("PhotoSymbol")} flag={photoSymbol} onFileChange={(f) => handleFileChange(f, "photoSymbol")} />
       </div>
 
       <div className="flex mt-6">
