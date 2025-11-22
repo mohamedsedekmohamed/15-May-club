@@ -268,11 +268,11 @@ const { t, i18n } = useTranslation();
           shape="rounded"
           sx={{
             "& .MuiPaginationItem-root": {
-              color: "#876340",
-              borderColor: "#876340",
+              color: "#3c57a6",
+              borderColor: "#3c57a6",
             },
             "& .Mui-selected": {
-              backgroundColor: "#876340",
+              backgroundColor: "#3c57a6",
               color: "white",
               "&:hover": {
                 backgroundColor: "#5d4037",

@@ -36,7 +36,7 @@ const Inputfiltter = ({ placeholder, value, like, onChange, name, shara }) => {
           control: (base, state) => ({
             ...base,
             backgroundColor: 'transparent',
-            borderColor: state.isFocused ? '#876340' : '#dcdcdc',
+            borderColor: state.isFocused ? '#3c57a6' : '#dcdcdc',
             borderWidth: '2px',
             borderRadius: '16px',
             paddingLeft: '8px',
@@ -44,7 +44,7 @@ const Inputfiltter = ({ placeholder, value, like, onChange, name, shara }) => {
             boxShadow: 'none',
             width:"280px",
             '&:hover': {
-              borderColor: '#876340',
+              borderColor: '#3c57a6',
             },
           }),
           singleValue: (base) => ({
@@ -70,7 +70,7 @@ const Inputfiltter = ({ placeholder, value, like, onChange, name, shara }) => {
   dropdownIndicator: (base) => ({
     ...base,
     display: 'flex', // ← هنا تم التصحيح
-    color: '#876340',
+    color: '#3c57a6',
     padding: '8px',
   }),        }}
       />

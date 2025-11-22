@@ -49,14 +49,14 @@ const StyledWrapper = styled.div`
     width: 100%;
     padding: 15px 10px;
     font-size: 18px;
-    color: #876340;
+    color: #3c57a6;
     direction: inherit;
   }
 
   .form-control input:focus,
   .form-control input:valid {
     outline: 0;
-    border-color: #876340;
+    border-color: #3c57a6;
     color: black;
   }
 
@@ -74,7 +74,7 @@ const StyledWrapper = styled.div`
 
   .form-control input:focus + label,
   .form-control input:valid + label {
-    color: #876340;
+    color: #3c57a6;
     transform: translateY(-45px) scale(0.85);
   }
 `;

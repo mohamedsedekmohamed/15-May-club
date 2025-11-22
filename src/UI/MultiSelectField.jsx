@@ -44,14 +44,14 @@ const StyledWrapper = styled.div`
     border-radius: 16px;
     padding-left: 5px;
     font-size: 18px;
-    color: #876340;
+    color: #3c57a6;
     min-height: 60px;
     direction: ${(props) => (props.$isArabic ? 'rtl' : 'ltr')};
     text-align: ${(props) => (props.$isArabic ? 'right' : 'left')};
   }
 
   .custom-select__control--is-focused {
-    border-color: #876340;
+    border-color: #3c57a6;
     box-shadow: none;
   }
 
@@ -84,7 +84,7 @@ const StyledWrapper = styled.div`
 
   .custom-select__control--is-focused + label span,
   .form-control:has(.custom-select__multi-value) label span {
-    color: #876340;
+    color: #3c57a6;
     transform: translateY(-50px) translateX(5px);
   }
 `;

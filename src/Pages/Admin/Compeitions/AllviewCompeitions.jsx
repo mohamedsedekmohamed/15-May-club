@@ -23,7 +23,7 @@ const AllviewCompeitions = () => {
         <button
           onClick={() => setActiveTab('Gallery')}
           className={`px-4 py-2 rounded-t-md font-semibold ${
-            activeTab === 'Gallery' ? 'bg-[#876340] text-white' : 'bg-gray-100 text-gray-700'
+            activeTab === 'Gallery' ? 'bg-[#3c57a6] text-white' : 'bg-gray-100 text-gray-700'
           }`}
         >
           {(t("Gallery"))}
@@ -31,14 +31,14 @@ const AllviewCompeitions = () => {
         <button
           onClick={() => setActiveTab('Description')}
           className={`px-4 py-2 rounded-t-md font-semibold ${
-            activeTab === 'Description' ? 'bg-[#876340] text-white' : 'bg-gray-100 text-gray-700'
+            activeTab === 'Description' ? 'bg-[#3c57a6] text-white' : 'bg-gray-100 text-gray-700'
           }`}
         >
 {t("Description")}   </button>
         <button
           onClick={() => setActiveTab('Subscribers')}
           className={`px-4 py-2 rounded-t-md font-semibold ${
-            activeTab === 'Subscribers' ? 'bg-[#876340] text-white' : 'bg-gray-100 text-gray-700'
+            activeTab === 'Subscribers' ? 'bg-[#3c57a6] text-white' : 'bg-gray-100 text-gray-700'
           }`}
         >
  {t("Subscribers")}

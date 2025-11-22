@@ -47,14 +47,14 @@ if(name==="layer")return
           control: (base, state) => ({
             ...base,
             backgroundColor: 'transparent',
-            borderColor: state.isFocused ? '#876340' : '#dcdcdc',
+            borderColor: state.isFocused ? '#3c57a6' : '#dcdcdc',
             borderWidth: '2px',
             borderRadius: '16px',
             paddingLeft: '8px',
             height: '60px',
             boxShadow: 'none',
             '&:hover': {
-              borderColor: '#876340',
+              borderColor: '#3c57a6',
             },
           }),
           singleValue: (base) => ({
@@ -80,7 +80,7 @@ if(name==="layer")return
           dropdownIndicator: (base) => ({
             ...base,
             display: 'flex',
-            color: '#876340',
+            color: '#3c57a6',
             padding: '8px',
           }),
         }}

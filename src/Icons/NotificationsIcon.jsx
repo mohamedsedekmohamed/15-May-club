@@ -2,7 +2,7 @@ import React from 'react';
 import { MdEditNotifications } from "react-icons/md";
 
 const NotificationsIcon = ({ active }) => {
-  const iconColor = active ? "#876340" : "#FFFFFF";
+  const iconColor = active ? "#3c57a6" : "#FFFFFF";
   
   return (
     <div>

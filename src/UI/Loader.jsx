@@ -28,7 +28,7 @@ const StyledWrapper = styled.div`
     animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;
     animation-direction: normal;
-    --clr: #876340;
+    --clr: #3c57a6;
   }
 
   @keyframes rotateSpin {

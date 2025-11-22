@@ -190,11 +190,11 @@ const filteredData = data.filter((item) => {
   shape="rounded"
   sx={{
     '& .MuiPaginationItem-root': {
-      color: '#876340', // لون النص
-      borderColor: '#876340',
+      color: '#3c57a6', // لون النص
+      borderColor: '#3c57a6',
     },
     '& .Mui-selected': {
-      backgroundColor: '#876340',
+      backgroundColor: '#3c57a6',
       color: 'white',
       '&:hover': {
         backgroundColor: '#5d4037', // بني أغمق عند التمرير

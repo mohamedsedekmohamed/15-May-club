@@ -1,7 +1,7 @@
 import React from 'react'
 
  const HomeIcons = ({active}) => {
-    const iconStyle = active ? "#876340" :"#FFFFFF";
+    const iconStyle = active ? "#3c57a6" :"#FFFFFF";
   return (
     <div>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -1,7 +1,7 @@
 import React from 'react'
 
 const SlidersIcons = ({active}) => {
-    const iconStyle = active ? "#876340" :"#FFFFFF";
+    const iconStyle = active ? "#3c57a6" :"#FFFFFF";
   return (
     <div><svg width="24" height="24" viewBox="0 0 24 24" fill={iconStyle} xmlns="http://www.w3.org/2000/svg">
 <path d="M6 8C6 5.172 6 3.757 6.879 2.879C7.757 2 9.172 2 12 2C14.828 2 16.243 2 17.121 2.879C18 3.757 18 5.172 18 8V16C18 18.828 18 20.243 17.121 21.121C16.243 22 14.828 22 12 22C9.172 22 7.757 22 6.879 21.121C6 20.243 6 18.828 6 16V8Z" fill={iconStyle}/>

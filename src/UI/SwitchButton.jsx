@@ -75,7 +75,7 @@ const StyledWrapper = styled.div`
     right: 0.3em;
     bottom: 0.3em;
     transform: translateX(150%);
-    background-color: #876340;
+    background-color: #3c57a6;
     border-radius: inherit;
     transition: all 0.4s cubic-bezier(0.215, 0.610, 0.355, 1);
   }
@@ -93,7 +93,7 @@ const StyledWrapper = styled.div`
   }
 
   .switch input:focus + .slider {
-    box-shadow: 0 0 1px #876340;
+    box-shadow: 0 0 1px #3c57a6;
   }
 
   .switch input:checked + .slider:before {

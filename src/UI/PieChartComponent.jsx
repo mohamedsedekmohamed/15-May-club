@@ -9,7 +9,18 @@ import {
 } from "recharts";
 import axios from "axios";
 
-const COLORS = ["#876340", "#876330", "#876320", "#876310", "#876300"];
+const COLORS = [
+  "#3c57a0", // اللون الأصلي
+  "#4a66b5",
+  "#2f478a",
+  "#5b74c3",
+  "#2a3f7a",
+  "#6a82d1",
+  "#364f94",
+  "#8097dd",
+  "#223465",
+  "#97aceb"
+];
 
 const PieChartComponent = () => {
   const [data, setData] = useState([]);
