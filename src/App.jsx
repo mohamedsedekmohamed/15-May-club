@@ -3,6 +3,8 @@ import Login from "./Auth/Login.jsx";
 import AppRoutes from "./Routes/AppRoutes.jsx";
 import { useEffect, useState } from "react";
 import LandPage from "./LandPage/LandPage.jsx";
+import Suppert from './Suppert.jsx'
+import Privacy from './Privacy.jsx'
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     const stored = sessionStorage.getItem("isLoggedIn");
@@ -23,6 +25,8 @@ function App() {
                 path="/login"
                 element={<Login setIsLoggedIn={setIsLoggedIn} />}
               />
+                 <Route path="/support" element={<Suppert />} />
+            <Route path="/Privacy" element={<Privacy />} />
               <Route path="/*" element={<LandPage />} />
             </>
           ) : (
