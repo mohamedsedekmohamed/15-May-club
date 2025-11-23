@@ -9,9 +9,9 @@ const InputField = ({ placeholder, value, onChange, name, email, disabled
 
   const inputType = email || 'text';
   const maxLength =
-    email === 'number' ? 20 :
-    email === 'email' ? 50 :
-    100;
+    email === 'number' ? 40 :
+    email === 'email' ? 100 :
+    250;
 
   const direction = i18n.language === 'ar' ? 'rtl' : 'ltr';
 
