@@ -60,7 +60,7 @@ const Home = () => {
           { label: t("dashboard.competitions"), value: data.competitionsCount },
           { label: t("dashboard.votes"), value: data.votesCount },
           { label: t("dashboard.posts"), value: data.postsCount },
-          { label: t("dashboard.popups"), value: data.popupsCount },
+          // { label: t("dashboard.popups"), value: data.popupsCount },
         ].map((item, index) => (
           <div
             key={index}
@@ -83,7 +83,7 @@ const Home = () => {
             <span>{t("dashboard.add_posts")}</span>
             <BsPostageFill />
           </button>
-          <button
+          {/* <button
             className="bg-one w-full rounded-4xl py-4 flex gap-2 justify-center items-center hover:bg-one/90"
             onClick={() => {
               navigate("/admin/addpopup");
@@ -91,7 +91,7 @@ const Home = () => {
           >
             <span>{t("dashboard.add_popup")}</span>
             <AiOutlinePicture />
-          </button>
+          </button> */}
           <button
             className="bg-one w-full rounded-4xl py-4 flex gap-2 justify-center items-center hover:bg-one/90"
             onClick={() => {

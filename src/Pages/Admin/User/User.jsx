@@ -197,6 +197,7 @@ const User = () => {
           { key: "purpose", label: t("purpose") },
           { key: "cardId", label: t("cardId") },
         ]}
+        
         rowsPerPage={rowsPerPage}
         currentPage={currentPage}
         actions={(row) => (
