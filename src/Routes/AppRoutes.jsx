@@ -30,8 +30,8 @@ import AddInformation from "../Component/AddInformation.jsx"
 import AddPost from '../Pages/Admin/Postpage/AddPost.jsx';
 import AddNumbers from '../Pages/Admin/Numbers/AddNumbers.jsx';
 import Numbers from '../Pages/Admin/Numbers/Numbers.jsx';
-import Banner from '../Pages/Admin/Banner/Banner.jsx'
-import AddBanners from '../Pages/Admin/Banner/AddBanner.jsx'
+// import Banner from '../Pages/Admin/Banner/Banner.jsx'
+// import AddBanners from '../Pages/Admin/Banner/AddBanner.jsx'
 import { useTranslation } from 'react-i18next';
 import '../translation/i18n'; 
 const AppRoutes = ({setIsLoggedIn}) => {
@@ -96,8 +96,8 @@ useEffect(() => {
                   <Route path="notifications" element={<Notifications />} />
                   <Route path="addnotifications" element={<AddNotifications />} />
                    
-                  <Route path="banner" element={<Banner />} />
-                  <Route path="addbanner" element={<AddBanners />} />
+                  {/* <Route path="banner" element={<Banner />} /> */}
+                  {/* <Route path="addbanner" element={<AddBanners />} /> */}
 
                   <Route path="members" element={<Numbers />} />
                   <Route path="addmembers" element={<AddNumbers />} />

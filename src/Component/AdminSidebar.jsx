@@ -91,12 +91,12 @@ const AdminSidebar = ({ setIsOpen, isOpen }) => {
       icon: <NotificationsIcon />,
       iconActive: <NotificationsIcon active />
     },
-    {
-      to: "banner",
-      name: t("banner"),
-      icon: <BannerIcon />,
-      iconActive: <BannerIcon active />
-    },
+    // {
+    //   to: "banner",
+    //   name: t("banner"),
+    //   icon: <BannerIcon />,
+    //   iconActive: <BannerIcon active />
+    // },
     {
       to: "members",
       name: t("Members"),
