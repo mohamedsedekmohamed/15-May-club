@@ -124,6 +124,7 @@ const Privacy = () => {
           <li>First name and last name</li>
           <li>Phone number</li>
           <li>Usage Data</li>
+          <li>Date of Birth: This field is used to send a birthday greeting message to the user.</li>
          
         </ul>
 

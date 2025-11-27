@@ -30,13 +30,13 @@ const AdminSidebar = ({ setIsOpen, isOpen }) => {
       icon: <ImUser />,
       iconActive: <ImUser />
     },
-    {
-      to: "popup",
-      name: t("sidebar.popups"),
-      icon: <PopupIcon />,
-      iconActive: <PopupIcon active />,
+    // {
+    //   to: "popup",
+    //   name: t("sidebar.popups"),
+    //   icon: <PopupIcon />,
+    //   iconActive: <PopupIcon active />,
      
-    },
+    // },
     // {
     //   to: "popup",
     //   name: t("sidebar.popups"),

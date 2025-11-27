@@ -6,8 +6,8 @@ import AddUser from "../Pages/Admin/User/AddUser.jsx";
 import AdminLayout from "../Layouts/AdminLayout.jsx";
 import Addcompetitions from "../Pages/Admin/Compeitions/AddCompeitions.jsx";
 import Competitions from "../Pages/Admin/Compeitions/Compeitions.jsx"; 
-import Popup from "../Pages/Admin/Popup/Popup.jsx";
-import AddPopuo from "../Pages/Admin/Popup/Addpopup.jsx";
+// import Popup from "../Pages/Admin/Popup/Popup.jsx";
+// import AddPopuo from "../Pages/Admin/Popup/Addpopup.jsx";
 import Pages from '../Pages/Admin/Pages/Pages.jsx'
 import Votes from "../Pages/Admin/Votes/Votes.jsx";
 import AddVotes from "../Pages/Admin/Votes/AddVotes.jsx";
@@ -15,12 +15,12 @@ import Poats from '../Pages/Admin/Postpage/Posts.jsx';
 import Complaints from "../Pages/Admin/Complaints/Complaints.jsx";
 import Sliders from '../Pages/Admin/Sliders/Sliders.jsx';
 import AddSliders from '../Pages/Admin/Sliders/AddSliders.jsx';
-import Options from '../Pages/Admin/Options/Options.jsx';
+// import Options from '../Pages/Admin/Options/Options.jsx';
 import AddPages from '../Pages/Admin/Pages/AddPages.jsx'
 import Categories from '../Pages/Admin/Categories/Categories.jsx';
 import AddCategories from '../Pages/Admin/Categories/AddCategories.jsx';
 import AllviewCompeitions from '../Pages/Admin/Compeitions/AllviewCompeitions.jsx'
-import AddOptions from "../Pages/Admin/Options/AddOptions.jsx"
+// import AddOptions from "../Pages/Admin/Options/AddOptions.jsx"
 import Category from '../Pages/Admin/Complaints/Category.jsx'
 import AddCategory from '../Pages/Admin/Complaints/AddCategory.jsx'
 import Notifications from '../Pages/Admin/Notifications/Notifications.jsx'
@@ -69,8 +69,8 @@ useEffect(() => {
                   <Route path="addCompetitions" element={<Addcompetitions />} />
                   <Route path="viewcompeitions" element={<AllviewCompeitions />} />
 
-                  <Route path="popup" element={<Popup />} />
-                  <Route path="addpopup" element={<AddPopuo />} />
+                  {/* <Route path="popup" element={<Popup />} />
+                  <Route path="addpopup" element={<AddPopuo />} /> */}
                   {/* <Route path="pages" element={<Pages />} /> */}
                   
                   <Route path="addcategories" element={<AddCategories />} />
