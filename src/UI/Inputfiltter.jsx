@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { IoIosArrowDown } from "react-icons/io";
+import { useTranslation } from "react-i18next";
 
 const Inputfiltter = ({ placeholder, value, like, onChange, name, shara }) => {
   const [arrThing, setArrthing] = useState([]);
   const [control, setControl] = useState(name);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setControl(name);
@@ -12,12 +14,11 @@ const Inputfiltter = ({ placeholder, value, like, onChange, name, shara }) => {
 
     if (name === "role") {
       const typeArray = [
-        { value: "guest", label: "Guest" },
-        { value: "member", label: "Member" }
+        { value: "guest", label: t("Guest") },
+        { value: "member", label: t("Memberr" )}
       ];
       setArrthing(typeArray);
     }
-    // ... باقي الكود لو عندك city أو zone
   }, [name, shara]);
 
  

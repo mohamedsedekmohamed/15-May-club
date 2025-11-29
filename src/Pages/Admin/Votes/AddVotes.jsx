@@ -265,7 +265,7 @@ const AddVotes = () => {
       </div>
 
       <div className="space-y-4">
-        <h2 className="text-xl font-bold text-one">Options</h2>
+        <h2 className="text-xl font-bold text-one">{t("Options")}</h2>
         <div className="flex flex-wrap gap-4">
           {fields.map((field, index) => (
             <div key={index} className="flex items-center gap-3">

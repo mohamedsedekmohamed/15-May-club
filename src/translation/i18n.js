@@ -15,6 +15,8 @@ i18n.use(initReactI18next).init({
   resources: {
     en: {
       translation: {
+        Guest:"Guest",
+        Memberr:"Member",
         EndDatemustbelaterthanStartDate:
           "End date must be later than start date",
         personal_info: "Personal Information",
@@ -26,6 +28,7 @@ i18n.use(initReactI18next).init({
         super_admin: "Super Admin",
         phone_number: "Phone Number",
         no_phone: "No phone",
+        Slider: "Slider",
         sidebar: {
           home: "Home",
           users: "Users",
@@ -251,7 +254,6 @@ i18n.use(initReactI18next).init({
         Updatedsuccessfully:"Updated successfully",
         Addedsuccessfully:"Added successfully",
         Members:"Members",
-        Member:"Member",
 Layer:"Layer",
 SeletLayer:"SeletLayer",
  descriptionisrequired: "Description is required",
@@ -260,8 +262,11 @@ SeletLayer:"SeletLayer",
     },
     ar: {
       translation: {
+        Slider:"شريحة",
         Member:"مرشح",
         SeletLayer:"اختيار الطبقة ", 
+        Memberr:"عضو",
+        Guest:"زائر",
         descriptionisrequired: "الوصف مطلوب",
   layerisrequired: "المستوى مطلوب",
         PhotoSymbol: "رمز الصورة",
@@ -506,7 +511,8 @@ NameSymbol: "رمز الاسم",
           complaint: "الشكاوى",
           competitions: "المسابقات",
           votes: "التصويتات",
-          posts: "ألأنشطة ",
+          posts: "الأنشطة ",
+          
           popups: "الصور المنبثقة",
           add_posts: "إضافة نشاط",
           add_popup: "إضافة صورة منبثقة",
