@@ -6,9 +6,11 @@ const DynamicTable = ({
   columns = [],
   actions,
   actionsstates,
+  status,
   rowsPerPage,
   currentPage,
   customRender,
+  role,
   actionsviewselect,
   Seen,
   view,
@@ -69,6 +71,8 @@ const DynamicTable = ({
                   {col.label}
                 </th>
               ))}
+              {status && <th className="py-3 text-one px-4">{t("role")}</th>}
+              {status && <th className="py-3 text-one px-4">{t("status")}</th>}
               {Seen && <th className="py-3 text-one px-4">{t("seen")}</th>}
               {view && <th className="py-3 text-one px-4">{t("view")}</th>}
               {buttonstatus && (
@@ -109,6 +113,8 @@ const DynamicTable = ({
                   );
                 })}
 
+                {role && <td className="py-3 px-4">{role(row)}</td>}
+                {status && <td className="py-3 px-4">{status(row)}</td>}
                 {Seen && <td className="py-3 px-4">{Seen(row)}</td>}
                 {view && <td className="py-3 px-4">{view(row)}</td>}
                 {buttonstatus && (

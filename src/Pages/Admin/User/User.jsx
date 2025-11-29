@@ -190,18 +190,34 @@ const User = () => {
         columns={[
           { key: "name", label: t("name") },
           { key: "phoneNumber", label: t("phone") },
-          { key: "role", label: t("role") },
+          // { key: "role", label: t("role") },
           { key: "dateOfBirth", label: t("date_of_birth") },
           { key: "email", label: t("email") },
-          { key: "status", label: t("status") },
           { key: "purpose", label: t("purpose") },
           { key: "cardId", label: t("cardId") },
         ]}
         
         rowsPerPage={rowsPerPage}
         currentPage={currentPage}
+        status={(row) => (
+          <div className='flex justify-center w-full'>
+       {row.status=="approved"&&(<td className="py-3   ">{t("approved")}</td>)}            
+       {row.status=="pending"&&(<td className="py-3    ">{t("pending")}</td>)}            
+       {row.status=="rejected"&&(<td className="py-3   ">{t("rejected")}</td>)}            
+        
+
+          </div>
+    )}
+        role={(row) => (
+          <div className='flex justify-center w-full'>
+       {row.role=="member"&&(<td className="py-3    ">{t("Memberr")}</td>)}            
+       {row.role=="guest"&&(<td className="py-3      " >{t("Guest")}</td>)}            
+        
+
+          </div>
+    )}
         actions={(row) => (
-          <div className='flex gap-1'>
+          <div className='flex justify-around gap-1 w-full'>
             <CiEdit className="w-[24px] h-[24px] text-green-600 cursor-pointer" onClick={() => handleEdit(row.id)} />
             <RiDeleteBin6Line className="w-[24px] h-[24px] ml-2 text-red-600 cursor-pointer" onClick={() => handleDelete(row.id, row.name)} />
           </div>
