@@ -4,7 +4,7 @@ const Privacy = () => {
   return (
     <div className="w-full px-10 py-10 bg-white shadow-lg rounded-lg text-gray-800 leading-7">
       <h1 className="text-3xl font-bold mb-4 text-center text-primary">
-        Privacy Policy for 15 May {" "}
+        Privacy Policy for Club {" "}
       </h1>
       <p className="text-sm text-gray-500 text-center mb-6">
         Last updated: November 23, 2025
@@ -62,12 +62,12 @@ const Privacy = () => {
             directors or other managing authority.
           </li>
           <li>
-            <strong>Application</strong> refers to 15 May, the software program
+            <strong>Application</strong> refers to Club, the software program
             provided by the Company.
           </li>
           <li>
             <strong>Company</strong> (referred to as either "the Company", "We",
-            "Us" or "Our" in this Agreement) refers to 15 May.
+            "Us" or "Our" in this Agreement) refers to Club.
           </li>
           <li>
             <strong>Country</strong> refers to: Egypt.
@@ -122,9 +122,12 @@ const Privacy = () => {
         <ul className="list-disc list-inside space-y-1">
           <li>Email address</li>
           <li>First name and last name</li>
-          <li>Phone number</li>
+          <li>
+Phone Number: This information is required to verify the member’s identity and link the user account to an existing membership at the physical club. It is also used for essential communication regarding membership status, class updates, and access-related notifications
+
+</li>
           <li>Usage Data</li>
-          <li>Date of Birth: This field is used to send a birthday greeting message to the user.</li>
+          <li>Date of Birth: This information is required to verify eligibility for certain age-restricted membership categories and to ensure accurate member identity matching within the club’s system.</li>
          
         </ul>
 
