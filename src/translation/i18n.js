@@ -29,6 +29,8 @@ i18n.use(initReactI18next).init({
         phone_number: "Phone Number",
         no_phone: "No phone",
         Slider: "Slider",
+        New:"New",
+        Value:"Value",
         sidebar: {
           home: "Home",
           users: "Users",
@@ -264,6 +266,8 @@ SeletLayer:"SeletLayer",
       translation: {
         Slider:"شريحة",
         Member:"مرشح",
+                New:"اضافة خيار",
+        Value:"الاختيار الاول",
         SeletLayer:"اختيار الطبقة ", 
         Memberr:"عضو",
         Guest:"زائر",

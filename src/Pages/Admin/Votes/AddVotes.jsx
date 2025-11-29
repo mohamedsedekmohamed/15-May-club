@@ -273,17 +273,17 @@ const AddVotes = () => {
                 type="text"
                 value={field.label}
                 onChange={(e) => handleChangeInput(index, e.target.value)}
-                placeholder={`Value ${index + 1}`}
+                placeholder={`${t("Value")} ${index + 1}`}
                 className="p-2 border border-gray-300 rounded-md w-64"
               />
               <button onClick={() => handleRemoveField(index)} className="text-red-600 font-semibold">
-                Delete
+                {t("Delete")}
               </button>
             </div>
           ))}
         </div>
 
-        <button onClick={handleAddField} className="px-4 py-2 bg-one text-white rounded-md">+ New</button>
+        <button onClick={handleAddField} className="px-4 py-2 bg-one text-white rounded-md">+ {t("New")}</button>
       </div>
 
       <div className="flex mt-6">
