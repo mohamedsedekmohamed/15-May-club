@@ -123,11 +123,13 @@ const Privacy = () => {
           <li>Email address</li>
           <li>First name and last name</li>
           <li>
-Phone Number: This information is required to verify the member’s identity and link the user account to an existing membership at the physical club. It is also used for essential communication regarding membership status, class updates, and access-related notifications
-
+Phone Number (Optional):
+You may choose to provide your phone number to enable enhanced account verification, receive important membership notifications, and link your account to an existing membership. This field is optional and not required to use the core functionality of the application.
 </li>
           <li>Usage Data</li>
-          <li>Date of Birth: This information is required to verify eligibility for certain age-restricted membership categories and to ensure accurate member identity matching within the club’s system.</li>
+          <li>
+Date of Birth (Optional):
+You may optionally provide your date of birth to enable age-based features, membership eligibility checks, or identity matching when applicable. This field is optional and not required to create or use your account.            .</li>
          
         </ul>
 
