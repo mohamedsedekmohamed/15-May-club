@@ -4,8 +4,8 @@ import { IoPersonCircleSharp } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { IoIosArrowDown } from "react-icons/io";
-import '../translation/i18n'
 import { GrLanguage } from "react-icons/gr";
+import '../translation/i18n'
 
 const AdminNavbar = () => {
   const [data, setData] = useState([]);

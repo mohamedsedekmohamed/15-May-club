@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/logo.png';
+import logo from '../assets/newLogo.jpeg';
 import { IoLogoApple } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
 
@@ -45,7 +45,7 @@ const LandPage = () => {
         {/* Hero Text Content */}
         <div className="relative z-10 px-5 md:px-10 flex flex-col gap-5 w-full" dir="rtl">
           <h2 className="font-medium text-[28px] md:text-[40px] lg:text-[64px] text-right text-white leading-tight">
-            مرحبًا بك في نادي 15 مايو
+            مرحبًا بك في دعوة للتغير
           </h2>
 
           <span className="font-normal text-[14px] md:text-[18px] lg:text-[24px] text-white text-right max-w-full md:max-w-[80%] lg:max-w-[60%] leading-relaxed">
@@ -53,12 +53,13 @@ const LandPage = () => {
           </span>
 
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
-            <button className="w-full sm:w-52 h-12 bg-one text-white rounded-3xl hover:bg-one/90 text-sm">
+            {/* <button className="w-full sm:w-52 h-12 bg-one text-white rounded-3xl hover:bg-one/90 text-sm">
               تحميل App Store
-            </button>
-            <button className="w-full sm:w-52 h-12 border border-white text-white rounded-3xl hover:bg-white/10 text-sm">
-              تحميل Play Store
-            </button>
+            </button> */}
+            <a href='https://drive.google.com/file/d/1aLzV4XW3EWy51jr0ivmzubofngt5XP6v/view?usp=drivesdk'  className="w-full flex items-center justify-center sm:w-52 h-12 border border-white text-white rounded-3xl hover:bg-white/10 text-sm">
+<p>              تحميل Play Store
+</p>
+            </a>
           </div>
         </div>
       </div>
@@ -67,24 +68,24 @@ const LandPage = () => {
       <div className="bg-[#131416] flex items-center justify-center py-10 px-4">
         <div className="bg-[#252115] w-full md:w-[90%] lg:w-[75%] rounded-xl py-10 px-4 md:px-8 flex flex-col items-center text-center gap-5">
           <h2 className="text-white text-[28px] md:text-[40px] lg:text-[48px] font-medium leading-snug">
-            مرحبًا بك في نادي 15 مايو
+            مرحبًا بك في  دعوة للتغير
           </h2>
           <p className="text-white text-[14px] md:text-[18px] px-2 md:px-10">
-            استمتع بكل خدمات النادي على موبايلك – تابع الأنشطة، قدّم الشكاوى، شارك في التصويتات والمسابقات، وكل ده من مكانك!
+            استمتع بكل خدمات النادي على موبايلك – تابع الأنشطة، قدّم الشكاوى، شارك في التصويتات والمسابقات، و كل ده من مكانك
           </p>
 
           <div className="flex flex-col md:flex-row gap-4 mt-6">
             {/* App Store Button */}
-            <button className="flex items-center gap-4 w-full md:w-[250px] bg-one text-white rounded-xl px-4 py-3">
+            {/* <button className="flex items-center gap-4 w-full md:w-[250px] bg-one text-white rounded-xl px-4 py-3">
               <IoLogoApple className="text-4xl md:text-6xl" />
               <div className="flex flex-col text-left">
                 <p className="text-sm">Download on the</p>
                 <p className="text-lg font-semibold">App Store</p>
               </div>
-            </button>
+            </button> */}
 
             {/* Play Store Button */}
-            <button className="flex items-center gap-4 w-full md:w-[250px] bg-one text-white rounded-xl px-4 py-3">
+            <a href='https://drive.google.com/file/d/1aLzV4XW3EWy51jr0ivmzubofngt5XP6v/view?usp=drivesdk' className="flex items-center gap-4 w-full md:w-[250px] bg-one text-white rounded-xl px-4 py-3">
               <svg width="40" height="48" viewBox="0 0 49 56" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M22.8779 26.7439L0.209045 51.3472C0.211175 51.3515 0.211174 51.358 0.213303 51.3624C0.909529 54.0339 3.29415 56 6.1259 56C7.25859 56 8.32103 55.6865 9.2323 55.1378L9.30469 55.0943L34.8202 40.0384L22.8779 26.7439Z" fill="#EA4335"/>
                 <path d="M45.8105 22.5544L45.7892 22.5392L34.7731 16.0095L22.3624 27.303L34.8178 40.0358L45.7743 33.5714C47.6947 32.5089 48.9999 30.4383 48.9999 28.052C48.9999 25.6788 47.7139 23.6191 45.8105 22.5544Z" fill="#FBBC04"/>
@@ -95,7 +96,7 @@ const LandPage = () => {
                 <p className="text-sm">Download on the</p>
                 <p className="text-lg font-semibold">Play Store</p>
               </div>
-            </button>
+            </a>
           </div>
         </div>
       </div>
