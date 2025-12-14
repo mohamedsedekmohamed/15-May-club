@@ -53,9 +53,11 @@ const LandPage = () => {
           </span>
 
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
-            {/* <button className="w-full sm:w-52 h-12 bg-one text-white rounded-3xl hover:bg-one/90 text-sm">
+            <button     disabled={true} className="w-full sm:w-52 h-12 bg-one text-white rounded-3xl cus hover:bg-one/90 text-sm 
+             disabled:cursor-not-allowed
+            ">
               تحميل App Store
-            </button> */}
+            </button>
             <a href='https://drive.google.com/file/d/1aLzV4XW3EWy51jr0ivmzubofngt5XP6v/view?usp=drivesdk'  className="w-full flex items-center justify-center sm:w-52 h-12 border border-white text-white rounded-3xl hover:bg-white/10 text-sm">
 <p>              تحميل Play Store
 </p>
@@ -76,13 +78,13 @@ const LandPage = () => {
 
           <div className="flex flex-col md:flex-row gap-4 mt-6">
             {/* App Store Button */}
-            {/* <button className="flex items-center gap-4 w-full md:w-[250px] bg-one text-white rounded-xl px-4 py-3">
+            <button disabled={true} className="flex items-center gap-4 w-full md:w-[250px] bg-one text-white rounded-xl px-4 py-3   disabled:cursor-not-allowed">
               <IoLogoApple className="text-4xl md:text-6xl" />
               <div className="flex flex-col text-left">
                 <p className="text-sm">Download on the</p>
                 <p className="text-lg font-semibold">App Store</p>
               </div>
-            </button> */}
+            </button>
 
             {/* Play Store Button */}
             <a href='https://drive.google.com/file/d/1aLzV4XW3EWy51jr0ivmzubofngt5XP6v/view?usp=drivesdk' className="flex items-center gap-4 w-full md:w-[250px] bg-one text-white rounded-xl px-4 py-3">
