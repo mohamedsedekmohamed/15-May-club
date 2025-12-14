@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/newLogo.jpeg';
+import logo from '../assets/newlogo.jpeg';
 import { IoLogoApple } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
 
