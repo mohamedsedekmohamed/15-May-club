@@ -2,7 +2,7 @@ import React from 'react';
 import logo from '../assets/newlogo.jpeg';
 import { IoLogoApple } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
-
+import filestore from '../../public/app-release.apk'
 const LandPage = () => {
   const navigate = useNavigate();
 
@@ -53,15 +53,19 @@ const LandPage = () => {
           </span>
 
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
-            <button     disabled={true} className="w-full sm:w-52 h-12 bg-one text-white rounded-3xl cus hover:bg-one/90 text-sm 
-             disabled:cursor-not-allowed
-            ">
+            <button     disabled={true} className="w-full sm:w-52 h-12  font-bold bg-one text-white rounded-3xl cus hover:bg-one/90 text-sm  opacity-60
+             disabled:cursor-not-allowed">
               تحميل App Store
             </button>
-            <a href='https://drive.google.com/file/d/1aLzV4XW3EWy51jr0ivmzubofngt5XP6v/view?usp=drivesdk'  className="w-full flex items-center justify-center sm:w-52 h-12 border border-white text-white rounded-3xl hover:bg-white/10 text-sm">
-<p>              تحميل Play Store
-</p>
-            </a>
+
+         <a 
+  href={filestore}
+  download
+  className="w-full flex items-center bg-one justify-center sm:w-52 h-12 font-bold text-white rounded-3xl text-sm"
+>
+  تحميل Play Store
+</a>
+
           </div>
         </div>
       </div>
@@ -78,7 +82,7 @@ const LandPage = () => {
 
           <div className="flex flex-col md:flex-row gap-4 mt-6">
             {/* App Store Button */}
-            <button disabled={true} className="flex items-center gap-4 w-full md:w-[250px] bg-one text-white rounded-xl px-4 py-3   disabled:cursor-not-allowed">
+            <button disabled={true} className="flex items-center gap-4 w-full md:w-[250px] bg-one text-white rounded-xl px-4 py-3 opacity-50  disabled:cursor-not-allowed">
               <IoLogoApple className="text-4xl md:text-6xl" />
               <div className="flex flex-col text-left">
                 <p className="text-sm">Download on the</p>
@@ -87,7 +91,8 @@ const LandPage = () => {
             </button>
 
             {/* Play Store Button */}
-            <a href='https://drive.google.com/file/d/1aLzV4XW3EWy51jr0ivmzubofngt5XP6v/view?usp=drivesdk' className="flex items-center gap-4 w-full md:w-[250px] bg-one text-white rounded-xl px-4 py-3">
+              <a 
+  href={filestore} className="flex items-center gap-4 w-full md:w-[250px] bg-one text-white rounded-xl px-4 py-3">
               <svg width="40" height="48" viewBox="0 0 49 56" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M22.8779 26.7439L0.209045 51.3472C0.211175 51.3515 0.211174 51.358 0.213303 51.3624C0.909529 54.0339 3.29415 56 6.1259 56C7.25859 56 8.32103 55.6865 9.2323 55.1378L9.30469 55.0943L34.8202 40.0384L22.8779 26.7439Z" fill="#EA4335"/>
                 <path d="M45.8105 22.5544L45.7892 22.5392L34.7731 16.0095L22.3624 27.303L34.8178 40.0358L45.7743 33.5714C47.6947 32.5089 48.9999 30.4383 48.9999 28.052C48.9999 25.6788 47.7139 23.6191 45.8105 22.5544Z" fill="#FBBC04"/>
