@@ -53,10 +53,12 @@ const LandPage = () => {
           </span>
 
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
-            <button     disabled={true} className="w-full sm:w-52 h-12  font-bold bg-one text-white rounded-3xl cus hover:bg-one/90 text-sm  opacity-60
-             disabled:cursor-not-allowed">
-              تحميل App Store
-            </button>
+            <a   
+              href={"https://apps.apple.com/eg/app/%D8%AF%D8%B9%D9%88%D8%A9-%D9%84%D9%84%D8%AA%D8%BA%D9%8A%D9%8A%D8%B1/id6755653692"} 
+            className="w-full sm:w-52 h-12  font-bold bg-one text-white rounded-3xl cus hover:bg-one/90 text-sm   
+           flex items-center  justify-center">
+             تحميل App Store
+            </a>
 
          <a 
   href={filestore}
@@ -82,13 +84,16 @@ const LandPage = () => {
 
           <div className="flex flex-col md:flex-row gap-4 mt-6">
             {/* App Store Button */}
-            <button disabled={true} className="flex items-center gap-4 w-full md:w-[250px] bg-one text-white rounded-xl px-4 py-3 opacity-50  disabled:cursor-not-allowed">
+            <a
+                          href={"https://apps.apple.com/eg/app/%D8%AF%D8%B9%D9%88%D8%A9-%D9%84%D9%84%D8%AA%D8%BA%D9%8A%D9%8A%D8%B1/id6755653692"} 
+
+            className="flex items-center gap-4 w-full md:w-[250px] bg-one text-white rounded-xl px-4 py-3 ">
               <IoLogoApple className="text-4xl md:text-6xl" />
               <div className="flex flex-col text-left">
                 <p className="text-sm">Download on the</p>
                 <p className="text-lg font-semibold">App Store</p>
               </div>
-            </button>
+            </a>
 
             {/* Play Store Button */}
               <a 
